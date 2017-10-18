@@ -4,7 +4,8 @@
 		"Saurabh Totey"
 	],
 	"dependencies": {
-		"derelict-sdl2": "~>2.1.4"
+		"gfm:sdl2": "~>6.2.12",
+		"gfm:logger": "~>6.2.12"
 	},
 	"description": "Base SDL multi-threaded application.",
 	"copyright": "Copyright © 2017, Saurabh Totey",
