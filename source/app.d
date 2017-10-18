@@ -1,4 +1,5 @@
 import std.experimental.logger;
+import core.thread;
 import gfm.logger;
 import gfm.sdl2;
 
@@ -8,6 +9,7 @@ class Window{
     SDL2 sdl;
     SDL2Window window;
     SDL2Renderer renderer;
+    __gshared bool isRunning;
 
     alias window this;
 
@@ -34,6 +36,7 @@ class Window{
     }
 
     void run(){
+        this.isRunning = true;
         while(!this.sdl.wasQuitRequested()){
             SDL_Event event;
             while(this.sdl.pollEvent(&event)){
@@ -57,6 +60,7 @@ class Window{
             }
             this.renderer.present();
         }
+        this.isRunning = false;
     }
 
     void handleKey(SDL_Keysym key){
@@ -85,9 +89,18 @@ class Window{
 __gshared Window mainWindow;
 
 void main(){
-    mainWindow = new Window();
-    mainWindow.run();
-    scope(exit){
-        mainWindow.destroy();
+    new Thread({
+        mainWindow = new Window();
+        mainWindow.run();
+        scope(exit){
+            mainWindow.destroy();
+        }
+    }).start();
+
+    import std.stdio;
+    while(!mainWindow.isRunning){}
+    for(int i = 0; mainWindow.isRunning; i++){
+        writeln(i);
+        Thread.sleep(seconds(1));
     }
 }
