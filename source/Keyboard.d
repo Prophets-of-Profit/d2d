@@ -1,6 +1,6 @@
-module d2d.event.Keyboard;
+module d2d.Keyboard;
 
-import d2d.event.InputSource;
+import d2d.InputSource;
 
 class Keyboard : InputSource {
 
