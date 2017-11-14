@@ -3,6 +3,8 @@ module d2d.Window;
 import d2d.event.Keyboard;
 import d2d.event.Mouse;
 
+import derelict.sdl2.sdl;
+
 class Window {
 
     private double framerate;

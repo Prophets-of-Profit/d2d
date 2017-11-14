@@ -1,5 +1,7 @@
 module d2d.event.InputSource;
 
+import derelict.sdl2.sdl;
+
 import std.datetime;
 
 struct Pressable {
