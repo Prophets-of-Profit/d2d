@@ -1,13 +1,12 @@
 {
-	"name": "sdl-base",
+	"name": "d2d",
 	"authors": [
 		"Saurabh Totey"
 	],
 	"dependencies": {
-		"gfm:sdl2": "~>6.2.12",
-		"gfm:logger": "~>6.2.12"
+		"derelict-sdl2": "~>3.1.0-alpha.2"
 	},
-	"description": "Base SDL multi-threaded application.",
+	"description": "A cross-platform framework for 2D graphics. Built with LibSDL2.",
 	"copyright": "Copyright © 2017, Saurabh Totey",
 	"license": "MIT"
 }
