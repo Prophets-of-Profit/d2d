@@ -7,8 +7,11 @@ import derelict.sdl2.sdl;
 
 class Window {
 
-    private int framerate;
-    private Keyboard keyboard;
-    private Mouse mouse;
+    private int framerate;          ///The framerate of the window. If negative, it will be vsync
+    private Keyboard keyboard;      ///The keyboard input source
+    private Mouse mouse;            ///The mouse input source
+    private SDL_Window* window;      ///The SDL window
+
+    
 
 }
