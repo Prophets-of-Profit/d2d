@@ -5,7 +5,8 @@ import std.array;
 import std.datetime;
 
 /**
- * A pressable input source
+ * A pressable input source that stores it's own state
+ * State gets updated by an InputSource class that contains the pressable
  */
 struct Pressable {
 
@@ -25,11 +26,12 @@ struct Pressable {
 
 /**
  * A source of input from the user
+ * Handles acculmulating events and storing all the states of all the pressables
  */
 abstract class InputSource {
 
     @property Pressable[] allPressables();      ///Return a list of all of the pressables
-    void handleEvent();                         ///Handle the events
+    void handleEvent();                         ///Acculmulates events and updates the state of stored pressables
 
     /**
      * Returns a list of all of the pressables that are held down.

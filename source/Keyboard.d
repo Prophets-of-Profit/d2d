@@ -5,7 +5,7 @@ import d2d.InputSource;
 import derelict.sdl2.sdl;
 
 /**
- * An InputSource to handle all keyboard events.
+ * The keyboard input source which acculmulates keyboard information
  */
 class Keyboard : InputSource {
 
@@ -17,7 +17,7 @@ class Keyboard : InputSource {
     }
 
     /**
-     * Handles all keyboard events
+     * Acculmulates all of the keyboard events and updates stored pressables accordingly
      */
     override void handleEvent(){
 

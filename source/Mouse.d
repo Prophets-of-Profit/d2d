@@ -5,7 +5,7 @@ import d2d.InputSource;
 import derelict.sdl2.sdl;
 
 /**
- * The mouse input source which checks for mouse button events and mouse location
+ * The mouse input source which acculmulates mouse information
  */
 class Mouse : InputSource {
 
@@ -17,7 +17,7 @@ class Mouse : InputSource {
     }
 
     /**
-     * Handle all of the mouse events
+     * Acculmulates all of the mouse events and updates stored pressables accordingly
      */
     override void handleEvent(){
 
