@@ -1,12 +1,14 @@
 {
 	"name": "d2d",
+	"homepage": "https://github.com/SaurabhTotey/d2d",
 	"authors": [
-		"Saurabh Totey"
+		"Saurabh Totey",
+		"Kadin Tucker"
 	],
 	"dependencies": {
 		"derelict-sdl2": "~>3.1.0-alpha.2"
 	},
-	"description": "A cross-platform framework for 2D graphics. Built with LibSDL2.",
+	"description": "A cross-platform framework for 2D graphics. Built with Derelict SDL2.",
 	"copyright": "Copyright © 2017, Saurabh Totey",
 	"license": "MIT"
 }

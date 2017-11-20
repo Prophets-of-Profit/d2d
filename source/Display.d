@@ -2,7 +2,7 @@ module d2d.sdl2.Display;
 
 import d2d.Keyboard;
 import d2d.Mouse;
-import d2d.sdl2.Window;
+import d2d.sdl2;
 
 /**
  * A display that handles collecting events and drawing to the screen and handling window stuff

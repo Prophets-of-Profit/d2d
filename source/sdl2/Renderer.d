@@ -1,11 +1,7 @@
 module d2d.sdl2.Renderer;
 
-public import derelict.sdl2.sdl;
-public import d2d.Utility;
-
 import std.conv;
-import d2d.sdl2.Texture;
-import d2d.sdl2.Window;
+import d2d.sdl2;
 
 /**
  * Renderers are objects that handle drawing things such as textures or shapes

@@ -1,6 +1,6 @@
 module d2d.Utility;
 
-import derelict.sdl2.sdl;
+import d2d.sdl2;
 
 /**
  * A color struct

@@ -1,6 +1,6 @@
 module d2d.sdl2.Surface;
 
-public import derelict.sdl2.sdl;
+public import d2d.sdl2;
 
 /**
  * Surfaces are a rectangular collection of pixels

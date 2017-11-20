@@ -2,7 +2,7 @@ module d2d.Keyboard;
 
 import d2d.InputSource;
 
-import derelict.sdl2.sdl;
+import d2d.sdl2;
 
 /**
  * The keyboard input source which acculmulates keyboard information
@@ -19,7 +19,7 @@ class Keyboard : InputSource {
     /**
      * Acculmulates all of the keyboard events and updates stored pressables accordingly
      */
-    override void handleEvent(){
+    override void handleEvent(SDL_Event event){
 
     }
 

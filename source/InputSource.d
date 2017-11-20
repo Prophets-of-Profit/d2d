@@ -3,6 +3,7 @@ module d2d.InputSource;
 import std.algorithm;
 import std.array;
 import std.datetime;
+import d2d.sdl2;
 
 /**
  * A pressable input source that stores it's own state
@@ -31,7 +32,7 @@ struct Pressable {
 abstract class InputSource {
 
     @property Pressable[] allPressables();      ///Return a list of all of the pressables
-    void handleEvent();                         ///Acculmulates events and updates the state of stored pressables
+    void handleEvent(SDL_Event event);          ///Acculmulates events and updates the state of stored pressables
 
     /**
      * Returns a list of all of the pressables that are held down.

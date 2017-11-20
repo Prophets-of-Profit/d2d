@@ -1,6 +1,6 @@
 module d2d.sdl2.Window;
 
-public import derelict.sdl2.sdl;
+import d2d.sdl2;
 
 /**
  * A window is, as it name suggests, a window
