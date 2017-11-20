@@ -1,5 +1,6 @@
 module d2d.Utility;
 
+import std.conv;
 import d2d.sdl2;
 
 /**
@@ -28,29 +29,40 @@ struct Color{
  * Location is accessed by x and y coordinates
  */
 struct Point (T) if(__traits(isScalar,T)){
-    T x;    ///X value of the point
-    T y;    ///Y value of the point
-}
+    T x;                ///X value of the point
+    T y;                ///Y value of the point
+    alias handle this;  ///Makes the point accessible as an SDL_Point which is almost the same thing
 
-alias iPoint = Point!int;     ///Allows integer points to be accessed as iPoint
-alias dPoint = Point!double;  ///Allows double points to be accessed as dPoint
-alias fPoint = Point!float;   ///Allows float points to be accessed as fPoint
+    /**
+     * Gets the point as an SDL_Point
+     */
+    @property SDL_Point handle(){
+        return SDL_Point(this.x.to!int, this.y.to!int);
+    }
+}
 
 /**
  * A rectangle is a box in 2d space
  * This struct only does Axis Aligned Bounding Boxes (AABB) which don't have rotation
  */
-class Rectangle{
-    iPoint topLeft;         ///The top left point of the rectangle
-    int w;                  ///The width of the rectangle
-    int h;                  ///The height of the rectangle
+class Rectangle (T) if(__traits(isScalar,T)){
+    Point!T topLeft;        ///The top left point of the rectangle
+    T w;                    ///The width of the rectangle
+    T h;                    ///The height of the rectangle
     alias handle this;      ///Makes the rectangle accessible as an SDL_Rect which is almost the same thing
     
     /**
      * Gets the rectangle as an SDL_Rect
      */
     @property SDL_Rect handle(){
-        return SDL_Rect(topLeft.x, topLeft.y, w, h);
+        return SDL_Rect(topLeft.x.to!int, topLeft.y.to!int, w.to!int, h.to!int);
     }
 
 }
+
+alias iPoint = Point!int;
+alias dPoint = Point!double;
+alias fPoint = Point!float;
+alias iRectangle = Rectangle!int;
+alias dRectangle = Rectangle!double;
+alias fRectangle = Rectangle!float;

@@ -37,7 +37,7 @@ class Renderer {
      * Copies a texture to the window at the given point
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
-    void copy(Texture texture, iPoint destination, Rectangle sourceRect = null){
+    void copy(Texture texture, iPoint destination, iRectangle sourceRect = null){
         //TODO implement
     }
 
@@ -45,7 +45,7 @@ class Renderer {
      * Copies a texture to the window at the given rectangle
      * If sourceRect is null, it will copy the entire texture, otherwise, it will copy the slice defined by sourceRect
      */
-    void copy(Texture texture, Rectangle destinationRect, Rectangle sourceRect = null){
+    void copy(Texture texture, iRectangle destinationRect, iRectangle sourceRect = null){
         const SDL_Rect srcRect = sourceRect.handle;
         const SDL_Rect dstRect = destinationRect.handle;
         SDL_RenderCopy(this.renderer, texture.handle, &srcRect, &dstRect);
