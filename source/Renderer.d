@@ -1,7 +1,11 @@
 module d2d.Renderer;
 
+public import d2d.Utility;
+
+import std.conv;
 import derelict.sdl2.sdl;
 import d2d.Texture;
+import d2d.Window;
 
 /**
  * Renderers are objects that handle drawing things such as textures or shapes
@@ -19,35 +23,51 @@ class Renderer {
     }
 
     /**
-     * Copies a texture to the window at the given rectangle
-     * TODO use a rectangle struct as an input for this
+     * Makes an SDL renderer
+     * A window already comes paired with a renderer, but this constructor may be called to make more renderers
      */
-    void copy(Texture texture){
-        SDL_RenderCopy(this.renderer, texture.handle, null, null);
+    this(Window window, uint flags = 0){
+        this.renderer = SDL_CreateRenderer(window.handle, -1, flags.to!SDL_RendererFlags);
     }
 
     /**
-     * Fills the screen with the given color
-     * TODO take in a color struct instead for this
+     * Copies a texture to the window at the given point
+     * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
-    void fill(int r, int g, int b, int a=255){
-        this.setColor(r, g, b, a);
+    void copy(Texture texture, iPoint destination, Rectangle sourceRect = null){
+        //TODO implement
+    }
+
+    /**
+     * Copies a texture to the window at the given rectangle
+     * If sourceRect is null, it will copy the entire texture, otherwise, it will copy the slice defined by sourceRect
+     */
+    void copy(Texture texture, Rectangle destinationRect, Rectangle sourceRect = null){
+        const SDL_Rect srcRect = sourceRect.handle;
+        const SDL_Rect dstRect = destinationRect.handle;
+        SDL_RenderCopy(this.renderer, texture.handle, &srcRect, &dstRect);
+    }
+
+    /**
+     * Sets the renderer's color and clears the screen
+     */
+    void clear(Color color){
+        this.setDrawColor(color);
         SDL_RenderClear(this.renderer);
     }
 
     /**
      * Fills the screen with the existing renderer color
      */
-    void fill(){
+    void clear(){
         SDL_RenderClear(this.renderer);
     }
 
     /**
      * Sets the color of the renderer will draw with
-     * TODO take in a clor struct instead for this
      */
-    void setColor(int r, int g, int b, int a=255){
-        SDL_SetRenderDrawColor(this.renderer, cast(ubyte)r, cast(ubyte)g, cast(ubyte)b, cast(ubyte)a);
+    void setDrawColor(Color color){
+        SDL_SetRenderDrawColor(this.renderer, color.r, color.g, color.b, color.a);
     }
 
 }

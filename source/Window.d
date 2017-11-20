@@ -16,6 +16,11 @@ class Window {
     private Mouse mouse;            ///The mouse input source
     private SDL_Window* window;      ///The SDL window
 
-    
+    /**
+     * Returns the raw SDL data of this object
+     */
+    @property SDL_Window* handle(){
+        return this.window;
+    }
 
 }
