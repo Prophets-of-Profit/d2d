@@ -31,6 +31,13 @@ class Renderer {
     }
 
     /**
+     * Ensures that SDL can properly dispose of the renderer
+     */
+    ~this(){
+        SDL_DestroyRenderer(this.renderer);
+    }
+
+    /**
      * Copies a texture to the window at the given point
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */

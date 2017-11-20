@@ -20,4 +20,11 @@ class Surface {
         return this.surface;
     }
 
+    /**
+     * Ensures that SDL can properly dispose of the surface
+     */
+    ~this(){
+        SDL_FreeSurface(this.surface);
+    }
+
 }

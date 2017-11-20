@@ -23,4 +23,11 @@ class Window {
         return this.window;
     }
 
+    /**
+     * Ensures that SDL can properly dispose of the window
+     */
+    ~this(){
+        SDL_DestroyWindow(this.window);
+    }
+
 }

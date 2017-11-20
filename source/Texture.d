@@ -29,4 +29,11 @@ class Texture {
         SDL_CreateTextureFromSurface(renderer.handle, surface.handle);
     }
 
+    /**
+     * Ensures that SDL can properly dispose of the texture
+     */
+    ~this(){
+        SDL_DestroyTexture(this.texture);
+    }
+
 }
