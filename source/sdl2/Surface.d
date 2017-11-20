@@ -1,6 +1,6 @@
-module d2d.Surface;
+module d2d.sdl2.Surface;
 
-import derelict.sdl2.sdl;
+public import derelict.sdl2.sdl;
 
 /**
  * Surfaces are a rectangular collection of pixels
@@ -11,7 +11,7 @@ import derelict.sdl2.sdl;
  */
 class Surface {
 
-    SDL_Surface* surface;
+    private SDL_Surface* surface;
 
     /**
      * Returns the raw SDL data of this object

@@ -1,8 +1,9 @@
-module d2d.Texture;
+module d2d.sdl2.Texture;
 
-import derelict.sdl2.sdl;
-import d2d.Renderer;
-import d2d.Surface;
+public import derelict.sdl2.sdl;
+
+import d2d.sdl2.Renderer;
+import d2d.sdl2.Surface;
 
 /**
  * Textures are a rectangular collection of pixels
