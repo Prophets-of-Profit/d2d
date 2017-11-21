@@ -7,6 +7,10 @@ import d2d.sdl2;
 /**
  * Renderers are objects that handle drawing things such as textures or shapes
  * A renderer can be obtained from a window, and could be used to draw on the window
+ * Renderers draw using buffers; when a renderer draws, it isn't visible to the screen until the present method is called
+ * While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention
+ * Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)
+ * All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well
  */
 class Renderer {
 
