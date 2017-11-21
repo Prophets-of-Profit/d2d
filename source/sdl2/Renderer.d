@@ -152,7 +152,7 @@ class Renderer {
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
     void copy(Texture texture, iPoint destination, iRectangle sourceRect = null){
-        //TODO implement
+        this.copy(texture, new iRectangle(destination.x, destination.y, texture.dimensions.x, texture.dimensions.y), sourceRect);
     }
 
     /**
@@ -169,7 +169,7 @@ class Renderer {
      * Angles are given in radians
      */
     void copy(Texture texture, iRectangle destinationRect, double angle, SDL_RendererFlip flip = SDL_FLIP_NONE, iPoint center = null, iRectangle sourceRect = null){
-        SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)? null : sourceRect.handle, destinationRect.handle, angle * PI / 180, (center is null)? null : center.handle, flip);
+        SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)? null : sourceRect.handle, destinationRect.handle, angle * 180 / PI, (center is null)? null : center.handle, flip);
     }
 
     /**

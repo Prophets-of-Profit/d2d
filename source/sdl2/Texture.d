@@ -21,6 +21,15 @@ class Texture {
     }
 
     /**
+     * Gets the texture's dimensions as a point with the width being the x coordinate and the height being the y coordinate
+     */
+    @property iPoint dimensions(){
+        iPoint dim = new iPoint(0, 0);
+        SDL_QueryTexture(this.texture, null, null, &dim.x, &dim.y);
+        return dim;
+    }
+
+    /**
      * Constructs a new texture from a surface
      */
     this(Surface surface, Renderer renderer){
