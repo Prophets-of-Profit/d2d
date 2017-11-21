@@ -15,12 +15,14 @@ struct Color{
     ubyte b;            ///Blue value for the color
     ubyte a= 255;       ///Alpha value or transparency for the color
     alias handle this;  ///Makes the color accessible as an SDL_Color which is almost the same thing
+    private SDL_Color sdlColor;
 
     /**
      * Gets the color as an SDL_Color
      */
-    @property SDL_Color handle(){
-        return SDL_Color(r, g, b, a);
+    @property SDL_Color* handle(){
+        sdlColor = SDL_Color(r, g, b, a);
+        return &sdlColor;
     }
 }
 
@@ -28,17 +30,29 @@ struct Color{
  * A point is a location in 2d space
  * Location is accessed by x and y coordinates
  */
-struct Point (T) if(__traits(isScalar,T)){
+class Point (T) if(__traits(isScalar,T)){
+
     T x;                ///X value of the point
     T y;                ///Y value of the point
     alias handle this;  ///Makes the point accessible as an SDL_Point which is almost the same thing
+    private SDL_Point sdlPoint;
 
     /**
      * Gets the point as an SDL_Point
      */
-    @property SDL_Point handle(){
-        return SDL_Point(this.x.to!int, this.y.to!int);
+    @property SDL_Point* handle(){
+        sdlPoint = SDL_Point(this.x.to!int, this.y.to!int);
+        return &sdlPoint;
     }
+
+    /**
+     * A point constructor; takes in an x value and a y value
+     */
+    this(T x, T y){
+        this.x = x;
+        this.y = y;
+    }
+
 }
 
 /**
@@ -46,16 +60,28 @@ struct Point (T) if(__traits(isScalar,T)){
  * This struct only does Axis Aligned Bounding Boxes (AABB) which don't have rotation
  */
 class Rectangle (T) if(__traits(isScalar,T)){
+
     Point!T topLeft;        ///The top left point of the rectangle
     T w;                    ///The width of the rectangle
     T h;                    ///The height of the rectangle
     alias handle this;      ///Makes the rectangle accessible as an SDL_Rect which is almost the same thing
+    private SDL_Rect sdlRectangle;
+
+    /**
+     * Makes a rectangle given top left coordinates and a width and a height
+     */
+    this(T x, T y, T w, T h){
+        this.topLeft = new Point!T(x, y);
+        this.w = w;
+        this.h = h;
+    }
     
     /**
      * Gets the rectangle as an SDL_Rect
      */
-    @property SDL_Rect handle(){
-        return SDL_Rect(topLeft.x.to!int, topLeft.y.to!int, w.to!int, h.to!int);
+    @property SDL_Rect* handle(){
+        sdlRectangle = SDL_Rect(topLeft.x.to!int, topLeft.y.to!int, w.to!int, h.to!int);
+        return &sdlRectangle;
     }
 
 }
