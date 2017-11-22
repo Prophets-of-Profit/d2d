@@ -21,6 +21,23 @@ class Surface {
     }
 
     /**
+     * Creates an RGB surface given at least a width and a height
+     */
+    this(int width, int height, int depth = 32, uint flags = 0, uint Rmask = 0,
+            uint Gmask = 0, uint Bmask = 0, uint Amask = 0) {
+        this.surface = ensureSafe(SDL_CreateRGBSurface(flags, width, height,
+                depth, Rmask, Gmask, Bmask, Amask));
+    }
+
+    /**
+     * Creates an RGB surface given at least a width, height, and an SDL_PixelFormat
+     */
+    this(int width, int height, uint format, int depth = 32, uint flags = 0) {
+        this.surface = ensureSafe(SDL_CreateRGBSurfaceWithFormat(flags, width,
+                height, depth, format));
+    }
+
+    /**
      * Ensures that SDL can properly dispose of the surface
      */
     ~this() {
