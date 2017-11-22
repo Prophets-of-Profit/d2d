@@ -27,7 +27,7 @@ class Renderer {
      * Sets the color of the renderer will draw with
      */
     @property void drawColor(Color color) {
-        SDL_SetRenderDrawColor(this.renderer, color.r, color.g, color.b, color.a);
+        ensureSafe(SDL_SetRenderDrawColor(this.renderer, color.r, color.g, color.b, color.a));
     }
 
     /**
@@ -35,7 +35,8 @@ class Renderer {
      */
     @property Color drawColor() {
         Color color;
-        SDL_GetRenderDrawColor(this.renderer, &color.r, &color.g, &color.b, &color.a);
+        ensureSafe(SDL_GetRenderDrawColor(this.renderer, &color.r, &color.g,
+                &color.b, &color.a));
         return color;
     }
 
@@ -43,7 +44,7 @@ class Renderer {
      * Sets the renderer's draw blend mode that affects how the renderer draws
      */
     @property void drawBlendMode(SDL_BlendMode blendMode) {
-        SDL_SetRenderDrawBlendMode(this.renderer, blendMode);
+        ensureSafe(SDL_SetRenderDrawBlendMode(this.renderer, blendMode));
     }
 
     /**
@@ -51,7 +52,7 @@ class Renderer {
      */
     @property SDL_BlendMode drawBlendMode() {
         SDL_BlendMode bMode;
-        SDL_GetRenderDrawBlendMode(this.renderer, &bMode);
+        ensureSafe(SDL_GetRenderDrawBlendMode(this.renderer, &bMode));
         return bMode;
     }
 
@@ -59,7 +60,7 @@ class Renderer {
      * Sets the viewport of the renderer to the given rectangle
      */
     @property void viewport(iRectangle vPort) {
-        SDL_RenderSetViewport(this.renderer, vPort.handle);
+        ensureSafe(SDL_RenderSetViewport(this.renderer, vPort.handle));
     }
 
     /**
@@ -76,7 +77,7 @@ class Renderer {
      * Anything that is rendered outside of the clip area gets discarded
      */
     @property void clipRect(iRectangle clipArea) {
-        SDL_RenderSetClipRect(this.renderer, (clipArea is null) ? null : clipArea.handle);
+        ensureSafe(SDL_RenderSetClipRect(this.renderer, (clipArea is null) ? null : clipArea.handle));
     }
 
     /**
@@ -93,7 +94,7 @@ class Renderer {
      * Sets the renderer's x and y scale to the given point's x and y values
      */
     @property void scale(fPoint scaling) {
-        SDL_RenderSetScale(this.renderer, scaling.x, scaling.y);
+        ensureSafe(SDL_RenderSetScale(this.renderer, scaling.x, scaling.y));
     }
 
     /**
@@ -101,7 +102,7 @@ class Renderer {
      */
     @property fPoint scale() {
         fPoint scaling = new fPoint(1, 1);
-        SDL_RenderGetScale(this.renderer, &scaling.x, &scaling.y);
+        ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.x, &scaling.y));
         return scaling;
     }
 
@@ -110,7 +111,7 @@ class Renderer {
      * Logical size works in that you only need to give coordinates for one specific resolution, and SDL will handle scaling that to the best resolution matching the logical size's aspect ratio
      */
     @property void logicalSize(iPoint dimensions) {
-        SDL_RenderSetLogicalSize(this.renderer, dimensions.x, dimensions.y);
+        ensureSafe(SDL_RenderSetLogicalSize(this.renderer, dimensions.x, dimensions.y));
     }
 
     /**
@@ -128,16 +129,16 @@ class Renderer {
      */
     @property SDL_RendererInfo info() {
         SDL_RendererInfo information;
-        SDL_GetRendererInfo(this.renderer, &information);
+        ensureSafe(SDL_GetRendererInfo(this.renderer, &information));
         return information;
     }
 
     /**
-     * Makes an SDL renderer
-     * A window already comes paired with a renderer, but this constructor may be called to make more renderers
+     * Makes an SDL renderer for a window
      */
     this(Window window, uint flags = 0) {
-        this.renderer = SDL_CreateRenderer(window.handle, -1, flags.to!SDL_RendererFlags);
+        this.renderer = ensureSafe(SDL_CreateRenderer(window.handle, -1,
+                flags.to!SDL_RendererFlags));
     }
 
     /**
@@ -161,8 +162,8 @@ class Renderer {
      * If sourceRect is null, it will copy the entire texture, otherwise, it will copy the slice defined by sourceRect
      */
     void copy(Texture texture, iRectangle destinationRect, iRectangle sourceRect = null) {
-        SDL_RenderCopy(this.renderer, texture.handle, (sourceRect is null) ? null
-                : sourceRect.handle, destinationRect.handle);
+        ensureSafe(SDL_RenderCopy(this.renderer, texture.handle,
+                (sourceRect is null) ? null : sourceRect.handle, destinationRect.handle));
     }
 
     /**
@@ -172,9 +173,9 @@ class Renderer {
      */
     void copy(Texture texture, iRectangle destinationRect, double angle,
             SDL_RendererFlip flip = SDL_FLIP_NONE, iPoint center = null, iRectangle sourceRect = null) {
-        SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)
+        ensureSafe(SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)
                 ? null : sourceRect.handle, destinationRect.handle,
-                angle * 180 / PI, (center is null) ? null : center.handle, flip);
+                angle * 180 / PI, (center is null) ? null : center.handle, flip));
     }
 
     /**
@@ -182,42 +183,42 @@ class Renderer {
      */
     void clear(Color color) {
         this.drawColor = color;
-        SDL_RenderClear(this.renderer);
+        this.clear();
     }
 
     /**
      * Fills the screen with the existing renderer color
      */
     void clear() {
-        SDL_RenderClear(this.renderer);
+        ensureSafe(SDL_RenderClear(this.renderer));
     }
 
     /**
      * Draws a line between the given points
      */
     void drawLine(iPoint first, iPoint second) {
-        SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y);
+        ensureSafe(SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y));
     }
 
     /**
      * Draws a point
      */
     void drawPoint(iPoint toDraw) {
-        SDL_RenderDrawPoint(this.renderer, toDraw.x, toDraw.y);
+        ensureSafe(SDL_RenderDrawPoint(this.renderer, toDraw.x, toDraw.y));
     }
 
     /**
      * Draws a rectangle
      */
     void drawRect(iRectangle toDraw) {
-        SDL_RenderDrawRect(this.renderer, toDraw.handle);
+        ensureSafe(SDL_RenderDrawRect(this.renderer, toDraw.handle));
     }
 
     /**
      * Fills a rectangle in with the renderer's color
      */
     void fillRecct(iRectangle toFill) {
-        SDL_RenderFillRect(this.renderer, toFill.handle);
+        ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
     }
 
     /**
