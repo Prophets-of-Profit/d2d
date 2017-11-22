@@ -11,19 +11,18 @@ import d2d.sdl2;
  */
 struct Pressable {
 
-    uint id;                          ///The key/button that is pressed
-    SysTime lastPressed;              ///The time at which this pressable was pressed
-    SysTime lastReleased;             ///The time at which this pressable was released
+    uint id; ///The key/button that is pressed
+    SysTime lastPressed; ///The time at which this pressable was pressed
+    SysTime lastReleased; ///The time at which this pressable was released
 
     /**
      * Returns whether or not this pressable is currently being held
      */
-    @property bool isPressed(){
+    @property bool isPressed() {
         return this.lastReleased < this.lastPressed;
     }
 
 }
-
 
 /**
  * A source of input from the user
@@ -31,13 +30,13 @@ struct Pressable {
  */
 abstract class InputSource {
 
-    @property Pressable[] allPressables();      ///Return a list of all of the pressables
-    void handleEvent(SDL_Event event);          ///Acculmulates events and updates the state of stored pressables
+    @property Pressable[] allPressables(); ///Return a list of all of the pressables
+    void handleEvent(SDL_Event event); ///Acculmulates events and updates the state of stored pressables
 
     /**
      * Returns a list of all of the pressables that are held down.
      */
-    Pressable[] getPressedPressables(){
+    Pressable[] getPressedPressables() {
         return this.allPressables.filter!(pressable => pressable.isPressed).array;
     }
 

@@ -12,14 +12,14 @@ class Keyboard : InputSource {
     /**
      * Returns all of the keys on the keyboard
      */
-    override @property Pressable[] allPressables(){
+    override @property Pressable[] allPressables() {
         return null;
     }
 
     /**
      * Acculmulates all of the keyboard events and updates stored pressables accordingly
      */
-    override void handleEvent(SDL_Event event){
+    override void handleEvent(SDL_Event event) {
 
     }
 

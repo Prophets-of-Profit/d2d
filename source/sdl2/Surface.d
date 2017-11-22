@@ -16,14 +16,14 @@ class Surface {
     /**
      * Returns the raw SDL data of this object
      */
-    @property SDL_Surface* handle(){
+    @property SDL_Surface* handle() {
         return this.surface;
     }
 
     /**
      * Ensures that SDL can properly dispose of the surface
      */
-    ~this(){
+    ~this() {
         SDL_FreeSurface(this.surface);
     }
 

@@ -10,9 +10,9 @@ import d2d.sdl2;
  */
 class Display {
 
-    private int framerate;          ///The framerate of the window. If negative, it will be vsync
-    private Keyboard keyboard;      ///The keyboard input source
-    private Mouse mouse;            ///The mouse input source
-    private Window window;          ///The actual SDL window
+    private int framerate; ///The framerate of the window. If negative, it will be vsync
+    private Keyboard keyboard; ///The keyboard input source
+    private Mouse mouse; ///The mouse input source
+    private Window window; ///The actual SDL window
 
 }

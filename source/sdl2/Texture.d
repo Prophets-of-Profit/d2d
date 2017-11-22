@@ -16,14 +16,14 @@ class Texture {
     /**
      * Returns the raw SDL data of this object
      */
-    @property SDL_Texture* handle(){
+    @property SDL_Texture* handle() {
         return this.texture;
     }
 
     /**
      * Gets the texture's dimensions as a point with the width being the x coordinate and the height being the y coordinate
      */
-    @property iPoint dimensions(){
+    @property iPoint dimensions() {
         iPoint dim = new iPoint(0, 0);
         SDL_QueryTexture(this.texture, null, null, &dim.x, &dim.y);
         return dim;
@@ -32,14 +32,14 @@ class Texture {
     /**
      * Constructs a new texture from a surface
      */
-    this(Surface surface, Renderer renderer){
+    this(Surface surface, Renderer renderer) {
         SDL_CreateTextureFromSurface(renderer.handle, surface.handle);
     }
 
     /**
      * Ensures that SDL can properly dispose of the texture
      */
-    ~this(){
+    ~this() {
         SDL_DestroyTexture(this.texture);
     }
 
