@@ -30,11 +30,25 @@ class Surface {
     }
 
     /**
-     * Creates an RGB surface given at least a width, height, and an SDL_PixelFormat
+     * Creates an RGB surface given at least a width, height, and an SDL_PixelFormatEnum
      */
     this(int width, int height, uint format, int depth = 32, uint flags = 0) {
         this.surface = ensureSafe(SDL_CreateRGBSurfaceWithFormat(flags, width,
                 height, depth, format));
+    }
+
+    /**
+     * Creates a surface from another surface but with a different pixel format
+     */
+    this(Surface src, SDL_PixelFormat* fmt, uint flags = 0){
+        this.surface = ensureSafe(SDL_ConvertSurface(src.handle, fmt, flags));
+    }
+
+    /**
+     * Creates a surface from another surface but with a different pixel format
+     */
+    this(Surface src, uint fmt, uint flags = 0){
+        this.surface = ensureSafe(SDL_ConvertSurfaceFormat(src.handle, fmt, flags));
     }
 
     /**
