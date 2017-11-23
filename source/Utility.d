@@ -10,12 +10,11 @@ import d2d.sdl2;
  * Alpha is the transparency of the color
  */
 struct Color {
+    private SDL_Color sdlColor;
     ubyte r; ///Red value for the color
     ubyte g; ///Green value for the color
     ubyte b; ///Blue value for the color
     ubyte a = 255; ///Alpha value or transparency for the color
-    alias handle this; ///Makes the color accessible as an SDL_Color which is almost the same thing
-    private SDL_Color sdlColor;
 
     /**
      * Gets the color as an SDL_Color
@@ -32,10 +31,9 @@ struct Color {
  */
 class Point(T) if (__traits(isScalar, T)) {
 
+    private SDL_Point sdlPoint;
     T x; ///X value of the point
     T y; ///Y value of the point
-    alias handle this; ///Makes the point accessible as an SDL_Point which is almost the same thing
-    private SDL_Point sdlPoint;
 
     /**
      * Gets the point as an SDL_Point
@@ -61,11 +59,10 @@ class Point(T) if (__traits(isScalar, T)) {
  */
 class Rectangle(T) if (__traits(isScalar, T)) {
 
+    private SDL_Rect sdlRectangle;
     Point!T topLeft; ///The top left point of the rectangle
     T w; ///The width of the rectangle
     T h; ///The height of the rectangle
-    alias handle this; ///Makes the rectangle accessible as an SDL_Rect which is almost the same thing
-    private SDL_Rect sdlRectangle;
 
     /**
      * Makes a rectangle given top left coordinates and a width and a height
