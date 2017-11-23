@@ -44,4 +44,25 @@ class Surface {
         SDL_FreeSurface(this.surface);
     }
 
+    /**
+     * Blits another surface onto this surface
+     * Takes the surface to blit, the slice of the surface to blit, and where on this surface to blit to
+     * Is faster than a scaled blit to a rectangle
+     */
+    void blit(Surface src, iRectangle srcRect, iPoint dstLocation) {
+        SDL_Rect dst = SDL_Rect(dstLocation.x, dstLocation.y, 0, 0);
+        ensureSafe(SDL_BlitSurface(src.handle, (srcRect is null) ? null
+                : srcRect.handle, this.surface, &dst));
+    }
+
+    /**
+     * Does a scaled blit from another surface onto this surface
+     * Takes the surface to blit, the slice of the surface to blit, and the slice on this surface of where to blit to
+     * Is slower than the blit to a location
+     */
+    void blit(Surface src, iRectangle srcRect, iRectangle dstRect) {
+        ensureSafe(SDL_BlitScaled(src.handle, (srcRect is null) ? null
+                : srcRect.handle, this.surface, (dstRect is null) ? null : dstRect.handle));
+    }
+
 }
