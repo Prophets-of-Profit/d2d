@@ -125,6 +125,15 @@ class Renderer {
     }
 
     /**
+     * Gets the renderer's output size
+     */
+    @property iPoint outputSize() {
+        iPoint size = new iPoint(0, 0);
+        ensureSafe(SDL_GetRendererOutputSize(this.renderer, &size.x, &size.y));
+        return size;
+    }
+
+    /**
      * Gets the renderer's information and returns it as an SDL_RendererInfo struct
      */
     @property SDL_RendererInfo info() {

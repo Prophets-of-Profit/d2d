@@ -8,6 +8,9 @@ import d2d.sdl2;
  */
 class Mouse : InputSource {
 
+    private iPoint screenLocation; ///Location of the mouse within the entire screen
+    private iPoint windowLocation; ///Location of the mouse within the window
+
     /**
      * Returns all of the mouse buttons
      */

@@ -12,6 +12,9 @@ import d2d.sdl2;
 class Window {
 
     private SDL_Window* window;
+    private Surface windowSurface;
+    private Renderer windowRenderer;
+    private Surface windowIcon;
 
     /**
      * Returns the raw SDL data of this object
@@ -75,7 +78,7 @@ class Window {
      * Gets the window's maximum size
      */
     @property iPoint maximumSize() {
-        iPoint maxSize;
+        iPoint maxSize = new iPoint(0, 0);
         SDL_GetWindowMaximumSize(this.window, &maxSize.x, &maxSize.y);
         return maxSize;
     }
@@ -91,9 +94,25 @@ class Window {
      * Gets the window's minimum size
      */
     @property iPoint minimumSize() {
-        iPoint minSize;
+        iPoint minSize = new iPoint(0, 0);
         SDL_GetWindowMinimumSize(this.window, &minSize.x, &minSize.y);
         return minSize;
+    }
+
+    /**
+     * Sets the window's size
+     */
+    @property void size(iPoint s) {
+        SDL_SetWindowSize(this.window, s.x, s.y);
+    }
+
+    /**
+     * Gets the window's size
+     */
+    @property iPoint size() {
+        iPoint s = new iPoint(0, 0);
+        SDL_GetWindowSize(this.window, &s.x, &s.y);
+        return s;
     }
 
     /**
@@ -115,7 +134,7 @@ class Window {
     /**
      * Sets the window's screen position
      */
-    @property position(iPoint pos){
+    @property position(iPoint pos) {
         SDL_SetWindowPosition(this.window, pos.x, pos.y);
     }
 
@@ -126,6 +145,35 @@ class Window {
         iPoint pos;
         SDL_GetWindowPosition(this.window, &pos.x, &pos.y);
         return pos;
+    }
+
+    /**
+     * Sets the window's title
+     */
+    @property void title(string newTitle) {
+        SDL_SetWindowTitle(this.window, cast(const(char)*) newTitle);
+    }
+
+    /**
+     * Gets the window's title
+     */
+    @property string title() {
+        return SDL_GetWindowTitle(this.window).to!string;
+    }
+
+    /**
+     * Sets the window's icon
+     */
+    @property void icon(Surface i) {
+        this.windowIcon = i;
+        SDL_SetWindowIcon(this.window, i.handle);
+    }
+
+    /**
+     * Gets the window's icon
+     */
+    @property Surface icon() {
+        return this.windowIcon;
     }
 
     /**
@@ -148,12 +196,36 @@ class Window {
     }
 
     /**
+     * Gets the window's surface
+     */
+    @property Surface surface() {
+        return this.windowSurface;
+    }
+
+    /** 
+     * Gets the window's renderer
+     */
+    @property Renderer renderer() {
+        return this.windowRenderer;
+    }
+
+    /**
      * Constructor for a window; needs at least a width and a height
      */
     this(int w, int h, SDL_WindowFlags flags = 0.to!SDL_WindowFlags, string title = "",
             int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
         this.window = SDL_CreateWindow(cast(const(char)*) title, x, y, w, h, flags);
-        //TODO get window surface
+        this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
+        this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
+    }
+
+    /**
+     * Creates the window from an already existing SDL_Window
+     */
+    this(SDL_Window* alreadyExisting) {
+        this.window = alreadyExisting;
+        this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
+        this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
     }
 
     /**
@@ -161,6 +233,71 @@ class Window {
      */
     ~this() {
         SDL_DestroyWindow(this.window);
+    }
+
+    /**
+     * Marks the current window as a modal for the given parent window
+     */
+    void setAsModalFor(Window parent) {
+        ensureSafe(SDL_SetWindowModalFor(this.window, parent.handle));
+    }
+
+    /**
+     * Sets whether the window should be bordered or not
+     * Is not a property method because it is a setter without a getter
+     */
+    void setBordered(bool borderedStatus) {
+        SDL_SetWindowBordered(this.window, borderedStatus ? SDL_TRUE : SDL_FALSE);
+    }
+
+    /**
+     * Sets whether the window should be resizable or not
+     * Is not a property method because it is a setter without a getter
+     */
+    void setResizable(bool resizability) {
+        SDL_SetWindowResizable(this.window, resizability ? SDL_TRUE : SDL_FALSE);
+    }
+
+    /**
+     * Hides the window
+     */
+    void hide() {
+        SDL_HideWindow(this.window);
+    }
+
+    /**
+     * Shows the window
+     */
+    void show() {
+        SDL_ShowWindow(this.window);
+    }
+
+    /**
+     * Maximizes the window
+     */
+    void maximize() {
+        SDL_MaximizeWindow(this.window);
+    }
+
+    /**
+     * Minimizes window in terms of size
+     */
+    void minimize() {
+        SDL_MinimizeWindow(this.window);
+    }
+
+    /**
+     * Restores a window to its original state before a maximize or minimize
+     */
+    void restore() {
+        SDL_RestoreWindow(this.window);
+    }
+
+    /**
+     * Moves the window to be on top of everything else and to have the focus
+     */
+    void raise() {
+        SDL_RaiseWindow(this.window);
     }
 
 }
