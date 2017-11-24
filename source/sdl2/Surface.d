@@ -131,6 +131,13 @@ class Surface {
     }
 
     /**
+     * Creates a surface from an already existing SDL_Surface
+     */
+    this(SDL_Surface* alreadyExisting) {
+        this.surface = alreadyExisting;
+    }
+
+    /**
      * Ensures that SDL can properly dispose of the surface
      */
     ~this() {

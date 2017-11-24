@@ -142,6 +142,13 @@ class Renderer {
     }
 
     /**
+     * Makes a renderer from an already existing SDL_Renderer
+     */
+    this(SDL_Renderer* alreadyExisting) {
+        this.renderer = alreadyExisting;
+    }
+
+    /**
      * Ensures that SDL can properly dispose of the renderer
      */
     ~this() {

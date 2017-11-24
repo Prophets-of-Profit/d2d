@@ -33,7 +33,14 @@ class Texture {
      * Constructs a new texture from a surface
      */
     this(Surface surface, Renderer renderer) {
-        SDL_CreateTextureFromSurface(renderer.handle, surface.handle);
+        this.texture = SDL_CreateTextureFromSurface(renderer.handle, surface.handle);
+    }
+
+    /**
+     * Creates a texture from an already existing SDL_Texture
+     */
+    this(SDL_Texture* alreadyExisting){
+        this.texture = alreadyExisting;
     }
 
     /**
