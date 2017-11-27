@@ -3,6 +3,7 @@ module d2d.sdl2.Window;
 import std.algorithm;
 import std.array;
 import std.conv;
+import std.string;
 import d2d.sdl2;
 
 /**
@@ -151,7 +152,7 @@ class Window {
      * Sets the window's title
      */
     @property void title(string newTitle) {
-        SDL_SetWindowTitle(this.window, cast(const(char)*) newTitle);
+        SDL_SetWindowTitle(this.window, newTitle.toStringz);
     }
 
     /**
@@ -214,7 +215,7 @@ class Window {
      */
     this(int w, int h, SDL_WindowFlags flags = 0.to!SDL_WindowFlags, string title = "",
             int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
-        this.window = SDL_CreateWindow(cast(const(char)*) title, x, y, w, h, flags);
+        this.window = SDL_CreateWindow(title.toStringz, x, y, w, h, flags);
         this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
         this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
     }

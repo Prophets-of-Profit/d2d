@@ -1,5 +1,6 @@
 module d2d.sdl2.Surface;
 
+import std.string;
 public import d2d.sdl2;
 
 /**
@@ -127,7 +128,7 @@ class Surface {
      * Creates a surface from a BMP file path
      */
     this(string bmpFilePath) {
-        this.surface = ensureSafe(SDL_LoadBMP(cast(const(char)*) bmpFilePath));
+        this.surface = ensureSafe(SDL_LoadBMP(bmpFilePath.toStringz));
     }
 
     /**
