@@ -125,7 +125,7 @@ class Surface {
     }
 
     /**
-     * Creates a surface from a BMP file path
+     * Creates a surface from a BMP file path; for other image formats, use loadImage
      */
     this(string bmpFilePath) {
         this.surface = ensureSafe(SDL_LoadBMP(bmpFilePath.toStringz));
@@ -175,4 +175,11 @@ class Surface {
                 color.g, color.b, color.a)));
     }
 
+}
+
+/**
+ * Uses the SDL_Image library to create a non-bmp image surface
+ */
+Surface loadImage(string imagePath) {
+    return new Surface(ensureSafe(IMG_Load(imagePath.toStringz)));
 }
