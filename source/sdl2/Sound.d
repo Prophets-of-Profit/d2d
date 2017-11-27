@@ -58,12 +58,14 @@ class Sound(SoundType T) {
      */
     this(string soundPath) {
         static if (T == SoundType.Chunk) {
-            this.sound = Mix_LoadWAV(soundPath.toStringz);
-            Mix_PlayChannel(-1, this.sound, 1);
+            this.sound = ensureSafe(Mix_LoadWAV(soundPath.toStringz));
+            if (Mix_PlayChannel(-1, this.sound, 1) == -1) {
+                ensureSafe(-1);
+            }
         }
         else {
-            this.sound = Mix_LoadMUS(soundPath.toStringz);
-            Mix_PlayMusic(this.sound, -1);
+            this.sound = ensureSafe(Mix_LoadMUS(soundPath.toStringz));
+            ensureSafe(Mix_PlayMusic(this.sound, -1));
         }
     }
 
