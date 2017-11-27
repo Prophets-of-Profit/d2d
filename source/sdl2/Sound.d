@@ -10,6 +10,7 @@ import d2d.sdl2;
  * Enables SDL_Mixer upon the load of this module
  */
 shared static this() {
+    loadMixer();
     Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 }
 
@@ -85,3 +86,5 @@ unittest {
     auto test1 = new Sound!(SoundType.Chunk)("");
     auto test2 = new Sound!(SoundType.Music)("");
 }
+
+//TODO volume stuff

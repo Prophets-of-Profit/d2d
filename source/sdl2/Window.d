@@ -215,7 +215,7 @@ class Window {
      */
     this(int w, int h, SDL_WindowFlags flags = 0.to!SDL_WindowFlags, string title = "",
             int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
-        this.window = SDL_CreateWindow(title.toStringz, x, y, w, h, flags);
+        this.window = ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags));
         this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
         this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
     }

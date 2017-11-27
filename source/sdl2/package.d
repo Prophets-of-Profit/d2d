@@ -14,14 +14,51 @@ public import d2d.Utility;
 import std.conv;
 
 /**
- * Just loads all of the SDL functions the first time that SDL is used
+ * Loads base DerelictSDL2
+ * Function can be called many times, but load only happens once
  */
-shared static this() {
-    DerelictSDL2.load();
+void loadSDL(SharedLibVersion ver = SharedLibVersion(2, 0, 2)) {
+    static bool hasBeenLoaded;
+    if (hasBeenLoaded)
+        return;
+    hasBeenLoaded = true;
+    DerelictSDL2.load(ver);
+}
+
+/**
+ * Loads SDL_Image libraries
+ * Function can be called many times, but load only happens once
+ */
+void loadImage() {
+    static bool hasBeenLoaded;
+    if (hasBeenLoaded)
+        return;
+    hasBeenLoaded = true;
     DerelictSDL2Image.load();
+}
+
+/**
+ * Loads SDL_Mixer libraries
+ * Function can be called many times, but load only happens once
+ */
+void loadMixer() {
+    static bool hasBeenLoaded;
+    if (hasBeenLoaded)
+        return;
+    hasBeenLoaded = true;
     DerelictSDL2Mixer.load();
+}
+
+/**
+ * Loads SDL_ttf libraries
+ * Function can be called many times, but load only happens once
+ */
+void loadTTF() {
+    static bool hasBeenLoaded;
+    if (hasBeenLoaded)
+        return;
+    hasBeenLoaded = true;
     DerelictSDL2ttf.load();
-    DerelictSDL2Net.load();
 }
 
 /**

@@ -181,5 +181,8 @@ class Surface {
  * Uses the SDL_Image library to create a non-bmp image surface
  */
 Surface loadImage(string imagePath) {
+    d2d.sdl2.loadImage();
     return new Surface(ensureSafe(IMG_Load(imagePath.toStringz)));
 }
+
+//TODO ttf stuff
