@@ -58,6 +58,7 @@ class Sound(SoundType T) {
      * If this is a music sound, the music will loop; otherwise if this is a chunk, the chunk will play once
      */
     this(string soundPath) {
+        loadMixer();
         static if (T == SoundType.Chunk) {
             this.sound = ensureSafe(Mix_LoadWAV(soundPath.toStringz));
             if (Mix_PlayChannel(-1, this.sound, 1) == -1) {
@@ -76,15 +77,6 @@ class Sound(SoundType T) {
     mixin("~this(){
         Mix_Free" ~ T.to!string ~ "(this.sound);
     }");
-}
-
-/**
- * Below is temporary; TODO remove
- * Only used for debugging to ensure that sounds can be correctly constructed
- */
-unittest {
-    auto test1 = new Sound!(SoundType.Chunk)("");
-    auto test2 = new Sound!(SoundType.Music)("");
 }
 
 //TODO volume stuff
