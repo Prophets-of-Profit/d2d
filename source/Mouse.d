@@ -1,12 +1,13 @@
 module d2d.Mouse;
 
+import d2d.EventHandler;
 import d2d.InputSource;
 import d2d.sdl2;
 
 /**
  * The mouse input source which acculmulates mouse information
  */
-class Mouse : InputSource {
+class Mouse : InputSource, EventHandler {
 
     private iPoint screenLocation; ///Location of the mouse within the entire screen
     private iPoint windowLocation; ///Location of the mouse within the window

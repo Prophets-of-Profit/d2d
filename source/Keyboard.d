@@ -1,13 +1,13 @@
 module d2d.Keyboard;
 
+import d2d.EventHandler;
 import d2d.InputSource;
-
 import d2d.sdl2;
 
 /**
  * The keyboard input source which acculmulates keyboard information
  */
-class Keyboard : InputSource {
+class Keyboard : InputSource, EventHandler {
 
     /**
      * Returns all of the keys on the keyboard
