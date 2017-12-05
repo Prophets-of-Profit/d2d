@@ -17,19 +17,20 @@ import std.conv;
  * Loads base DerelictSDL2
  * Function can be called many times, but load only happens once
  */
-void loadSDL(SharedLibVersion ver = SharedLibVersion(2, 0, 2)) {
+void loadLibSDL(SharedLibVersion ver = SharedLibVersion(2, 0, 2)) {
     static bool hasBeenLoaded;
     if (hasBeenLoaded)
         return;
     hasBeenLoaded = true;
     DerelictSDL2.load(ver);
+    SDL_Init(SDL_INIT_EVERYTHING);
 }
 
 /**
  * Loads SDL_Image libraries
  * Function can be called many times, but load only happens once
  */
-void loadImage() {
+void loadLibImage() {
     static bool hasBeenLoaded;
     if (hasBeenLoaded)
         return;
@@ -41,19 +42,20 @@ void loadImage() {
  * Loads SDL_Mixer libraries
  * Function can be called many times, but load only happens once
  */
-void loadMixer() {
+void loadLibMixer() {
     static bool hasBeenLoaded;
     if (hasBeenLoaded)
         return;
     hasBeenLoaded = true;
     DerelictSDL2Mixer.load();
+    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
 }
 
 /**
  * Loads SDL_ttf libraries
  * Function can be called many times, but load only happens once
  */
-void loadTTF() {
+void loadLibTTF() {
     static bool hasBeenLoaded;
     if (hasBeenLoaded)
         return;

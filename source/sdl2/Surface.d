@@ -98,7 +98,7 @@ class Surface {
      */
     this(int width, int height, int depth = 32, uint flags = 0, uint Rmask = 0,
             uint Gmask = 0, uint Bmask = 0, uint Amask = 0) {
-        loadSDL();
+        loadLibSDL();
         this.surface = ensureSafe(SDL_CreateRGBSurface(flags, width, height,
                 depth, Rmask, Gmask, Bmask, Amask));
     }
@@ -107,7 +107,7 @@ class Surface {
      * Creates an RGB surface given at least a width, height, and an SDL_PixelFormatEnum
      */
     this(int width, int height, uint format, int depth = 32, uint flags = 0) {
-        loadSDL();
+        loadLibSDL();
         this.surface = ensureSafe(SDL_CreateRGBSurfaceWithFormat(flags, width,
                 height, depth, format));
     }
@@ -116,7 +116,7 @@ class Surface {
      * Creates a surface from another surface but with a different pixel format
      */
     this(Surface src, SDL_PixelFormat* fmt, uint flags = 0) {
-        loadSDL();
+        loadLibSDL();
         this.surface = ensureSafe(SDL_ConvertSurface(src.handle, fmt, flags));
     }
 
@@ -124,7 +124,7 @@ class Surface {
      * Creates a surface from another surface but with a different pixel format
      */
     this(Surface src, uint fmt, uint flags = 0) {
-        loadSDL();
+        loadLibSDL();
         this.surface = ensureSafe(SDL_ConvertSurfaceFormat(src.handle, fmt, flags));
     }
 
@@ -132,7 +132,7 @@ class Surface {
      * Creates a surface from a BMP file path; for other image formats, use loadImage
      */
     this(string bmpFilePath) {
-        loadSDL();
+        loadLibSDL();
         this.surface = ensureSafe(SDL_LoadBMP(bmpFilePath.toStringz));
     }
 
@@ -186,8 +186,8 @@ class Surface {
  * Uses the SDL_Image library to create a non-bmp image surface
  */
 Surface loadImage(string imagePath) {
-    loadSDL();
-    d2d.sdl2.loadImage();
+    loadLibSDL();
+    loadLibImage();
     return new Surface(ensureSafe(IMG_Load(imagePath.toStringz)));
 }
 

@@ -1,6 +1,5 @@
 module d2d.sdl2.Renderer;
 
-import std.conv;
 import std.math;
 import d2d.sdl2;
 
@@ -147,7 +146,7 @@ class Renderer {
      */
     this(Window window, uint flags = 0) {
         this.renderer = ensureSafe(SDL_CreateRenderer(window.handle, -1,
-                flags.to!SDL_RendererFlags));
+                cast(SDL_RendererFlags) flags));
     }
 
     /**

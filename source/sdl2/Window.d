@@ -13,7 +13,6 @@ import d2d.sdl2;
 class Window {
 
     private SDL_Window* window;
-    private Surface windowSurface;
     private Renderer windowRenderer;
     private Surface windowIcon;
 
@@ -196,13 +195,6 @@ class Window {
         return allPossibleFlags.filter!(flag => flag & windowFlags).array.dup;
     }
 
-    /**
-     * Gets the window's surface
-     */
-    @property Surface surface() {
-        return this.windowSurface;
-    }
-
     /** 
      * Gets the window's renderer
      */
@@ -215,10 +207,8 @@ class Window {
      */
     this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "",
             int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
-        loadSDL();
-        this.window = ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags));
-        this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
-        this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
+        loadLibSDL();
+        this(ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags)));
     }
 
     /**
@@ -226,8 +216,7 @@ class Window {
      */
     this(SDL_Window* alreadyExisting) {
         this.window = alreadyExisting;
-        this.windowSurface = new Surface(ensureSafe(SDL_GetWindowSurface(this.window)));
-        this.windowRenderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
+        this.windowRenderer = new Renderer(this);
     }
 
     /**

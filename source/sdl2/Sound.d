@@ -7,21 +7,6 @@ import std.traits;
 import d2d.sdl2;
 
 /**
- * Enables SDL_Mixer upon the load of this module
- */
-shared static this() {
-    loadMixer();
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
-}
-
-/**
- * Upon the destruction of this module, ensures that SDL can properly dispose of the mixer
- */
-shared static ~this() {
-    Mix_CloseAudio();
-}
-
-/**
  * The two types of sounds there are
  * Chunks are for sound effects and for shorter sounds
  * Musics are for longer sounds such as background music
@@ -58,7 +43,7 @@ class Sound(SoundType T) {
      * If this is a music sound, the music will loop; otherwise if this is a chunk, the chunk will play once
      */
     this(string soundPath) {
-        loadMixer();
+        loadLibMixer();
         static if (T == SoundType.Chunk) {
             this.sound = ensureSafe(Mix_LoadWAV(soundPath.toStringz));
             if (Mix_PlayChannel(-1, this.sound, 1) == -1) {
