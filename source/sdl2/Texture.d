@@ -29,9 +29,9 @@ class Texture {
         return dim;
     }
 
-    
     /**
      * Gets the texture's format
+     * TODO update doc
      */
     @property uint format(){
         uint format;
@@ -40,7 +40,8 @@ class Texture {
     }
 
     /**
-     * Gets the texture's access 
+     * Gets the texture's access
+     * TODO update doc
      */
     @property int access(){
         int access;
@@ -50,6 +51,7 @@ class Texture {
 
     /** 
      * Sets the texture's alpha value
+     * TODO update doc
      */
     @property void alphaMod(ubyte alphaMultiplier){
         ensureSafe(SDL_SetTextureAlphaMod(this.texture, alphaMultiplier));
@@ -57,6 +59,7 @@ class Texture {
 
     /**
      * Gets the texture's alpha value
+     * TODO update doc
      */
     @property ubyte alphaMod(){
         ubyte alphaMultiplier;
@@ -66,6 +69,7 @@ class Texture {
 
     /**
      * Sets the texture's blend mode
+     * TODO update doc
      */
     @property void blendMode(SDL_BlendMode blend){
         ensureSafe(SDL_SetTextureBlendMode(this.texture, blend));
@@ -73,6 +77,7 @@ class Texture {
 
     /**
      * Gets the texture's blend mode
+     * TODO update doc
      */
     @property SDL_BlendMode* blendMode(){
         SDL_BlendMode* blend;
@@ -99,6 +104,14 @@ class Texture {
     }
 
     /**
+     * Creates a texture given explicit parameters that are required by SDL CreateTexture
+     * Allwos for more control over how the texture works
+     */
+    this(Renderer renderer, uint format, SDL_TextureAccess access, iPoint dimensions){
+        this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format, access, dimensions.x, dimensions.y));
+    }
+
+    /**
      * Constructs a new texture from a surface
      */
     this(Surface surface, Renderer renderer) {
@@ -113,13 +126,6 @@ class Texture {
     }
 
     /**
-     * Creates a texture given explicit parameters
-     */
-    this(SDL_Renderer* renderer, uint format, SDL_TextureAccess access, int width, int height){
-        this.texture = ensureSafe(SDL_CreateTexture(renderer, format, access, width, height));
-    }
-
-    /**
      * Ensures that SDL can properly dispose of the texture
      */
     ~this() {
@@ -129,8 +135,8 @@ class Texture {
     /**
      * Locks a texture from editing
      */
-    void lock(void** pixels, int* pitch, SDL_Rect* rect = null){
-        ensureSafe(SDL_LockTexture(this.texture, rect, pixels, pitch));
+    void lock(void** pixels, int* pitch, iRectangle location = null){
+        ensureSafe(SDL_LockTexture(this.texture, (location is null) ? null : location.handle, pixels, pitch));
     }
 
     /**
@@ -141,17 +147,10 @@ class Texture {
     }
 
     /**
-     * Copies a portion of the texture to the given render
-     */
-    void renderCopy(SDL_Renderer* renderer, SDL_Rect* source = null, SDL_Rect* destination = null){
-        ensureSafe(SDL_RenderCopy(renderer, this.texture, source, destination));
-    }
-
-    /**
      * Updates a texture with new pixel data
      */
-    void update(void* pixels, int pitch, SDL_Rect* rect = null){
-        ensureSafe(SDL_UpdateTexture(this.texture, rect, pixels, pitch));
+    void update(void* pixels, int pitch, iRectangle location = null){
+        ensureSafe(SDL_UpdateTexture(this.texture, (location is null) ? null : location.handle, pixels, pitch));
     }
 
 }
