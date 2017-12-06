@@ -29,11 +29,61 @@ class Texture {
         return dim;
     }
 
+    /** 
+     * Sets the texture's alpha value
+     */
+    @property void alphaMod(ubyte alphaMultiplier){
+        ensureSafe(SDL_SetTextureAlphaMod(this.texture, alphaMultiplier));
+    }
+
+    /**
+     * Gets the texture's alpha value
+     */
+    @property ubyte alphaMod(){
+        ubyte alphaMultiplier;
+        ensureSafe(SDL_GetTextureAlphaMod(this.texture, &alphaMultiplier));
+        return alphaMultiplier;
+    }
+
+    /**
+     * Sets the texture's blend mode
+     */
+    @property void blendMode(SDL_BlendMode blend){
+        ensureSafe(SDL_SetTextureBlendMode(this.texture, blend));
+    }
+
+    /**
+     * Gets the texture's blend mode
+     */
+    @property SDL_BlendMode* blendMode(){
+        SDL_BlendMode* blend;
+        ensureSafe(SDL_GetTextureBlendMode(this.texture, blend));
+        return blend;
+    }
+
+    /**
+     * Sets the color modifier for the surface
+     * Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+     */
+    @property void colorMod(Color colorMultiplier) {
+        ensureSafe(SDL_SetTextureColorMod(this.texture, colorMultiplier.r, colorMultiplier.g, colorMultiplier.b));
+    }
+
+    /**
+     * Gets the color modifier for the surface
+     * Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+     */
+    @property Color colorMod() {
+        Color colorMultiplier;
+        ensureSafe(SDL_GetTextureColorMod(this.texture, &colorMultiplier.r, &colorMultiplier.g, &colorMultiplier.b));
+        return colorMultiplier;
+    }
+
     /**
      * Constructs a new texture from a surface
      */
     this(Surface surface, Renderer renderer) {
-        this.texture = SDL_CreateTextureFromSurface(renderer.handle, surface.handle);
+        this.texture = ensureSafe(SDL_CreateTextureFromSurface(renderer.handle, surface.handle));
     }
 
     /**
@@ -41,6 +91,13 @@ class Texture {
      */
     this(SDL_Texture* alreadyExisting){
         this.texture = alreadyExisting;
+    }
+
+    /**
+     * Creates a texture given explicit parameters
+     */
+    this(SDL_Renderer* renderer, uint format, SDL_TextureAccess access, int width, int height){
+        this.texture = ensureSafe(SDL_CreateTexture(renderer, format, access, width, height));
     }
 
     /**
