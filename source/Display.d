@@ -6,6 +6,7 @@ import std.datetime;
 import d2d.EventHandler;
 import d2d.Keyboard;
 import d2d.Mouse;
+public import d2d.Screen;
 import d2d.sdl2;
 
 /**
@@ -17,10 +18,11 @@ class Display {
     int framerate = 60; ///The framerate of the window. If negative, it will be vsync
     bool isRunning; ///Whether the display is running; will stop running if set to false
     void delegate() periodicAction; ///What the display should do every tick (usually faster or more often than a frame)
+    Screen screen; ///The screen that the display is displaying right now
     private Keyboard _keyboard = new Keyboard(); ///The keyboard input source
     private Mouse _mouse = new Mouse(); ///The mouse input source
     private EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
-    private Window window; ///The actual SDL window
+    private Window _window; ///The actual SDL window
 
     /**
      * Gets the keyboard of the display
@@ -37,6 +39,13 @@ class Display {
     }
 
     /**
+     * Gets the window of the display
+     */
+    @property Window window() {
+        return this._window;
+    }
+
+    /**
      * Gets a copy of all of the event handlers of the display
      */
     @property EventHandler[] handlers() {
@@ -48,7 +57,7 @@ class Display {
      */
     this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN,
             string title = "", string iconPath = null) {
-        this.window = new Window(w, h, flags, title);
+        this._window = new Window(w, h, flags, title);
         if (iconPath !is null && iconPath != "") {
             this.window.icon = d2d.sdl2.Surface.loadImage(iconPath);
         }
@@ -98,6 +107,9 @@ class Display {
             }
             if (this.periodicAction !is null) {
                 this.periodicAction();
+            }
+            if(this.screen !is null) {
+                this.screen.draw();
             }
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
                     || Clock.currTime >= lastTickTime + dur!"msecs"((1000.0 / this.framerate)

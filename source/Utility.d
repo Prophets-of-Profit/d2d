@@ -10,11 +10,11 @@ import d2d.sdl2;
  * Alpha is the transparency of the color
  */
 struct Color {
-    private SDL_Color sdlColor;
     ubyte r; ///Red value for the color
     ubyte g; ///Green value for the color
     ubyte b; ///Blue value for the color
     ubyte a = 255; ///Alpha value or transparency for the color
+    private SDL_Color sdlColor;
 
     /**
      * Gets the color as an SDL_Color

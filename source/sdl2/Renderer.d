@@ -232,7 +232,7 @@ class Renderer {
     /**
      * Fills a rectangle in with the renderer's color
      */
-    void fillRecct(iRectangle toFill) {
+    void fillRect(iRectangle toFill) {
         ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
     }
 
