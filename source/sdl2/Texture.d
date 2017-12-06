@@ -29,6 +29,25 @@ class Texture {
         return dim;
     }
 
+    
+    /**
+     * Gets the texture's format
+     */
+    @property uint format(){
+        uint format;
+        SDL_QueryTexture(this.texture, &format, null, null, null);
+        return format;
+    }
+
+    /**
+     * Gets the texture's access 
+     */
+    @property int access(){
+        int access;
+        SDL_QueryTexture(this.texture, null, &access, null, null);
+        return access;
+    }
+
     /** 
      * Sets the texture's alpha value
      */
@@ -105,6 +124,34 @@ class Texture {
      */
     ~this() {
         SDL_DestroyTexture(this.texture);
+    }
+
+    /**
+     * Locks a texture from editing
+     */
+    void lock(void** pixels, int* pitch, SDL_Rect* rect = null){
+        ensureSafe(SDL_LockTexture(this.texture, rect, pixels, pitch));
+    }
+
+    /**
+     * Unlocks a texture to edit
+     */
+    void unlock(){
+        SDL_UnlockTexture(this.texture);
+    }
+
+    /**
+     * Copies a portion of the texture to the given render
+     */
+    void renderCopy(SDL_Renderer* renderer, SDL_Rect* source = null, SDL_Rect* destination = null){
+        ensureSafe(SDL_RenderCopy(renderer, this.texture, source, destination));
+    }
+
+    /**
+     * Updates a texture with new pixel data
+     */
+    void update(void* pixels, int pitch, SDL_Rect* rect = null){
+        ensureSafe(SDL_UpdateTexture(this.texture, rect, pixels, pitch));
     }
 
 }
