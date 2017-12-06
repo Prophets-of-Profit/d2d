@@ -16,6 +16,7 @@ import d2d.sdl2;
 class Display {
 
     int framerate = 60; ///The framerate of the window. If negative, it will be vsync
+    ulong frames; ///How many frames have passed
     bool isRunning; ///Whether the display is running; will stop running if set to false
     void delegate() periodicAction; ///What the display should do every tick (usually faster or more often than a frame)
     Screen screen; ///The screen that the display is displaying right now
@@ -104,6 +105,9 @@ class Display {
                     break;
                 }
                 this.eventHandlers.each!(handler => handler.handleEvent(event));
+                if(this.screen !is null){
+                    this.screen.handleEvent(event);
+                }
             }
             if (this.periodicAction !is null) {
                 this.periodicAction();
@@ -114,7 +118,9 @@ class Display {
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
                     || Clock.currTime >= lastTickTime + dur!"msecs"((1000.0 / this.framerate)
                         .to!int)) {
+                this.screen.onFrame();
                 this.window.renderer.present();
+                this.frames++;
                 lastTickTime = Clock.currTime;
             }
         }
