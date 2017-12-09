@@ -15,14 +15,14 @@ import d2d.sdl2;
  */
 class Display {
 
-    int framerate = 60; ///The framerate of the window. If negative, it will be vsync
+    int framerate = 60; ///The framerate of the window. TODO If negative, it will be vsync
     ulong frames; ///How many frames have passed
     bool isRunning; ///Whether the display is running; will stop running if set to false
     void delegate() periodicAction; ///What the display should do every tick (usually faster or more often than a frame)
     Screen screen; ///The screen that the display is displaying right now
+    EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private Keyboard _keyboard = new Keyboard(); ///The keyboard input source
     private Mouse _mouse = new Mouse(); ///The mouse input source
-    private EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private Window _window; ///The actual SDL window
 
     /**
@@ -47,13 +47,6 @@ class Display {
     }
 
     /**
-     * Gets a copy of all of the event handlers of the display
-     */
-    @property EventHandler[] handlers() {
-        return this.eventHandlers.dup;
-    }
-
-    /**
      * Constructs a display
      */
     this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN,
@@ -62,20 +55,6 @@ class Display {
         if (iconPath !is null && iconPath != "") {
             this.window.icon = d2d.sdl2.Surface.loadImage(iconPath);
         }
-    }
-
-    /**
-     * Adds an event handler to the window's event handlers
-     */
-    void addHandler(EventHandler handler) {
-        this.eventHandlers ~= handler;
-    }
-
-    /**
-     * Removes an event handler to the window's event handlers
-     */
-    void removeHandler(EventHandler handler) {
-        this.eventHandlers = this.eventHandlers.remove(this.eventHandlers.countUntil(handler));
     }
 
     /**
@@ -90,23 +69,23 @@ class Display {
                 switch (event.type) {
                 case SDL_QUIT:
                     this.isRunning = false;
-                    break;
+                    goto default;
                 case SDL_MOUSEBUTTONDOWN:
                 case SDL_MOUSEBUTTONUP:
                 case SDL_MOUSEMOTION:
                 case SDL_MOUSEWHEEL:
                     this.mouse.handleEvent(event);
-                    break;
+                    goto default;
                 case SDL_KEYDOWN:
                 case SDL_KEYUP:
                     this.keyboard.handleEvent(event);
-                    break;
+                    goto default;
                 default:
+                    this.eventHandlers.each!(handler => handler.handleEvent(event));
+                    if(this.screen !is null) {
+                        this.screen.handleEvent(event);
+                    }
                     break;
-                }
-                this.eventHandlers.each!(handler => handler.handleEvent(event));
-                if(this.screen !is null){
-                    this.screen.handleEvent(event);
                 }
             }
             if (this.periodicAction !is null) {
@@ -120,8 +99,8 @@ class Display {
                         .to!int)) {
                 this.screen.onFrame();
                 this.window.renderer.present();
-                this.frames++;
                 lastTickTime = Clock.currTime;
+                this.frames++;
             }
         }
     }
