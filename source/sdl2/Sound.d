@@ -64,4 +64,67 @@ class Sound(SoundType T) {
     }");
 }
 
-//TODO volume stuff
+/** 
+ * Pauses all sounds of a type
+ * There is no implementation to pause certain sounds selectively
+ * Only the music is individually controllable
+ * For chunks, chunks are collectively paused and unpaused
+ */
+void pause(SoundType T)() {
+    static if(T == SoundType.Chunk) {
+        ensureSafe(Mix_Pause(-1));
+    }
+    else {
+        ensureSafe(Mix_PauseMusic());
+    }
+}
+
+/** 
+ * Resumes all sounds of a type
+ * There is no implementation to resume certain sounds selectively
+ * Only the music is individually controllable
+ * For chunks, chunks are collectively paused and unpaused
+ */
+void resume(SoundType T)() {
+    static if(T == SoundType.Chunk) {
+        ensureSafe(Mix_Resume(-1));
+    }
+    else {
+        ensureSafe(Mix_ResumeMusic());
+    }
+}
+
+private int _chunkVolume = MIX_MAX_VOLUME;
+private int _musicVolume = MIX_MAX_VOLUME;
+
+/**
+ * Sets the volume that all chunks will play at
+ * Chunks are all at the same volume; there is no implementation to control the volume of an individual chunk
+ */
+@property void chunkVolume(int volume) {
+    ensureSafe(Mix_Volume(-1, volume));
+    _chunkVolume = volume;
+}
+
+/**
+ * Gets the volume that all chunks will play at
+ * Chunks are all at the same volume; there is no implementation to control the volume of an individual chunk
+ */
+@property int chunkVolume() {
+    return _chunkVolume;
+}
+
+/**
+ * Sets the volume that the music will play at
+ */
+@property void musicVolume(int volume) {
+    ensureSafe(Mix_VolumeMusic(volume));
+    _musicVolume = volume;
+}
+
+/** 
+ * Gets the volume that the music will play at
+ */
+@property int musicVolume() {
+    return _musicVolume;
+}
