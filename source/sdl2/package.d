@@ -6,6 +6,7 @@ public import derelict.sdl2.mixer;
 public import derelict.sdl2.ttf;
 public import derelict.sdl2.net;
 public import d2d.sdl2.Renderer;
+public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;
 public import d2d.sdl2.Texture;
 public import d2d.sdl2.Window;
@@ -36,6 +37,7 @@ void loadLibImage() {
         return;
     hasBeenLoaded = true;
     DerelictSDL2Image.load();
+    IMG_Init(IMG_INIT_JPG | IMG_INIT_PNG | IMG_INIT_TIF);
 }
 
 /**

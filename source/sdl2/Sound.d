@@ -122,7 +122,7 @@ private int _musicVolume = MIX_MAX_VOLUME;
     _musicVolume = volume;
 }
 
-/** 
+/**
  * Gets the volume that the music will play at
  */
 @property int musicVolume() {
