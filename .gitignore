@@ -7,6 +7,5 @@ docs/
 *.obj
 *.lst
 *.dll
-d2d
 dub.selections.json
 .vscode
