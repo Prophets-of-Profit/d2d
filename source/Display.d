@@ -102,10 +102,10 @@ class Display {
                 this.screen.draw();
             }
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
-                    || Clock.currTime >= lastTickTime + dur!"msecs"((1000 / this.framerate))) {
+                    || Clock.currTime() >= lastTickTime + dur!"msecs"((1000 / this.framerate))) {
                 this.screen.onFrame();
                 this.window.renderer.present();
-                lastTickTime = Clock.currTime;
+                lastTickTime = Clock.currTime();
                 this._frames++;
             }
         }

@@ -9,15 +9,15 @@ import d2d.sdl2;
 /**
  * The keyboard input source which accumulates keyboard information
  */
-class Keyboard : InputSource, EventHandler {
+class Keyboard : InputSource!SDL_Keycode, EventHandler {
 
-    Pressable[SDL_Keycode] allKeys; ///All of the pressable structs visible
+    private Pressable[SDL_Keycode] allKeys; ///All of the pressable structs visible
 
     /**
      * Returns all of the keys on the keyboard
      */
-    override @property Pressable[] allPressables() {
-        return allKeys.values;
+    override @property Pressable[SDL_Keycode] allPressables() {
+        return this.allKeys.dup;
     }
 
     /**

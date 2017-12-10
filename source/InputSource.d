@@ -12,7 +12,6 @@ import d2d.sdl2;
  */
 struct Pressable {
 
-    uint id; ///The key/button that is pressed
     SysTime lastPressed; ///The time at which this pressable was pressed
     SysTime lastReleased; ///The time at which this pressable was released
 
@@ -23,21 +22,35 @@ struct Pressable {
         return this.lastReleased < this.lastPressed;
     }
 
+    /**
+     * Checks if this pressable is pressed
+     * If it is, it will mark it as released
+     * Returns whether this was actually pressed or not
+     */
+    bool testAndRelease() {
+        if (!this.isPressed) {
+            return false;
+        }
+        this.lastReleased = Clock.currTime();
+        return true;
+    }
+
 }
 
 /**
  * A source of input from the user
  * Handles acculmulating events and storing all the states of all the pressables
+ * The template parameter is the type for the identifier of all pressables
  */
-abstract class InputSource : EventHandler {
+abstract class InputSource(T) : EventHandler {
 
-    @property Pressable[] allPressables(); ///Return a list of all of the pressables
+    @property Pressable[T] allPressables(); ///Return a list of all of the pressables that can be accessed by the template type
 
     /**
      * Returns a list of all of the pressables that are held down.
      */
     Pressable[] getPressedPressables() {
-        return this.allPressables.filter!(pressable => pressable.isPressed).array;
+        return this.allPressables.values.filter!(pressable => pressable.isPressed).array;
     }
 
 }
