@@ -7,7 +7,7 @@ import d2d.EventHandler;
 import d2d.Keyboard;
 import d2d.Mouse;
 public import d2d.Screen;
-import d2d.sdl2;
+public import d2d.sdl2;
 
 /**
  * A display that handles collecting events and drawing to the screen and handling window stuff
@@ -16,14 +16,21 @@ import d2d.sdl2;
 class Display {
 
     int framerate = 60; ///The framerate of the window. TODO If negative, it will be vsync
-    ulong frames; ///How many frames have passed
     bool isRunning; ///Whether the display is running; will stop running if set to false
     void delegate() periodicAction; ///What the display should do every tick (usually faster or more often than a frame)
     Screen screen; ///The screen that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
+    private ulong _frames; ///How many frames have passed
     private Keyboard _keyboard = new Keyboard(); ///The keyboard input source
     private Mouse _mouse = new Mouse(); ///The mouse input source
     private Window _window; ///The actual SDL window
+
+    /**
+     * Gets how many frames have passed since the window started
+     */
+    @property ulong frames() {
+        return this._frames;
+    }
 
     /**
      * Gets the keyboard of the display
@@ -53,7 +60,7 @@ class Display {
             string title = "", string iconPath = null) {
         this._window = new Window(w, h, flags, title);
         if (iconPath !is null && iconPath != "") {
-            this.window.icon = d2d.sdl2.Surface.loadImage(iconPath);
+            this.window.icon = loadImage(iconPath);
         }
     }
 
@@ -95,12 +102,12 @@ class Display {
                 this.screen.draw();
             }
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
-                    || Clock.currTime >= lastTickTime + dur!"msecs"((1000.0 / this.framerate)
-                        .to!int)) {
+                    || Clock.currTime >= lastTickTime + dur!"msecs"((1000 / this.framerate)
+                        )) {
                 this.screen.onFrame();
                 this.window.renderer.present();
                 lastTickTime = Clock.currTime;
-                this.frames++;
+                this._frames++;
             }
         }
     }
