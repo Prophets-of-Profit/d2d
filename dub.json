@@ -3,7 +3,8 @@
 	"homepage": "https://github.com/SaurabhTotey/d2d",
 	"authors": [
 		"Saurabh Totey",
-		"Kadin Tucker"
+		"Kadin Tucker",
+		"Elia Gorokhovsky"
 	],
 	"dependencies": {
 		"derelict-sdl2": "~>3.1.0-alpha.2"
