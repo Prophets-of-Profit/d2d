@@ -19,38 +19,39 @@ class TestScreen : Screen {
     /**
      * Sets the square in a random location with a random velocity
      */
-    void load(){
+    void load() {
         this.xVel = uniform(0, 21) - 10;
         this.yVel = uniform(0, 21) - 10;
-        this.rect = new iRectangle(uniform(0, this.container.window.size.x - 100), uniform(0, this.container.window.size.y - 100), 100, 100);
+        this.rect = new iRectangle(uniform(0, this.container.window.size.x - 100),
+                uniform(0, this.container.window.size.y - 100), 100, 100);
     }
-    
+
     /**
      * Constructs this screen and starts the timer and loads the square
      */
-    this(Display d){
+    this(Display d) {
         super(d);
         this.timer = StopWatch(AutoStart.no);
         this.timer.start();
         this.load();
     }
-    
+
     /**
      * What this screen does on every frame
      * Does some calculations for framerate and moves the square according to its velocity
      */
-    override void onFrame(){
+    override void onFrame() {
         this.frames++;
-        if(this.timer.peek() >= seconds(1)) {
+        if (this.timer.peek() >= seconds(1)) {
             writeln(1000 * this.frames / this.timer.peek().total!"msecs");
             this.frames = 0;
             this.timer.reset();
         }
         //TODO test sound by playing sound on collision
-        if(this.rect.topLeft.x + 100 > this.container.window.size.x || this.rect.topLeft.x < 0){
+        if (this.rect.topLeft.x + 100 > this.container.window.size.x || this.rect.topLeft.x < 0) {
             this.xVel *= -1;
         }
-        if(this.rect.topLeft.y + 100 > this.container.window.size.y || this.rect.topLeft.y < 0){
+        if (this.rect.topLeft.y + 100 > this.container.window.size.y || this.rect.topLeft.y < 0) {
             this.yVel *= -1;
         }
         this.rect.topLeft.x += this.xVel;
@@ -61,8 +62,8 @@ class TestScreen : Screen {
      * How the screen reacts to events
      * Only reloads the square on a mouse click
      */
-    override void handleEvent(SDL_Event event){
-        if(event.type == SDL_MOUSEBUTTONDOWN){
+    override void handleEvent(SDL_Event event) {
+        if (event.type == SDL_MOUSEBUTTONDOWN) {
             this.load();
         }
         //TODO just test display mouse here instead of actually looking for a mousebuttondown event

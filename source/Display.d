@@ -89,7 +89,7 @@ class Display {
                     goto default;
                 default:
                     this.eventHandlers.each!(handler => handler.handleEvent(event));
-                    if(this.screen !is null) {
+                    if (this.screen !is null) {
                         this.screen.handleEvent(event);
                     }
                     break;
@@ -98,12 +98,11 @@ class Display {
             if (this.periodicAction !is null) {
                 this.periodicAction();
             }
-            if(this.screen !is null) {
+            if (this.screen !is null) {
                 this.screen.draw();
             }
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
-                    || Clock.currTime >= lastTickTime + dur!"msecs"((1000 / this.framerate)
-                        )) {
+                    || Clock.currTime >= lastTickTime + dur!"msecs"((1000 / this.framerate))) {
                 this.screen.onFrame();
                 this.window.renderer.present();
                 lastTickTime = Clock.currTime;

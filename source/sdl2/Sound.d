@@ -71,7 +71,7 @@ class Sound(SoundType T) {
  * For chunks, chunks are collectively paused and unpaused
  */
 void pause(SoundType T)() {
-    static if(T == SoundType.Chunk) {
+    static if (T == SoundType.Chunk) {
         ensureSafe(Mix_Pause(-1));
     }
     else {
@@ -86,7 +86,7 @@ void pause(SoundType T)() {
  * For chunks, chunks are collectively paused and unpaused
  */
 void resume(SoundType T)() {
-    static if(T == SoundType.Chunk) {
+    static if (T == SoundType.Chunk) {
         ensureSafe(Mix_Resume(-1));
     }
     else {

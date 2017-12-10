@@ -33,7 +33,7 @@ class Texture {
      * Gets the texture's format
      * TODO update doc
      */
-    @property uint format(){
+    @property uint format() {
         uint format;
         SDL_QueryTexture(this.texture, &format, null, null, null);
         return format;
@@ -43,7 +43,7 @@ class Texture {
      * Gets the texture's access
      * TODO update doc
      */
-    @property int access(){
+    @property int access() {
         int access;
         SDL_QueryTexture(this.texture, null, &access, null, null);
         return access;
@@ -53,7 +53,7 @@ class Texture {
      * Sets the texture's alpha value
      * TODO update doc
      */
-    @property void alphaMod(ubyte alphaMultiplier){
+    @property void alphaMod(ubyte alphaMultiplier) {
         ensureSafe(SDL_SetTextureAlphaMod(this.texture, alphaMultiplier));
     }
 
@@ -61,7 +61,7 @@ class Texture {
      * Gets the texture's alpha value
      * TODO update doc
      */
-    @property ubyte alphaMod(){
+    @property ubyte alphaMod() {
         ubyte alphaMultiplier;
         ensureSafe(SDL_GetTextureAlphaMod(this.texture, &alphaMultiplier));
         return alphaMultiplier;
@@ -71,7 +71,7 @@ class Texture {
      * Sets the texture's blend mode
      * TODO update doc
      */
-    @property void blendMode(SDL_BlendMode blend){
+    @property void blendMode(SDL_BlendMode blend) {
         ensureSafe(SDL_SetTextureBlendMode(this.texture, blend));
     }
 
@@ -79,7 +79,7 @@ class Texture {
      * Gets the texture's blend mode
      * TODO update doc
      */
-    @property SDL_BlendMode* blendMode(){
+    @property SDL_BlendMode* blendMode() {
         SDL_BlendMode* blend;
         ensureSafe(SDL_GetTextureBlendMode(this.texture, blend));
         return blend;
@@ -90,7 +90,8 @@ class Texture {
      * Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
      */
     @property void colorMod(Color colorMultiplier) {
-        ensureSafe(SDL_SetTextureColorMod(this.texture, colorMultiplier.r, colorMultiplier.g, colorMultiplier.b));
+        ensureSafe(SDL_SetTextureColorMod(this.texture, colorMultiplier.r,
+                colorMultiplier.g, colorMultiplier.b));
     }
 
     /**
@@ -99,7 +100,8 @@ class Texture {
      */
     @property Color colorMod() {
         Color colorMultiplier;
-        ensureSafe(SDL_GetTextureColorMod(this.texture, &colorMultiplier.r, &colorMultiplier.g, &colorMultiplier.b));
+        ensureSafe(SDL_GetTextureColorMod(this.texture, &colorMultiplier.r,
+                &colorMultiplier.g, &colorMultiplier.b));
         return colorMultiplier;
     }
 
@@ -107,8 +109,9 @@ class Texture {
      * Creates a texture given explicit parameters that are required by SDL CreateTexture
      * Allwos for more control over how the texture works
      */
-    this(Renderer renderer, uint format, SDL_TextureAccess access, iPoint dimensions){
-        this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format, access, dimensions.x, dimensions.y));
+    this(Renderer renderer, uint format, SDL_TextureAccess access, iPoint dimensions) {
+        this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format,
+                access, dimensions.x, dimensions.y));
     }
 
     /**
@@ -121,7 +124,7 @@ class Texture {
     /**
      * Creates a texture from an already existing SDL_Texture
      */
-    this(SDL_Texture* alreadyExisting){
+    this(SDL_Texture* alreadyExisting) {
         this.texture = alreadyExisting;
     }
 
@@ -135,22 +138,24 @@ class Texture {
     /**
      * Locks a texture from editing
      */
-    void lock(void** pixels, int* pitch, iRectangle location = null){
-        ensureSafe(SDL_LockTexture(this.texture, (location is null) ? null : location.handle, pixels, pitch));
+    void lock(void** pixels, int* pitch, iRectangle location = null) {
+        ensureSafe(SDL_LockTexture(this.texture, (location is null) ? null
+                : location.handle, pixels, pitch));
     }
 
     /**
      * Unlocks a texture to edit
      */
-    void unlock(){
+    void unlock() {
         SDL_UnlockTexture(this.texture);
     }
 
     /**
      * Updates a texture with new pixel data
      */
-    void update(void* pixels, int pitch, iRectangle location = null){
-        ensureSafe(SDL_UpdateTexture(this.texture, (location is null) ? null : location.handle, pixels, pitch));
+    void update(void* pixels, int pitch, iRectangle location = null) {
+        ensureSafe(SDL_UpdateTexture(this.texture, (location is null) ? null
+                : location.handle, pixels, pitch));
     }
 
 }
