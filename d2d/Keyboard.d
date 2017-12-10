@@ -1,22 +1,33 @@
 module d2d.Keyboard;
 
 import std.algorithm;
+import std.array;
 import std.datetime;
 import d2d.EventHandler;
 import d2d.InputSource;
 import d2d.sdl2;
+
+///A list of all of the key codes
+immutable SDL_Keycode[] allKeyCodes = [ /*TODO*/ ];
 
 /**
  * The keyboard input source which accumulates keyboard information
  */
 class Keyboard : InputSource!SDL_Keycode, EventHandler {
 
-    private Pressable[SDL_Keycode] allKeys; ///All of the pressable structs visible
+    private Pressable!SDL_Keycode[] allKeys; ///All of the pressable structs visible
+
+    /**
+     * Initializes all keys of a keyboard
+     */
+    this() {
+        this.allKeys = allKeyCodes.map!(code => new Pressable!SDL_Keycode(code)).array;
+    }
 
     /**
      * Returns all of the keys on the keyboard
      */
-    override @property Pressable[SDL_Keycode] allPressables() {
+    override @property Pressable!SDL_Keycode[] allPressables() {
         return this.allKeys.dup;
     }
 
@@ -25,16 +36,12 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
      */
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_KEYDOWN) {
-            if (!this.allKeys.keys.canFind(event.key.keysym.sym)) {
-                this.allKeys[event.key.keysym.sym] = Pressable();
-            }
-            this.allKeys[event.key.keysym.sym].lastPressed = Clock.currTime();
+            this.allKeys.filter!(key => key.id == event.key.keysym.sym)
+                .array[0].lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_KEYUP) {
-            if (!this.allKeys.keys.canFind(event.key.keysym.sym)) {
-                this.allKeys[event.key.keysym.sym] = Pressable();
-            }
-            this.allKeys[event.key.keysym.sym].lastReleased = Clock.currTime();
+            this.allKeys.filter!(key => key.id == event.key.keysym.sym)
+                .array[0].lastReleased = Clock.currTime();
         }
     }
 

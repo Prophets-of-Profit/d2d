@@ -1,6 +1,7 @@
 module d2d.Mouse;
 
 import std.algorithm;
+import std.array;
 import std.datetime;
 import d2d.EventHandler;
 import d2d.InputSource;
@@ -11,14 +12,19 @@ import d2d.sdl2;
  */
 class Mouse : InputSource!uint, EventHandler {
 
-    private Pressable[uint] allButtons; ///All of the buttons on the mouse
+    ///All of the buttons on the mouse
+    private Pressable!uint[] allButtons = [
+        new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
+        new Pressable!uint(SDL_BUTTON_RIGHT),
+        new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)
+    ];
     private iPoint _screenLocation; ///Location of the mouse within the entire screen
     private iPoint _windowLocation; ///Location of the mouse within the window
 
     /**
      * Returns all of the mouse buttons
      */
-    override @property Pressable[uint] allPressables() {
+    override @property Pressable!uint[] allPressables() {
         return this.allButtons.dup;
     }
 
@@ -61,16 +67,12 @@ class Mouse : InputSource!uint, EventHandler {
      */
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_MOUSEBUTTONDOWN) {
-            if (!this.allButtons.keys.canFind(event.button.button)) {
-                this.allButtons[event.button.button] = Pressable();
-            }
-            this.allButtons[event.button.button].lastPressed = Clock.currTime();
+            this.allButtons.filter!(button => button.id == event.button.button)
+                .array[0].lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_KEYUP) {
-            if (!this.allButtons.keys.canFind(event.button.button)) {
-                this.allButtons[event.button.button] = Pressable();
-            }
-            this.allButtons[event.button.button].lastReleased = Clock.currTime();
+            this.allButtons.filter!(button => button.id == event.button.button)
+                .array[0].lastReleased = Clock.currTime();
         }
     }
 

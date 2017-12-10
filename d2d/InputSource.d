@@ -10,10 +10,18 @@ import d2d.sdl2;
  * A pressable input source that stores it's own state
  * State gets updated by an InputSource class that contains the pressable
  */
-struct Pressable {
+class Pressable(T) {
 
+    immutable T id; ///The identifier for the pressable
     SysTime lastPressed; ///The time at which this pressable was pressed
     SysTime lastReleased; ///The time at which this pressable was released
+
+    /**
+     * Constructor for a pressable takes its id
+     */
+    this(T id){
+        this.id = id;
+    }
 
     /**
      * Returns whether or not this pressable is currently being held
@@ -44,13 +52,13 @@ struct Pressable {
  */
 abstract class InputSource(T) : EventHandler {
 
-    @property Pressable[T] allPressables(); ///Return a list of all of the pressables that can be accessed by the template type
+    @property Pressable!T[] allPressables(); ///Return a list of all of the pressables that can be accessed by the template type
 
     /**
      * Returns a list of all of the pressables that are held down.
      */
-    Pressable[] getPressedPressables() {
-        return this.allPressables.values.filter!(pressable => pressable.isPressed).array;
+    Pressable!T[] getPressedPressables() {
+        return this.allPressables.filter!(pressable => pressable.isPressed).array;
     }
 
 }
