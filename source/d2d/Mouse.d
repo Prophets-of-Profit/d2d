@@ -12,14 +12,18 @@ import d2d.sdl2;
  */
 class Mouse : InputSource!uint, EventHandler {
 
-    ///All of the buttons on the mouse
-    private Pressable!uint[] allButtons = [
-        new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
-        new Pressable!uint(SDL_BUTTON_RIGHT),
-        new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)
-    ];
+    private Pressable!uint[] allButtons; ///All of the buttons on the mouse
     private iPoint _screenLocation; ///Location of the mouse within the entire screen
     private iPoint _windowLocation; ///Location of the mouse within the window
+
+    /**
+     * Makes a mouse and initializes all of the buttons
+     */
+    this() {
+        this.allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
+            new Pressable!uint(SDL_BUTTON_RIGHT),
+            new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
+    }
 
     /**
      * Returns all of the mouse buttons
