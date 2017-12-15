@@ -12,15 +12,17 @@ import d2d.sdl2;
  */
 class Mouse : InputSource!uint, EventHandler {
 
-    private Pressable!uint[] allButtons; ///All of the buttons on the mouse
+    private Pressable!uint[] _allButtons; ///All of the buttons on the mouse
     private iPoint _screenLocation; ///Location of the mouse within the entire screen
     private iPoint _windowLocation; ///Location of the mouse within the window
+
+    alias allButtons = allPressables; ///Allows allPressables to be called as allButtons
 
     /**
      * Makes a mouse and initializes all of the buttons
      */
     this() {
-        this.allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
+        this._allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
             new Pressable!uint(SDL_BUTTON_RIGHT),
             new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
     }
@@ -29,7 +31,7 @@ class Mouse : InputSource!uint, EventHandler {
      * Returns all of the mouse buttons
      */
     override @property Pressable!uint[] allPressables() {
-        return this.allButtons.dup;
+        return this._allButtons.dup;
     }
 
     /**
@@ -44,7 +46,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iPoint windowLocation() {
         iPoint location = new iPoint(-1, -1);
-        ensureSafe(SDL_GetMouseState(&location.x, &location.y));
+        SDL_GetMouseState(&location.x, &location.y);
         return location;
     }
 
@@ -60,7 +62,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iPoint screenLocation() {
         iPoint location = new iPoint(-1, -1);
-        ensureSafe(SDL_GetGlobalMouseState(&location.x, &location.y));
+        SDL_GetGlobalMouseState(&location.x, &location.y);
         return location;
     }
 
@@ -71,11 +73,11 @@ class Mouse : InputSource!uint, EventHandler {
      */
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_MOUSEBUTTONDOWN) {
-            this.allButtons.filter!(button => button.id == event.button.button)
+            this._allButtons.filter!(button => button.id == event.button.button)
                 .array[0].lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_KEYUP) {
-            this.allButtons.filter!(button => button.id == event.button.button)
+            this._allButtons.filter!(button => button.id == event.button.button)
                 .array[0].lastReleased = Clock.currTime();
         }
     }

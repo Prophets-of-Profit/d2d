@@ -9,3 +9,4 @@ docs/
 *.dll
 dub.selections.json
 .vscode
+*.a
