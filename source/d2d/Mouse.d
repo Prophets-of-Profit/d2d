@@ -13,8 +13,7 @@ import d2d.sdl2;
 class Mouse : InputSource!uint, EventHandler {
 
     private Pressable!uint[] _allButtons; ///All of the buttons on the mouse
-    private iPoint _screenLocation; ///Location of the mouse within the entire screen
-    private iPoint _windowLocation; ///Location of the mouse within the window
+    private iPoint _totalWheelDisplacement; ///Total displacement of the mousewheel since mouse construction
 
     alias allButtons = allPressables; ///Allows allPressables to be called as allButtons
 
@@ -25,6 +24,7 @@ class Mouse : InputSource!uint, EventHandler {
         this._allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
             new Pressable!uint(SDL_BUTTON_RIGHT),
             new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
+        this._totalWheelDisplacement = new iPoint(0, 0);
     }
 
     /**
@@ -66,7 +66,13 @@ class Mouse : InputSource!uint, EventHandler {
         return location;
     }
 
-    //TODO mousewheel stuff
+    /**
+     * Gets by how much the mouse wheel has been displaced
+     * Records changes in wheel from the start of mouse construction
+     */
+    @property iPoint totalWheelDisplacement() {
+        return this._totalWheelDisplacement;
+    }
 
     /**
      * Acculmulates all of the mouse events and updates stored pressables accordingly
@@ -79,6 +85,10 @@ class Mouse : InputSource!uint, EventHandler {
         else if (event.type == SDL_KEYUP) {
             this._allButtons.filter!(button => button.id == event.button.button)
                 .array[0].lastReleased = Clock.currTime();
+        }
+        else if (event.type == SDL_MOUSEWHEEL) {
+            this._totalWheelDisplacement.x += event.wheel.x;
+            this._totalWheelDisplacement.y += event.wheel.y;
         }
     }
 

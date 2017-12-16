@@ -1,9 +1,5 @@
 module d2d;
 
-/**
- * This file imports all of the modules of d2d
- */
-
 public import d2d.Component;
 public import d2d.Display;
 public import d2d.EventHandler;

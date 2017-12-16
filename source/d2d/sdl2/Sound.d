@@ -46,7 +46,7 @@ class Sound(SoundType T) {
         loadLibMixer();
         static if (T == SoundType.Chunk) {
             this.sound = ensureSafe(Mix_LoadWAV(soundPath.toStringz));
-            if (Mix_PlayChannel(-1, this.sound, 1) == -1) {
+            if (Mix_PlayChannel(-1, this.sound, 0) == -1) {
                 ensureSafe(-1);
             }
         }

@@ -24,7 +24,7 @@ void loadLibSDL(SharedLibVersion ver = SharedLibVersion(2, 0, 2)) {
         return;
     hasBeenLoaded = true;
     DerelictSDL2.load(ver);
-    SDL_Init(SDL_INIT_EVERYTHING);
+    ensureSafe(SDL_Init(SDL_INIT_EVERYTHING));
 }
 
 /**
@@ -50,7 +50,7 @@ void loadLibMixer() {
         return;
     hasBeenLoaded = true;
     DerelictSDL2Mixer.load();
-    Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 1024);
+    ensureSafe(Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT, MIX_DEFAULT_CHANNELS, 4096));
 }
 
 /**
