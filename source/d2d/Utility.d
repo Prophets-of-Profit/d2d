@@ -67,6 +67,49 @@ class Point(T) if (__traits(isScalar, T)) {
         this.y = y;
     }
 
+    /**
+     * Modifies the point's x and y values by the x and y components of 
+     * vector
+     */
+    void shift(Point!T vector){
+        this.x += vector.x;
+        this.y += vector.y;
+    }
+
+    /**
+     * Sets the distance of the point to (0, 0) to the given amount
+     * Retains the direction the point was facing
+     */
+    void setMagnitude(double magnitude){
+        double tempAngle = this.angle;
+        this.x = cast(T)(this.magnitude * cos(tempAngle));
+        this.y = cast(T)(this.magnitude * sin(tempAngle));
+    }
+
+    /**
+     * Scales the distance of the point from (0, 0) by the given multiplier.
+     */
+    void scale(double multiplier){
+        this.x = cast(T)(this.x * multiplier);
+        this.y = cast(T)(this.y * multiplier);
+    }
+
+    /**
+     * Takes an angle, in radians, and rotates the point about (0, 0)
+     */
+    void setAngle(double angle){
+        double tempMagnitude = this.magnitude;
+        this.x = cast(T)(tempMagnitude * cos(this.angle));
+        this.y = cast(T)(tempMagnitude * sin(this.angle));
+    }
+
+    /**
+     * Rotates the point the given number of radians counter clockwise about (0, 0)
+     */
+    void rotate(double radians){
+        this.setAngle(this.angle + radians);
+    }
+
 }
 
 /**
