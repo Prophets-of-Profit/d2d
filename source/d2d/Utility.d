@@ -1,6 +1,7 @@
 module d2d.Utility;
 
 import std.conv;
+import std.math;
 import d2d.sdl2;
 
 /**
@@ -44,6 +45,35 @@ class Point(T) if (__traits(isScalar, T)) {
     }
 
     /**
+     * Returns the angle of the point relative to (0, 0)
+     */
+    @property double angle() {
+        if(this.x == 0 && this.y == 0){
+            return 0;
+        }else if(this.x == 0){
+            if(this.y < 0){
+                return 3 * PI / 4;
+            }else{
+                return PI / 4;
+            }
+        }else if(this.y == 0){
+            if(this.x < 0){
+                return PI;
+            }else{
+                return 0;
+            }
+        }
+        return 0;
+    }
+
+    /**
+     * Returns the distance from this point to (0, 0)
+     */
+    @property double magnitude(){
+        return sqrt(cast(double)(this.x * this.x + this.y * this.y));
+    }
+
+    /**
      * A point constructor; takes in an x value and a y value
      */
     this(T x, T y) {
@@ -82,6 +112,7 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     }
 
 }
+
 
 alias iPoint = Point!int;
 alias dPoint = Point!double;
