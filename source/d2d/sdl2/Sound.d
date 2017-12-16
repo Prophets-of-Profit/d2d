@@ -100,15 +100,17 @@ private int _musicVolume = MIX_MAX_VOLUME;
 /**
  * Sets the volume that all chunks will play at
  * Chunks are all at the same volume; there is no implementation to control the volume of an individual chunk
+ * TODO possibly implement Mix_VolumeChunk?
  */
 @property void chunkVolume(int volume) {
-    ensureSafe(Mix_Volume(-1, volume));
+    Mix_Volume(-1, volume);
     _chunkVolume = volume;
 }
 
 /**
  * Gets the volume that all chunks will play at
  * Chunks are all at the same volume; there is no implementation to control the volume of an individual chunk
+ * TODO possibly implement Mix_VolumeChunk?
  */
 @property int chunkVolume() {
     return _chunkVolume;
@@ -118,7 +120,7 @@ private int _musicVolume = MIX_MAX_VOLUME;
  * Sets the volume that the music will play at
  */
 @property void musicVolume(int volume) {
-    ensureSafe(Mix_VolumeMusic(volume));
+    Mix_VolumeMusic(volume);
     _musicVolume = volume;
 }
 
