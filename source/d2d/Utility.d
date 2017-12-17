@@ -1,6 +1,5 @@
 module d2d.Utility;
 
-import std.conv;
 import std.math;
 import d2d.sdl2;
 
@@ -29,6 +28,8 @@ struct Color {
 /**
  * A point is a location in 2d space
  * Location is accessed by x and y coordinates
+ * Can also sometimes act as a position vector
+ * TODO overload operators
  */
 class Point(T) if (__traits(isScalar, T)) {
 
@@ -40,22 +41,41 @@ class Point(T) if (__traits(isScalar, T)) {
      * Gets the point as an SDL_Point
      */
     @property SDL_Point* handle() {
-        sdlPoint = SDL_Point(this.x.to!int, this.y.to!int);
+        sdlPoint = SDL_Point(cast(int) this.x, cast(int) this.y);
         return &sdlPoint;
     }
 
     /**
-     * Returns the angle of the point relative to (0, 0)
-     * Returns angles in radians and does angles where right is 0 and up is pi / 2
+     * Sets the angle of the point relative to (0, 0)
+     * Angles are in radians where right is 0 and up is pi / 2
+     */
+    @property void angle(double a) {
+        double mag = this.magnitude;
+        this.x = cast(T)(mag * cos(a));
+        this.y = cast(T)(mag * sin(a));
+    }
+
+    /**
+     * Gets the angle of the point relative to (0, 0)
+     * Angles are in radians where right is 0 and up is pi / 2
      */
     @property double angle() {
         return atan2(0.0 + this.y, 0.0 + this.x);
     }
 
     /**
-     * Returns the distance from this point to (0, 0)
+     * Sets the distance from this point to (0, 0)
      */
-    @property double magnitude(){
+    @property void magnitude(double mag) {
+        double scalar = mag / this.magnitude;
+        this.x = cast(T)(this.x * scalar);
+        this.y = cast(T)(this.y * scalar);
+    }
+
+    /**
+     * Gets the distance from this point to (0, 0)
+     */
+    @property double magnitude() {
         return sqrt(0.0 + this.x * this.x + this.y * this.y);
     }
 
@@ -67,49 +87,6 @@ class Point(T) if (__traits(isScalar, T)) {
         this.y = y;
     }
 
-    /**
-     * Modifies the point's x and y values by the x and y components of 
-     * vector
-     */
-    void shift(Point!T vector){
-        this.x += vector.x;
-        this.y += vector.y;
-    }
-
-    /**
-     * Sets the distance of the point to (0, 0) to the given amount
-     * Retains the direction the point was facing
-     */
-    void setMagnitude(double magnitude){
-        double tempAngle = this.angle;
-        this.x = cast(T)(this.magnitude * cos(tempAngle));
-        this.y = cast(T)(this.magnitude * sin(tempAngle));
-    }
-
-    /**
-     * Scales the distance of the point from (0, 0) by the given multiplier.
-     */
-    void scale(double multiplier){
-        this.x = cast(T)(this.x * multiplier);
-        this.y = cast(T)(this.y * multiplier);
-    }
-
-    /**
-     * Takes an angle, in radians, and rotates the point about (0, 0)
-     */
-    void setAngle(double angle){
-        double tempMagnitude = this.magnitude;
-        this.x = cast(T)(tempMagnitude * cos(this.angle));
-        this.y = cast(T)(tempMagnitude * sin(this.angle));
-    }
-
-    /**
-     * Rotates the point the given number of radians counter clockwise about (0, 0)
-     */
-    void rotate(double radians){
-        this.setAngle(this.angle + radians);
-    }
-
 }
 
 /**
@@ -119,29 +96,47 @@ class Point(T) if (__traits(isScalar, T)) {
 class Rectangle(T) if (__traits(isScalar, T)) {
 
     private SDL_Rect sdlRectangle;
-    Point!T topLeft; ///The top left point of the rectangle
-    T w; ///The width of the rectangle
-    T h; ///The height of the rectangle
-
-    /**
-     * Makes a rectangle given top left coordinates and a width and a height
-     */
-    this(T x, T y, T w, T h) {
-        this.topLeft = new Point!T(x, y);
-        this.w = w;
-        this.h = h;
-    }
+    T x; ///The top left x coordinate of the rectangle
+    T y; ///The top left y coordinate of the rectangle
+    T w; ///The rectangle's width
+    T h; ///The rectangle's height
 
     /**
      * Gets the rectangle as an SDL_Rect
      */
     @property SDL_Rect* handle() {
-        sdlRectangle = SDL_Rect(topLeft.x.to!int, topLeft.y.to!int, w.to!int, h.to!int);
+        sdlRectangle = SDL_Rect(cast(int) this.x, cast(int) this.y,
+                cast(int) this.w, cast(int) this.h);
         return &sdlRectangle;
+    }
+
+    /**
+     * Makes a rectangle given top left coordinates and a width and a height
+     */
+    this(T x, T y, T w, T h) {
+        this.x = x;
+        this.y = y;
+        this.w = w;
+        this.h = h;
+    }
+
+    /**
+     * Returns whether this rectangle contains the given point
+     */
+    bool contains(U)(Point!U point) {
+        return point.x > this.x && point.x < this.x + this.w && point.y > this.y
+            && point.y < this.y + this.h;
     }
 
 }
 
+/**
+ * Returns whether two rectangles intersect
+ */
+bool intersects(T, U)(Rectangle!T rect1, Rectangle!U rect2) {
+    return rect1.x < rect2.x + rect2.w && rect1.x + rect1.w > rect2.x
+        && rect1.y < rect2.y + rect2.h && rect1.h + rect1.y > rect2.y;
+}
 
 alias iPoint = Point!int;
 alias dPoint = Point!double;
