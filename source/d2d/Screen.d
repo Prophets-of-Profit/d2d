@@ -12,8 +12,8 @@ import d2d.sdl2;
  */
 abstract class Screen : EventHandler {
 
-    protected Display container; ///The displlay that contains this screen
-    protected Component[] components; ///All the components that the screen contains;
+    Component[] components; ///All the components that the screen contains; components are handled before screen
+    protected Display container; ///The display that contains this screen
 
     /**
      * It may be useful for a screen to have access to it's containing display
@@ -30,20 +30,16 @@ abstract class Screen : EventHandler {
     }
 
     /**
-     * How the screen should be drawn; has default behaviour
-     * Default behaviour is just to draw all components with first components drawn first
+     * How the screen should be drawn
+     * Drawing of screen components is handled after this method
      */
-    void draw() {
-        this.components.each!(component => component.draw());
-    }
+    void draw();
 
     /**
      * An event receiver to allow the screen to receieve and respond to events
-     * Default behaviour is to send events to components
+     * Sending of events to components is handled before this method
      */
-    override void handleEvent(SDL_Event event){
-        this.components.each!(component => component.handleEvent(event));
-    }
+    override void handleEvent(SDL_Event event);
 
     /**
      * What the screen should do every frame

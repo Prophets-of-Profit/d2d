@@ -90,6 +90,7 @@ class Display {
                 default:
                     this.eventHandlers.each!(handler => handler.handleEvent(event));
                     if (this.screen !is null) {
+                        this.screen.components.each!(component => component.handleEvent(event));
                         this.screen.handleEvent(event);
                     }
                     break;
@@ -100,6 +101,7 @@ class Display {
             }
             if (this.screen !is null) {
                 this.screen.draw();
+                this.screen.components.each!(component => component.draw());
             }
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
                     || Clock.currTime() >= lastTickTime + dur!"msecs"((1000 / this.framerate))) {
