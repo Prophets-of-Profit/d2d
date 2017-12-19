@@ -1,14 +1,25 @@
 module d2d.Component;
 
+public import d2d.Display;
 public import d2d.EventHandler;
 public import d2d.Utility;
 
 /**
  * A component defines something that can be drawn, handle events, and takes up a space on the screen
  */
-interface Component : EventHandler {
+abstract class Component : EventHandler {
 
-    iRectangle location(); ///Where the component is on the screen
+    protected Display container; ///The display that contains this component
+
+    /**
+     * It may be useful for a component to have access to it's containing display
+     */
+    this(Display container) {
+        this.container = container;
+    }
+
+    @property iRectangle location(); ///Gets where the component is on the screen
+    @property void location(iRectangle); ///Sets where the component is on the screen
     void draw(); ///How the component should draw itself on the screen
 
 }
