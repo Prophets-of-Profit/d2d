@@ -11,7 +11,7 @@ public import d2d.EventHandler;
  */
 abstract class Screen : EventHandler {
 
-    Component[] components; ///All the components that the screen contains; components are handled before screen
+    Component[] components; ///All the components that the screen contains; components are handled separately from the screen
     protected Display container; ///The display that contains this screen
 
     /**
