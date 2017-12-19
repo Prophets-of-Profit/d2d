@@ -2,9 +2,8 @@ module d2d.Screen;
 
 import std.algorithm;
 import d2d.Component;
-import d2d.Display;
-import d2d.EventHandler;
-import d2d.sdl2;
+public import d2d.Display;
+public import d2d.EventHandler;
 
 /**
  * An object that represents an Activity or a Screen or a point in time of the display
@@ -34,12 +33,6 @@ abstract class Screen : EventHandler {
      * Drawing of screen components is handled after this method
      */
     void draw();
-
-    /**
-     * An event receiver to allow the screen to receieve and respond to events
-     * Sending of events to components is handled before this method
-     */
-    override void handleEvent(SDL_Event event);
 
     /**
      * What the screen should do every frame

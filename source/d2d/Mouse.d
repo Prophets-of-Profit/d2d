@@ -3,9 +3,7 @@ module d2d.Mouse;
 import std.algorithm;
 import std.array;
 import std.datetime;
-import d2d.EventHandler;
 import d2d.InputSource;
-import d2d.sdl2;
 
 /**
  * The mouse input source which acculmulates mouse information
