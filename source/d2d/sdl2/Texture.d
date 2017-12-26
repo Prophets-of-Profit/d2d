@@ -30,8 +30,8 @@ class Texture {
     }
 
     /**
-     * Gets the texture's format
-     * TODO update doc
+     * Gets the texture's pixel format
+     * The pixel format is the format in which information about the pixels is stored (e.g. RGBA)
      */
     @property uint format() {
         uint format;
@@ -40,8 +40,12 @@ class Texture {
     }
 
     /**
-     * Gets the texture's access
-     * TODO update doc
+     * Gets the texture's access value
+     * Acces value determines how the texture can be accessed or modified 
+     * Potential values are: 
+     * SDL_TEXTUREACCESS_STATIC: texture changes rarely, and is not lockable
+     * SDL_TEXTUREACCESS_STREAMING: texture changes frequently, and is lockable
+     * SDL_TEXTUREACCESS_TARGET: texturecan be used as a render target
      */
     @property int access() {
         int access;
@@ -50,16 +54,16 @@ class Texture {
     }
 
     /** 
-     * Sets the texture's alpha value
-     * TODO update doc
+     * Sets the texture's alpha value, or transparency, if possible
+     * Alpha varies from 0 to 255
      */
     @property void alphaMod(ubyte alphaMultiplier) {
         ensureSafe(SDL_SetTextureAlphaMod(this.texture, alphaMultiplier));
     }
 
     /**
-     * Gets the texture's alpha value
-     * TODO update doc
+     * Gets the texture's alpha value, or transparency, if possible
+     * Alpha varies from 0 to 255
      */
     @property ubyte alphaMod() {
         ubyte alphaMultiplier;
@@ -69,7 +73,11 @@ class Texture {
 
     /**
      * Sets the texture's blend mode
-     * TODO update doc
+     * Modes include:
+     * SDL_BLENDMODE_NONE: no blending
+     * SDL_BLENDMODE_BLEND: alpha blending
+     * SDL_BLENDMODE_ADD: additive blending
+     * SDL_BLENDMODE_MOD: color modulate
      */
     @property void blendMode(SDL_BlendMode blend) {
         ensureSafe(SDL_SetTextureBlendMode(this.texture, blend));
@@ -77,7 +85,11 @@ class Texture {
 
     /**
      * Gets the texture's blend mode
-     * TODO update doc
+     * Modes include:
+     * SDL_BLENDMODE_NONE: no blending
+     * SDL_BLENDMODE_BLEND: alpha blending
+     * SDL_BLENDMODE_ADD: additive blending
+     * SDL_BLENDMODE_MOD: color modulate
      */
     @property SDL_BlendMode* blendMode() {
         SDL_BlendMode* blend;
@@ -107,7 +119,7 @@ class Texture {
 
     /**
      * Creates a texture given explicit parameters that are required by SDL CreateTexture
-     * Allwos for more control over how the texture works
+     * Allows for more control over how the texture works
      */
     this(Renderer renderer, uint format, SDL_TextureAccess access, iPoint dimensions) {
         this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format,
