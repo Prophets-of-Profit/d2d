@@ -26,12 +26,12 @@ struct Color {
 }
 
 /**
- * A point is a location in 2d space
- * Location is accessed by x and y coordinates
- * Can also sometimes act as a position vector
+ * A vector is an object representing distance in vertical and horizontal directions in 2d space
+ * Location is accessed by x and y components
+ * Can also act as a point, representing distance from (0, 0)
  * TODO overload operators
  */
-class Point(T) if (__traits(isScalar, T)) {
+class Vector(T) if (__traits(isScalar, T)) {
 
     private SDL_Point sdlPoint;
     T x; ///X value of the point
@@ -46,7 +46,7 @@ class Point(T) if (__traits(isScalar, T)) {
     }
 
     /**
-     * Sets the angle of the point relative to (0, 0)
+     * Sets the angle of the vector
      * Angles are in radians where right is 0 and up is pi / 2
      */
     @property void angle(double a) {
@@ -56,7 +56,7 @@ class Point(T) if (__traits(isScalar, T)) {
     }
 
     /**
-     * Gets the angle of the point relative to (0, 0)
+     * Gets the angle of the vector 
      * Angles are in radians where right is 0 and up is pi / 2
      */
     @property double angle() {
@@ -64,7 +64,8 @@ class Point(T) if (__traits(isScalar, T)) {
     }
 
     /**
-     * Sets the distance from this point to (0, 0)
+     * Sets the length of the vector
+     * Maintains component ratios of the vector
      */
     @property void magnitude(double mag) {
         double scalar = mag / this.magnitude;
@@ -73,14 +74,14 @@ class Point(T) if (__traits(isScalar, T)) {
     }
 
     /**
-     * Gets the distance from this point to (0, 0)
+     * Gets the length of the vector
      */
     @property double magnitude() {
         return sqrt(0.0 + this.x * this.x + this.y * this.y);
     }
 
     /**
-     * A point constructor; takes in an x value and a y value
+     * A vector constructor; takes in an x value and a y value
      */
     this(T x, T y) {
         this.x = x;
@@ -123,7 +124,7 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     /**
      * Returns whether this rectangle contains the given point
      */
-    bool contains(U)(Point!U point) {
+    bool contains(U)(Vector!U point) {
         return point.x > this.x && point.x < this.x + this.w && point.y > this.y
             && point.y < this.y + this.h;
     }
@@ -138,9 +139,9 @@ bool intersects(T, U)(Rectangle!T rect1, Rectangle!U rect2) {
         && rect1.y < rect2.y + rect2.h && rect1.h + rect1.y > rect2.y;
 }
 
-alias iPoint = Point!int;
-alias dPoint = Point!double;
-alias fPoint = Point!float;
+alias iVector = Vector!int;
+alias dVector = Vector!double;
+alias fVector = Vector!float;
 alias iRectangle = Rectangle!int;
 alias dRectangle = Rectangle!double;
 alias fRectangle = Rectangle!float;
