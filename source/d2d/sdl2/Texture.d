@@ -23,8 +23,8 @@ class Texture {
     /**
      * Gets the texture's dimensions as a point with the width being the x coordinate and the height being the y coordinate
      */
-    @property iPoint dimensions() {
-        iPoint dim = new iPoint(0, 0);
+    @property iVector dimensions() {
+        iVector dim = new iVector(0, 0);
         SDL_QueryTexture(this.texture, null, null, &dim.x, &dim.y);
         return dim;
     }
@@ -121,7 +121,7 @@ class Texture {
      * Creates a texture given explicit parameters that are required by SDL CreateTexture
      * Allows for more control over how the texture works
      */
-    this(Renderer renderer, uint format, SDL_TextureAccess access, iPoint dimensions) {
+    this(Renderer renderer, uint format, SDL_TextureAccess access, iVector dimensions) {
         this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format,
                 access, dimensions.x, dimensions.y));
     }

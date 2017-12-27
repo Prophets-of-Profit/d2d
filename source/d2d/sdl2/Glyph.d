@@ -36,8 +36,8 @@ struct Glyph {
      * Gets the minimum offset of the glyph
      * Returns the bottom left corner of the rectangle in which the glyph is inscribed in Cartesian coordinates
      */
-    @property iPoint minimumOffset() {
-        iPoint offset = new iPoint(0, 0);
+    @property iVector minimumOffset() {
+        iVector offset = new iVector(0, 0);
         TTF_GlyphMetrics(font.handle, this.asUshort, &offset.x, &offset.y, null, null, null);
         return offset;
     }
@@ -46,8 +46,8 @@ struct Glyph {
      * Gets the maximum offset of the glyph
      * Returns the top right corner of the rectangle in which the glyph is inscribed in Cartesian coordinates
      */
-    @property iPoint maximumOffset() {
-        iPoint offset = new iPoint(0, 0);
+    @property iVector maximumOffset() {
+        iVector offset = new iVector(0, 0);
         TTF_GlyphMetrics(font.handle, this.asUshort, null, null, &offset.x, &offset.y, null);
         return offset;
     }

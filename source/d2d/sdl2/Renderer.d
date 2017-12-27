@@ -92,15 +92,15 @@ class Renderer {
     /**
      * Sets the renderer's x and y scale to the given point's x and y values
      */
-    @property void scale(fPoint scaling) {
+    @property void scale(fVector scaling) {
         ensureSafe(SDL_RenderSetScale(this.renderer, scaling.x, scaling.y));
     }
 
     /**
      * Gets the renderer's x and y scale as a point with the scales as the x and y coordinates
      */
-    @property fPoint scale() {
-        fPoint scaling = new fPoint(1, 1);
+    @property fVector scale() {
+        fVector scaling = new fVector(1, 1);
         ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.x, &scaling.y));
         return scaling;
     }
@@ -109,7 +109,7 @@ class Renderer {
      * Sets the renderer's logical size
      * Logical size works in that you only need to give coordinates for one specific resolution, and SDL will handle scaling that to the best resolution matching the logical size's aspect ratio
      */
-    @property void logicalSize(iPoint dimensions) {
+    @property void logicalSize(iVector dimensions) {
         ensureSafe(SDL_RenderSetLogicalSize(this.renderer, dimensions.x, dimensions.y));
     }
 
@@ -117,8 +117,8 @@ class Renderer {
      * Gets the renderer's logical size
      * Logical size works in that you only need to give coordinates for one specific resolution, and SDL will handle scaling that to the best resolution matching the logical size's aspect ratio
      */
-    @property iPoint logicalSize() {
-        iPoint dimensions = new iPoint(0, 0);
+    @property iVector logicalSize() {
+        iVector dimensions = new iVector(0, 0);
         SDL_RenderGetLogicalSize(this.renderer, &dimensions.x, &dimensions.y);
         return dimensions;
     }
@@ -126,8 +126,8 @@ class Renderer {
     /**
      * Gets the renderer's output size
      */
-    @property iPoint outputSize() {
-        iPoint size = new iPoint(0, 0);
+    @property iVector outputSize() {
+        iVector size = new iVector(0, 0);
         ensureSafe(SDL_GetRendererOutputSize(this.renderer, &size.x, &size.y));
         return size;
     }
@@ -167,7 +167,7 @@ class Renderer {
      * Copies a texture to the window at the given point
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
-    void copy(Texture texture, iPoint destination, iRectangle sourceRect = null) {
+    void copy(Texture texture, iVector destination, iRectangle sourceRect = null) {
         this.copy(texture, new iRectangle(destination.x, destination.y,
                 texture.dimensions.x, texture.dimensions.y), sourceRect);
     }
@@ -187,7 +187,7 @@ class Renderer {
      * Angles are given in radians
      */
     void copy(Texture texture, iRectangle destinationRect, double angle,
-            SDL_RendererFlip flip = SDL_FLIP_NONE, iPoint center = null, iRectangle sourceRect = null) {
+            SDL_RendererFlip flip = SDL_FLIP_NONE, iVector center = null, iRectangle sourceRect = null) {
         ensureSafe(SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)
                 ? null : sourceRect.handle, destinationRect.handle,
                 angle * 180 / PI, (center is null) ? null : center.handle, flip));
@@ -211,14 +211,14 @@ class Renderer {
     /**
      * Draws a line between the given points
      */
-    void drawLine(iPoint first, iPoint second) {
+    void drawLine(iVector first, iVector second) {
         ensureSafe(SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y));
     }
 
     /**
      * Draws a point
      */
-    void drawPoint(iPoint toDraw) {
+    void drawPoint(iVector toDraw) {
         ensureSafe(SDL_RenderDrawPoint(this.renderer, toDraw.x, toDraw.y));
     }
 

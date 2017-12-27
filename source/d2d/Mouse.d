@@ -11,7 +11,7 @@ import d2d.InputSource;
 class Mouse : InputSource!uint, EventHandler {
 
     private Pressable!uint[] _allButtons; ///All of the buttons on the mouse
-    private iPoint _totalWheelDisplacement; ///Total displacement of the mousewheel since mouse construction
+    private iVector _totalWheelDisplacement; ///Total displacement of the mousewheel since mouse construction
 
     alias allButtons = allPressables; ///Allows allPressables to be called as allButtons
 
@@ -22,7 +22,7 @@ class Mouse : InputSource!uint, EventHandler {
         this._allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
             new Pressable!uint(SDL_BUTTON_RIGHT),
             new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
-        this._totalWheelDisplacement = new iPoint(0, 0);
+        this._totalWheelDisplacement = new iVector(0, 0);
     }
 
     /**
@@ -35,15 +35,15 @@ class Mouse : InputSource!uint, EventHandler {
     /**
      * Sets the location of the mouse relative to the window
      */
-    @property void windowLocation(iPoint location) {
+    @property void windowLocation(iVector location) {
         SDL_WarpMouseInWindow(null, location.x, location.y);
     }
 
     /**
      * Gets the location of the mouse
      */
-    @property iPoint windowLocation() {
-        iPoint location = new iPoint(-1, -1);
+    @property iVector windowLocation() {
+        iVector location = new iVector(-1, -1);
         SDL_GetMouseState(&location.x, &location.y);
         return location;
     }
@@ -51,15 +51,15 @@ class Mouse : InputSource!uint, EventHandler {
     /**
      * Sets the location of the mouse globally
      */
-    @property void screenLocation(iPoint location) {
+    @property void screenLocation(iVector location) {
         SDL_WarpMouseGlobal(location.x, location.y);
     }
 
     /**
      * Gets the location of the mouse globally
      */
-    @property iPoint screenLocation() {
-        iPoint location = new iPoint(-1, -1);
+    @property iVector screenLocation() {
+        iVector location = new iVector(-1, -1);
         SDL_GetGlobalMouseState(&location.x, &location.y);
         return location;
     }
@@ -68,7 +68,7 @@ class Mouse : InputSource!uint, EventHandler {
      * Gets by how much the mouse wheel has been displaced
      * Records changes in wheel from the start of mouse construction
      */
-    @property iPoint totalWheelDisplacement() {
+    @property iVector totalWheelDisplacement() {
         return this._totalWheelDisplacement;
     }
 

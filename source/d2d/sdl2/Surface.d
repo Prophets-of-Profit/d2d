@@ -155,7 +155,7 @@ class Surface {
      * Takes the surface to blit, the slice of the surface to blit, and where on this surface to blit to
      * Is faster than a scaled blit to a rectangle
      */
-    void blit(Surface src, iRectangle srcRect, iPoint dstLocation) {
+    void blit(Surface src, iRectangle srcRect, iVector dstLocation) {
         SDL_Rect dst = SDL_Rect(dstLocation.x, dstLocation.y, 0, 0);
         ensureSafe(SDL_BlitSurface(src.handle, (srcRect is null) ? null
                 : srcRect.handle, this.surface, &dst));

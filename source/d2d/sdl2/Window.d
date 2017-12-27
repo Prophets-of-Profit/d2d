@@ -70,15 +70,15 @@ class Window {
     /**
      * Sets the window's maximum size
      */
-    @property void maximumSize(iPoint maxSize) {
+    @property void maximumSize(iVector maxSize) {
         SDL_SetWindowMaximumSize(this.window, maxSize.x, maxSize.y);
     }
 
     /**
      * Gets the window's maximum size
      */
-    @property iPoint maximumSize() {
-        iPoint maxSize = new iPoint(0, 0);
+    @property iVector maximumSize() {
+        iVector maxSize = new iVector(0, 0);
         SDL_GetWindowMaximumSize(this.window, &maxSize.x, &maxSize.y);
         return maxSize;
     }
@@ -86,15 +86,15 @@ class Window {
     /**
      * Sets the window's minimum size
      */
-    @property void minimumSize(iPoint minSize) {
+    @property void minimumSize(iVector minSize) {
         SDL_SetWindowMinimumSize(this.window, minSize.x, minSize.y);
     }
 
     /**
      * Gets the window's minimum size
      */
-    @property iPoint minimumSize() {
-        iPoint minSize = new iPoint(0, 0);
+    @property iVector minimumSize() {
+        iVector minSize = new iVector(0, 0);
         SDL_GetWindowMinimumSize(this.window, &minSize.x, &minSize.y);
         return minSize;
     }
@@ -102,15 +102,15 @@ class Window {
     /**
      * Sets the window's size
      */
-    @property void size(iPoint s) {
+    @property void size(iVector s) {
         SDL_SetWindowSize(this.window, s.x, s.y);
     }
 
     /**
      * Gets the window's size
      */
-    @property iPoint size() {
-        iPoint s = new iPoint(0, 0);
+    @property iVector size() {
+        iVector s = new iVector(0, 0);
         SDL_GetWindowSize(this.window, &s.x, &s.y);
         return s;
     }
@@ -134,15 +134,15 @@ class Window {
     /**
      * Sets the window's screen position
      */
-    @property position(iPoint pos) {
+    @property position(iVector pos) {
         SDL_SetWindowPosition(this.window, pos.x, pos.y);
     }
 
     /**
      * Gets the window's screen position
      */
-    @property iPoint position() {
-        iPoint pos;
+    @property iVector position() {
+        iVector pos;
         SDL_GetWindowPosition(this.window, &pos.x, &pos.y);
         return pos;
     }
