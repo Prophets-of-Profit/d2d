@@ -112,6 +112,34 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     }
 
     /**
+     * Gets the coordinates of the top left corner of the rectangle
+     */
+    @property Vector!T topLeft() {
+        return new Vector!T(this.x, this.y);
+    }
+
+    /**
+     * Gets the coordinates of the bottom left corner of the rectangle
+     */
+    @property Vector!T bottomLeft() {
+        return new Vector!T(this.x, this.y + this.h);
+    }
+
+    /**
+     * Gets the coordinates of the top right corner of the rectangle
+     */
+    @property Vector!T topRight() {
+        return new Vector!T(this.x + this.w, this.y);
+    }
+
+    /**
+     * Gets the coordinates of the bottom right corner of the rectangle
+     */
+    @property Vector!T bottomRight() {
+        return new Vector!T(this.x + this.w, this.y + this.h);
+    }
+
+    /**
      * Makes a rectangle given top left coordinates and a width and a height
      */
     this(T x, T y, T w, T h) {
