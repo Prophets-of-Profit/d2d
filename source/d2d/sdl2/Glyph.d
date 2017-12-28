@@ -63,12 +63,4 @@ struct Glyph {
         return offset;
     }
 
-    /**
-     * A Glyph constructor; takes in a character to represent and a font context
-     */
-    this(char ch, Font font) {
-        this.glyph = ch;
-        this.font = font;
-    }
-
 }

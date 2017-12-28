@@ -45,11 +45,4 @@ struct Text {
         return this.asChar.map!(a => cast(ushort)a).array;
     }
 
-    /**
-     * A Text constructor; takes a message as a string and a font context
-     */
-    this(string text, Font font) {
-        this.text = text;
-        this.font = font;
-    }
 }
