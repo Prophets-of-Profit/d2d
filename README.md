@@ -25,7 +25,7 @@ class MyScreen : Screen {
         super(container);
     }
 
-    override void handleEvent(SDL_Event event) {
+    void handleEvent(SDL_Event event) {
     }
 
     override void draw() {
