@@ -18,7 +18,7 @@ class Pressable(T) {
     /**
      * Constructor for a pressable takes its id
      */
-    this(T id){
+    this(T id) {
         this.id = id;
     }
 

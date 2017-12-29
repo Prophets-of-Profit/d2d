@@ -11,7 +11,7 @@ import d2d.sdl2;
 struct Text {
 
     private string text;
-    private Font font;      ///The font in which to represent the Text
+    private Font font; ///The font in which to represent the Text
 
     /**
      * Gets the Text as the string it represents
@@ -34,7 +34,7 @@ struct Text {
      * Useful to render messages character-by-character
      */
     @property Glyph[] asGlyph() {
-        return this.asChar.map!(a => Glyph(cast(char)a, this.font)).array;
+        return this.asChar.map!(a => Glyph(cast(char) a, this.font)).array;
     }
 
     /**
@@ -42,7 +42,7 @@ struct Text {
      * UNICODE-encoded characters are interpreted by TTF as ushorts
      */
     @property ushort[] asUshort() {
-        return this.asChar.map!(a => cast(ushort)a).array;
+        return this.asChar.map!(a => cast(ushort) a).array;
     }
 
 }

@@ -9,7 +9,7 @@ import d2d.sdl2;
 struct Glyph {
 
     private char glyph;
-    private Font font;      ///The font that contains the glyph; whether or not the font supports the glyph is not strictly enforced
+    private Font font; ///The font that contains the glyph; whether or not the font supports the glyph is not strictly enforced
 
     /**
      * Gets the glyph as a character
@@ -22,7 +22,7 @@ struct Glyph {
      * Gets the glyph as a UNICODE-encoded ushort character
      */
     @property ushort asUshort() {
-        return cast(ushort)glyph;
+        return cast(ushort) glyph;
     }
 
     /**

@@ -187,7 +187,8 @@ class Renderer {
      * Angles are given in radians
      */
     void copy(Texture texture, iRectangle destinationRect, double angle,
-            SDL_RendererFlip flip = SDL_FLIP_NONE, iVector center = null, iRectangle sourceRect = null) {
+            SDL_RendererFlip flip = SDL_FLIP_NONE, iVector center = null,
+            iRectangle sourceRect = null) {
         ensureSafe(SDL_RenderCopyEx(this.renderer, texture.handle, (sourceRect is null)
                 ? null : sourceRect.handle, destinationRect.handle,
                 angle * 180 / PI, (center is null) ? null : center.handle, flip));

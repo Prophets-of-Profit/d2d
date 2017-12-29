@@ -113,7 +113,7 @@ class Font {
      * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
      */
     @property bool kerning() {
-        return TTF_GetFontKerning(this.font) == 0? false : true;
+        return TTF_GetFontKerning(this.font) == 0 ? false : true;
     }
 
     /**
@@ -122,7 +122,7 @@ class Font {
      * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
      */
     @property void kerning(bool kerning) {
-        TTF_SetFontKerning(this.font, cast(int)kerning);
+        TTF_SetFontKerning(this.font, cast(int) kerning);
     }
 
     /** 
@@ -172,7 +172,7 @@ class Font {
      * The pixel length of a string of fixed-width characters is the width of the characters times the amount of characters
      */
     @property bool isFixedWidth() {
-        return TTF_FontFaceIsFixedWidth(this.font) > 0? true : false;
+        return TTF_FontFaceIsFixedWidth(this.font) > 0 ? true : false;
     }
 
     /**
@@ -193,7 +193,7 @@ class Font {
 
     /**
      * Constructs a font from a font file
-     */ 
+     */
     this(string file, int psize, int index = 0) {
         this.font = ensureSafe(TTF_OpenFontIndex(file.toStringz, psize, index));
     }
@@ -219,15 +219,18 @@ class Font {
      * This is the fastest rendering speed, and color can be changed without having to render again 
      */
     Surface renderTextSolid(Text text, Color color, encoding T = encoding.UNICODE) {
-        switch(T) {
-            case encoding.LATIN1:
-                return new Surface(TTF_RenderText_Solid(this.font, cast(const(char*))text.asChar, *color.handle));
-            case encoding.UTF8:
-                return new Surface(TTF_RenderUTF8_Solid(this.font, cast(const(char*))text.asChar, *color.handle));
-            case encoding.UNICODE:
-                return new Surface(TTF_RenderUNICODE_Solid(this.font, cast(const(ushort*))text.asUshort, *color.handle));
-            default:
-                throw new Exception("No encoding given");
+        switch (T) {
+        case encoding.LATIN1:
+            return new Surface(TTF_RenderText_Solid(this.font,
+                    cast(const(char*)) text.asChar, *color.handle));
+        case encoding.UTF8:
+            return new Surface(TTF_RenderUTF8_Solid(this.font,
+                    cast(const(char*)) text.asChar, *color.handle));
+        case encoding.UNICODE:
+            return new Surface(TTF_RenderUNICODE_Solid(this.font,
+                    cast(const(ushort*)) text.asUshort, *color.handle));
+        default:
+            throw new Exception("No encoding given");
         }
     }
 
@@ -236,16 +239,20 @@ class Font {
      * Text is smooth but renders slowly
      * Surface blits as fast as the Solid render method once it is made
      */
-    Surface renderTextShaded(Text text, Color foreground, Color background, encoding T = encoding.UNICODE) {
-        switch(T) {
-            case encoding.LATIN1:
-                return new Surface(TTF_RenderText_Shaded(this.font, cast(const(char*))text.asChar, *foreground.handle, *background.handle));
-            case encoding.UTF8:
-                return new Surface(TTF_RenderUTF8_Shaded(this.font, cast(const(char*))text.asChar, *foreground.handle, *background.handle));
-            case encoding.UNICODE:
-                return new Surface(TTF_RenderUNICODE_Shaded(this.font, cast(const(ushort*))text.asUshort, *foreground.handle, *background.handle));
-            default:
-                throw new Exception("No encoding given");
+    Surface renderTextShaded(Text text, Color foreground, Color background,
+            encoding T = encoding.UNICODE) {
+        switch (T) {
+        case encoding.LATIN1:
+            return new Surface(TTF_RenderText_Shaded(this.font,
+                    cast(const(char*)) text.asChar, *foreground.handle, *background.handle));
+        case encoding.UTF8:
+            return new Surface(TTF_RenderUTF8_Shaded(this.font,
+                    cast(const(char*)) text.asChar, *foreground.handle, *background.handle));
+        case encoding.UNICODE:
+            return new Surface(TTF_RenderUNICODE_Shaded(this.font,
+                    cast(const(ushort*)) text.asUshort, *foreground.handle, *background.handle));
+        default:
+            throw new Exception("No encoding given");
         }
     }
 
@@ -255,17 +262,20 @@ class Font {
      * Renders about as slowly as the Shaded render method, but blits more slowly than Solid and Shaded
      */
     Surface renderTextBlended(Text text, Color color, encoding T = encoding.UNICODE) {
-        switch(T) {
-            case encoding.LATIN1:
-                return new Surface(TTF_RenderText_Blended(this.font, cast(const(char*))text.asChar, *color.handle));
-            case encoding.UTF8:
-                return new Surface(TTF_RenderUTF8_Blended(this.font, cast(const(char*))text.asChar, *color.handle));
-            case encoding.UNICODE:
-                return new Surface(TTF_RenderUNICODE_Blended(this.font, cast(const(ushort*))text.asUshort, *color.handle));
-            default:
-                throw new Exception("No encoding given");
+        switch (T) {
+        case encoding.LATIN1:
+            return new Surface(TTF_RenderText_Blended(this.font,
+                    cast(const(char*)) text.asChar, *color.handle));
+        case encoding.UTF8:
+            return new Surface(TTF_RenderUTF8_Blended(this.font,
+                    cast(const(char*)) text.asChar, *color.handle));
+        case encoding.UNICODE:
+            return new Surface(TTF_RenderUNICODE_Blended(this.font,
+                    cast(const(ushort*)) text.asUshort, *color.handle));
+        default:
+            throw new Exception("No encoding given");
         }
-    }    
+    }
 
     /**
      * Renders a glyph quickly 
@@ -280,7 +290,8 @@ class Font {
      * See renderTextShaded
      */
     Surface renderGlyphShaded(Glyph glyph, Color foreground, Color background) {
-        return new Surface(TTF_RenderGlyph_Shaded(this.font, glyph.asUshort, *foreground.handle, *background.handle));
+        return new Surface(TTF_RenderGlyph_Shaded(this.font, glyph.asUshort,
+                *foreground.handle, *background.handle));
     }
 
     /**
