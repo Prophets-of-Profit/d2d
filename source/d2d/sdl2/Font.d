@@ -13,7 +13,7 @@ import d2d.sdl2;
  * UNICODE encoding is determined by operating system; Windows handles UNICODE using UTF16, while UNIX systems use UTF8
  * Note: UNICODE is identical to UTF8 in some cases but uses ushorts to represent glyps instead of using chars
  */
-enum encoding {
+enum Encoding {
     LATIN1,
     UTF8,
     UNICODE
@@ -255,7 +255,7 @@ class Font {
      * The advance offset is the distance the pen must be shifted after drawing a glyph
      * Controls spacing between glyphs on an individual basis
      */
-    int advanecOffset(char glyph) {
+    int advanceOffset(char glyph) {
         int offset;
         TTF_GlyphMetrics(this.font, glyph, null, null, null, null, &offset);
         return offset;
@@ -267,15 +267,15 @@ class Font {
      * Text is less smooth than other render options
      * This is the fastest rendering speed, and color can be changed without having to render again 
      */
-    Surface renderTextSolid(string text, Color color, encoding T = encoding.UNICODE) {
+    Surface renderTextSolid(string text, Color color, Encoding T = Encoding.UNICODE) {
         switch (T) {
-        case encoding.LATIN1:
+        case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Solid(this.font,
                     text.toStringz, *color.handle));
-        case encoding.UTF8:
+        case Encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Solid(this.font,
                     text.toStringz, *color.handle));
-        case encoding.UNICODE:
+        case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Solid(this.font,
                     text.dup.map!(a => a.to!ushort).array.ptr, *color.handle));
         default:
@@ -289,15 +289,15 @@ class Font {
      * Surface blits as fast as the Solid render method once it is made
      */
     Surface renderTextShaded(string text, Color foreground, Color background,
-            encoding T = encoding.UNICODE) {
+            Encoding T = Encoding.UNICODE) {
         switch (T) {
-        case encoding.LATIN1:
+        case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Shaded(this.font,
                     text.toStringz, *foreground.handle, *background.handle));
-        case encoding.UTF8:
+        case Encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Shaded(this.font,
                     text.toStringz, *foreground.handle, *background.handle));
-        case encoding.UNICODE:
+        case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Shaded(this.font,
                     text.dup.map!(a => a.to!ushort).array.ptr,
                     *foreground.handle, *background.handle));
@@ -311,15 +311,15 @@ class Font {
      * The surface has alpha transparency
      * Renders about as slowly as the Shaded render method, but blits more slowly than Solid and Shaded
      */
-    Surface renderTextBlended(string text, Color color, encoding T = encoding.UNICODE) {
+    Surface renderTextBlended(string text, Color color, Encoding T = Encoding.UNICODE) {
         switch (T) {
-        case encoding.LATIN1:
+        case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Blended(this.font,
                     text.toStringz, *color.handle));
-        case encoding.UTF8:
+        case Encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Blended(this.font,
                     text.toStringz, *color.handle));
-        case encoding.UNICODE:
+        case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Blended(this.font,
                     text.dup.map!(a => a.to!ushort).array.ptr, *color.handle));
         default:
