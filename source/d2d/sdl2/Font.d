@@ -114,8 +114,8 @@ class Font {
      * Default for newly created fonts is true
      * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
      */
-    @property void kerning(bool kerning) {
-        TTF_SetFontKerning(this.font, cast(int) kerning);
+    @property void kerning(bool shouldKern) {
+        TTF_SetFontKerning(this.font, shouldKern ? 1 : 0);
     }
 
     /**
@@ -124,7 +124,7 @@ class Font {
      * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
      */
     @property bool kerning() {
-        return TTF_GetFontKerning(this.font) == 0 ? false : true;
+        return TTF_GetFontKerning(this.font) != 0;
     }
 
     /** 
@@ -202,14 +202,6 @@ class Font {
     }
 
     /**
-     * Constructs a font from an SDL_RWops (an abstract I/O stream)
-     */
-    this(SDL_RWops* src, int freesrc, int psize, int index = 0) {
-        loadLibTTF();
-        this.font = ensureSafe(TTF_OpenFontIndexRW(src, freesrc, psize, index));
-    }
-
-    /**
      * Constructs a font from an already existing TTF_Font
      */
     this(TTF_Font* alreadyExisting) {
@@ -251,6 +243,16 @@ class Font {
     }
 
     /**
+     * Gets a rectangle describing the offset of the given glyph
+     */
+    iRectangle offset(char glyph) {
+        iVector minOffset = this.minimumOffset(glyph);
+        iVector maxOffset = this.maximumOffset(glyph);
+        return new iRectangle(minOffset.x, maxOffset.y,
+                maxOffset.x - minOffset.x, minOffset.y - maxOffset.y);
+    }
+
+    /**
      * Gets the advance offset of the glyph
      * The advance offset is the distance the pen must be shifted after drawing a glyph
      * Controls spacing between glyphs on an individual basis
@@ -267,7 +269,7 @@ class Font {
      * Text is less smooth than other render options
      * This is the fastest rendering speed, and color can be changed without having to render again 
      */
-    Surface renderTextSolid(string text, Color color, Encoding T = Encoding.UNICODE) {
+    Surface renderTextSolid(string text, Color color, Encoding T = Encoding.UTF8) {
         switch (T) {
         case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Solid(this.font,
@@ -289,7 +291,7 @@ class Font {
      * Surface blits as fast as the Solid render method once it is made
      */
     Surface renderTextShaded(string text, Color foreground, Color background,
-            Encoding T = Encoding.UNICODE) {
+            Encoding T = Encoding.UTF8) {
         switch (T) {
         case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Shaded(this.font,
@@ -311,7 +313,7 @@ class Font {
      * The surface has alpha transparency
      * Renders about as slowly as the Shaded render method, but blits more slowly than Solid and Shaded
      */
-    Surface renderTextBlended(string text, Color color, Encoding T = Encoding.UNICODE) {
+    Surface renderTextBlended(string text, Color color, Encoding T = Encoding.UTF8) {
         switch (T) {
         case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Blended(this.font,
