@@ -271,24 +271,24 @@ class Font {
      * Renders a glyph quickly 
      * See renderTextSolid
      */
-    SDL_Surface* renderGlyphSolid(Glyph glyph, Color color) {
-        return TTF_RenderGlyph_Solid(this.font, glyph.asUshort, *color.handle);
+    Surface renderGlyphSolid(Glyph glyph, Color color) {
+        return new Surface(TTF_RenderGlyph_Solid(this.font, glyph.asUshort, *color.handle));
     }
 
     /**
      * Renders a glyph slowly but smoothly
      * See renderTextShaded
      */
-    SDL_Surface* renderGlyphShaded(Glyph glyph, Color foreground, Color background) {
-        return TTF_RenderGlyph_Shaded(this.font, glyph.asUshort, *foreground.handle, *background.handle);
+    Surface renderGlyphShaded(Glyph glyph, Color foreground, Color background) {
+        return new Surface(TTF_RenderGlyph_Shaded(this.font, glyph.asUshort, *foreground.handle, *background.handle));
     }
 
     /**
      * Renders a glyph very slowly but with very high quality
      * See renderTextBlended
      */
-    SDL_Surface* renderGlyphBlended(Glyph glyph, Color color) {
-        return TTF_RenderGlyph_Blended(this.font, glyph.asUshort, *color.handle);
+    Surface renderGlyphBlended(Glyph glyph, Color color) {
+        return new Surface(TTF_RenderGlyph_Blended(this.font, glyph.asUshort, *color.handle));
     }
 
 }

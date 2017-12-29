@@ -190,5 +190,3 @@ Surface loadImage(string imagePath) {
     loadLibImage();
     return new Surface(ensureSafe(IMG_Load(imagePath.toStringz)));
 }
-
-//TODO ttf stuff
