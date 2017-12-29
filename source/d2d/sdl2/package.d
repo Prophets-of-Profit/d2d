@@ -6,11 +6,9 @@ public import derelict.sdl2.mixer;
 public import derelict.sdl2.ttf;
 public import derelict.sdl2.net;
 public import d2d.sdl2.Font;
-public import d2d.sdl2.Glyph;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;
-public import d2d.sdl2.Text;
 public import d2d.sdl2.Texture;
 public import d2d.sdl2.Window;
 public import d2d.Utility;
@@ -63,11 +61,11 @@ void loadLibMixer() {
  */
 void loadLibTTF() {
     static bool hasBeenLoaded;
-    if (hasBeenLoaded || TTF_WasInit())
+    if (hasBeenLoaded)
         return;
     hasBeenLoaded = true;
-    TTF_Init();
     DerelictSDL2ttf.load();
+    ensureSafe(TTF_Init());
 }
 
 /**

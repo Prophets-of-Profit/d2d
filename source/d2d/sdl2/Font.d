@@ -1,5 +1,7 @@
 module d2d.sdl2.Font;
 
+import std.array;
+import std.algorithm;
 import std.conv;
 import std.string;
 import d2d.sdl2;
@@ -35,6 +37,20 @@ class Font {
     }
 
     /**
+     * Sets the style (bold, italic, etc.) of this font
+     * Style should be inputted as a bitmask composed of:
+     * TTF_STYLE_BOLD 
+     * TTF_STYLE_ITALIC 
+     * TTF_STYLE_UNDERLINE 
+     * TTF_STYLE_STRIKETHROUGH
+     * If the style is normal, use TTF_STYLE_NORMAL
+     * For multiple styles, use a bitwise OR operator (TTF_STYLE_BOLD|TTF_STYLE_ITALIC means both bold and italic, etc.)
+     */
+    @property void style(int style) {
+        TTF_SetFontStyle(this.font, style);
+    }
+
+    /**
      * Gets the style (bold, italic, etc.) of this font
      * Style is returned as a bitmask composed of:
      * TTF_STYLE_BOLD 
@@ -49,28 +65,6 @@ class Font {
     }
 
     /**
-     * Sets the stylee (bold, italic, etc.) of this font
-     * Style should be inputted as a bitmask composed of:
-     * TTF_STYLE_BOLD 
-     * TTF_STYLE_ITALIC 
-     * TTF_STYLE_UNDERLINE 
-     * TTF_STYLE_STRIKETHROUGH
-     * If the style is normal, use TTF_STYLE_NORMAL
-     * For multiple styles, use a bitwise OR operator (TTF_STYLE_BOLD|TTF_STYLE_ITALIC means both bold and italic, etc.)
-     */
-    @property void style(int style) {
-        TTF_SetFontStyle(this.font, style);
-    }
-
-    /**
-     * Gets the size of the font's outline
-     * Outline is constant across glyphs in a font
-     */
-    @property int outline() {
-        return TTF_GetFontOutline(this.font);
-    }
-
-    /**
      * Sets the size of the font's outline
      * Use outline = 0 to disable outlining
      */
@@ -79,17 +73,11 @@ class Font {
     }
 
     /**
-     * Gets the font's hinting type
-     * Type is returned as a value matching one of the following:
-     * TTF_HINTING_NORMAL
-     * TTF_HINTING_LIGHT
-     * TTF_HINTING_MONO
-     * TTF_HINTING_NONE
-     * Type defaults to TTF_HINTING_NORMAL if no type has been set
-     * Hinting type is how the font is programmed to map onto the pixels on a screen
+     * Gets the size of the font's outline
+     * Outline is constant across glyphs in a font
      */
-    @property int hinting() {
-        return TTF_GetFontHinting(this.font);
+    @property int outline() {
+        return TTF_GetFontOutline(this.font);
     }
 
     /**
@@ -108,12 +96,17 @@ class Font {
     }
 
     /**
-     * Gets the font's kerning setting 
-     * Default for a newly created fonts is true
-     * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
+     * Gets the font's hinting type
+     * Type is returned as a value matching one of the following:
+     * TTF_HINTING_NORMAL
+     * TTF_HINTING_LIGHT
+     * TTF_HINTING_MONO
+     * TTF_HINTING_NONE
+     * Type defaults to TTF_HINTING_NORMAL if no type has been set
+     * Hinting type is how the font is programmed to map onto the pixels on a screen
      */
-    @property bool kerning() {
-        return TTF_GetFontKerning(this.font) == 0 ? false : true;
+    @property int hinting() {
+        return TTF_GetFontHinting(this.font);
     }
 
     /**
@@ -123,6 +116,15 @@ class Font {
      */
     @property void kerning(bool kerning) {
         TTF_SetFontKerning(this.font, cast(int) kerning);
+    }
+
+    /**
+     * Gets the font's kerning setting 
+     * Default for a newly created fonts is true
+     * Kerning setting determines whether the spacing between individual characters is adjusted for a more pleasing result
+     */
+    @property bool kerning() {
+        return TTF_GetFontKerning(this.font) == 0 ? false : true;
     }
 
     /** 
@@ -172,7 +174,7 @@ class Font {
      * The pixel length of a string of fixed-width characters is the width of the characters times the amount of characters
      */
     @property bool isFixedWidth() {
-        return TTF_FontFaceIsFixedWidth(this.font) > 0 ? true : false;
+        return TTF_FontFaceIsFixedWidth(this.font) > 0;
     }
 
     /**
@@ -195,6 +197,7 @@ class Font {
      * Constructs a font from a font file
      */
     this(string file, int psize, int index = 0) {
+        loadLibTTF();
         this.font = ensureSafe(TTF_OpenFontIndex(file.toStringz, psize, index));
     }
 
@@ -202,7 +205,15 @@ class Font {
      * Constructs a font from an SDL_RWops (an abstract I/O stream)
      */
     this(SDL_RWops* src, int freesrc, int psize, int index = 0) {
+        loadLibTTF();
         this.font = ensureSafe(TTF_OpenFontIndexRW(src, freesrc, psize, index));
+    }
+
+    /**
+     * Constructs a font from an already existing TTF_Font
+     */
+    this(TTF_Font* alreadyExisting) {
+        this.font = alreadyExisting;
     }
 
     /**
@@ -213,22 +224,60 @@ class Font {
     }
 
     /**
+     * Checks if the font supports the given glyph
+     */
+    bool isProvided(char glyph) {
+        return TTF_GlyphIsProvided(this.font, glyph) != 0;
+    }
+
+    /**
+     * Gets the minimum offset of the glyph
+     * Returns the bottom left corner of the rectangle in which the glyph is inscribed in Cartesian coordinates
+     */
+    iVector minimumOffset(char glyph) {
+        iVector offset = new iVector(0, 0);
+        TTF_GlyphMetrics(this.font, glyph, &offset.x, &offset.y, null, null, null);
+        return offset;
+    }
+
+    /**
+     * Gets the maximum offset of the glyph
+     * Returns the top right corner of the rectangle in which the glyph is inscribed in Cartesian coordinates
+     */
+    iVector maximumOffset(char glyph) {
+        iVector offset = new iVector(0, 0);
+        TTF_GlyphMetrics(this.font, glyph, null, null, &offset.x, &offset.y, null);
+        return offset;
+    }
+
+    /**
+     * Gets the advance offset of the glyph
+     * The advance offset is the distance the pen must be shifted after drawing a glyph
+     * Controls spacing between glyphs on an individual basis
+     */
+    int advanecOffset(char glyph) {
+        int offset;
+        TTF_GlyphMetrics(this.font, glyph, null, null, null, null, &offset);
+        return offset;
+    }
+
+    /**
      * Renders the text on an 8-bit palettized surface with the given color
      * Background is transparent
      * Text is less smooth than other render options
      * This is the fastest rendering speed, and color can be changed without having to render again 
      */
-    Surface renderTextSolid(Text text, Color color, encoding T = encoding.UNICODE) {
+    Surface renderTextSolid(string text, Color color, encoding T = encoding.UNICODE) {
         switch (T) {
         case encoding.LATIN1:
             return new Surface(TTF_RenderText_Solid(this.font,
-                    cast(const(char*)) text.asChar, *color.handle));
+                    text.toStringz, *color.handle));
         case encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Solid(this.font,
-                    cast(const(char*)) text.asChar, *color.handle));
+                    text.toStringz, *color.handle));
         case encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Solid(this.font,
-                    cast(const(ushort*)) text.asUshort, *color.handle));
+                    text.dup.map!(a => a.to!ushort).array.ptr, *color.handle));
         default:
             throw new Exception("No encoding given");
         }
@@ -239,18 +288,19 @@ class Font {
      * Text is smooth but renders slowly
      * Surface blits as fast as the Solid render method once it is made
      */
-    Surface renderTextShaded(Text text, Color foreground, Color background,
+    Surface renderTextShaded(string text, Color foreground, Color background,
             encoding T = encoding.UNICODE) {
         switch (T) {
         case encoding.LATIN1:
             return new Surface(TTF_RenderText_Shaded(this.font,
-                    cast(const(char*)) text.asChar, *foreground.handle, *background.handle));
+                    text.toStringz, *foreground.handle, *background.handle));
         case encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Shaded(this.font,
-                    cast(const(char*)) text.asChar, *foreground.handle, *background.handle));
+                    text.toStringz, *foreground.handle, *background.handle));
         case encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Shaded(this.font,
-                    cast(const(ushort*)) text.asUshort, *foreground.handle, *background.handle));
+                    text.dup.map!(a => a.to!ushort).array.ptr,
+                    *foreground.handle, *background.handle));
         default:
             throw new Exception("No encoding given");
         }
@@ -261,17 +311,17 @@ class Font {
      * The surface has alpha transparency
      * Renders about as slowly as the Shaded render method, but blits more slowly than Solid and Shaded
      */
-    Surface renderTextBlended(Text text, Color color, encoding T = encoding.UNICODE) {
+    Surface renderTextBlended(string text, Color color, encoding T = encoding.UNICODE) {
         switch (T) {
         case encoding.LATIN1:
             return new Surface(TTF_RenderText_Blended(this.font,
-                    cast(const(char*)) text.asChar, *color.handle));
+                    text.toStringz, *color.handle));
         case encoding.UTF8:
             return new Surface(TTF_RenderUTF8_Blended(this.font,
-                    cast(const(char*)) text.asChar, *color.handle));
+                    text.toStringz, *color.handle));
         case encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Blended(this.font,
-                    cast(const(ushort*)) text.asUshort, *color.handle));
+                    text.dup.map!(a => a.to!ushort).array.ptr, *color.handle));
         default:
             throw new Exception("No encoding given");
         }
@@ -281,16 +331,16 @@ class Font {
      * Renders a glyph quickly 
      * See renderTextSolid
      */
-    Surface renderGlyphSolid(Glyph glyph, Color color) {
-        return new Surface(TTF_RenderGlyph_Solid(this.font, glyph.asUshort, *color.handle));
+    Surface renderGlyphSolid(char glyph, Color color) {
+        return new Surface(TTF_RenderGlyph_Solid(this.font, glyph, *color.handle));
     }
 
     /**
      * Renders a glyph slowly but smoothly
      * See renderTextShaded
      */
-    Surface renderGlyphShaded(Glyph glyph, Color foreground, Color background) {
-        return new Surface(TTF_RenderGlyph_Shaded(this.font, glyph.asUshort,
+    Surface renderGlyphShaded(char glyph, Color foreground, Color background) {
+        return new Surface(TTF_RenderGlyph_Shaded(this.font, glyph,
                 *foreground.handle, *background.handle));
     }
 
@@ -298,8 +348,8 @@ class Font {
      * Renders a glyph very slowly but with very high quality
      * See renderTextBlended
      */
-    Surface renderGlyphBlended(Glyph glyph, Color color) {
-        return new Surface(TTF_RenderGlyph_Blended(this.font, glyph.asUshort, *color.handle));
+    Surface renderGlyphBlended(char glyph, Color color) {
+        return new Surface(TTF_RenderGlyph_Blended(this.font, glyph, *color.handle));
     }
 
 }
