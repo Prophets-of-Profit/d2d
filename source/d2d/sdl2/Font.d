@@ -249,7 +249,7 @@ class Font {
         iVector minOffset = this.minimumOffset(glyph);
         iVector maxOffset = this.maximumOffset(glyph);
         return new iRectangle(minOffset.x, maxOffset.y,
-                maxOffset.x - minOffset.x, minOffset.y - maxOffset.y);
+                maxOffset.x - minOffset.x, maxOffset.y - minOffset.y);
     }
 
     /**

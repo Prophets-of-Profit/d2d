@@ -50,7 +50,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Angles are in radians where right is 0 and up is pi / 2
      */
     @property void angle(double a) {
-        double mag = this.magnitude;
+        immutable mag = this.magnitude;
         this.x = cast(T)(mag * cos(a));
         this.y = cast(T)(mag * sin(a));
     }
@@ -68,7 +68,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Maintains component ratios of the vector
      */
     @property void magnitude(double mag) {
-        double scalar = mag / this.magnitude;
+        immutable scalar = mag / this.magnitude;
         this.x = cast(T)(this.x * scalar);
         this.y = cast(T)(this.y * scalar);
     }
@@ -88,54 +88,86 @@ class Vector(T) if (__traits(isScalar, T)) {
         this.y = y;
     }
 
+    /**
+     * Assigns a negation operator the vector
+     * Negating a vector just turns it around and makes its components the opposite of what they are
+     */
+    Vector!T opUnary(string s)() if (s == "-") {
+        return new Vector!T(-x, -y);
+    }
+
+    /**
+     * Allows the vector to be used with normal operators
+     * Works component-wise
+     */
+    Vector!T opUnary(string op)(Vector!T otherVector) if ("+-*".contains(op)) {
+        mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
+    }
+
+    /**
+     * Allows the vector components to be postincremented or postdecremented
+     */
+    Vector!T opUnary(string s)() if (s == "++" || s == "--") {
+        mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
+    }
+
 }
 
-bool doSegmentsIntersect(T, U)(Vector!T seg1i, Vector!T seg1t, Vector!U seg2i, Vector!U seg2t) {
-    double dotproduct = cast(double)((seg1.delta.x * seg2.delta.x + seg1.delta.y * seg2.delta.y) / (seg1.delta.magnitude * seg2.delta.magnitude));
-    if(dotproduct == 1 || dotproduct == -1){ 
-        return false;
+/**
+ * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
+ * TODO: untested and explain how it works
+ */
+bool doSegmentsIntersect(T, U)(Vector!T firstInitial, Vector!T firstTerminal,
+        Vector!U secondInitial, Vector!U secondTerminal) {
+    immutable firstDelta = firstTerminal - firstInitial;
+    immutable secondDelta = secondTerminal - secondInitial;
+    double dotproduct = cast(double)(firstDelta.x * secondDelta.x + firstDelta.y * secondDelta.y) / (
+            firstDelta.magnitude * secondDelta.magnitude);
+    if (dotproduct == 1 || dotproduct == -1) {
+        return firstDelta == secondDelta;
     }
-    double t1 = -(((seg2.initial.x - seg1.initial.x) * seg2.delta.y) - ((seg2.initial.y - seg1.initial.y) * seg2.delta.x)) / ((seg2.delta.x * seg1.delta.y) - (seg2.delta.y * seg1.delta.x));
-    double t2 = -(((seg1.initial.x - seg2.initial.x) * seg1.delta.y) - ((seg1.initial.y - seg2.initial.y) * seg1.delta.x)) / ((seg1.delta.x * seg2.delta.y) - (seg1.delta.y * seg2.delta.x));
-    if(t1 >= 0 && t2 >= 0 && t1 <= 1 && t2 <= 1){
-        return true;
-    }
-    return false;
+    immutable firstIntersection = -(((secondInitial.x - firstInitial.x) * secondDelta.y) - (
+            (secondInitial.y - firstInitial.y) * secondDelta.x)) / (
+            (secondDelta.x * firstDelta.y) - (secondDelta.y * firstDelta.x));
+    immutable secondIntersection = -(((firstInitial.x - secondInitial.x) * firstDelta.y) - (
+            (firstInitial.y - secondInitial.y) * firstDelta.x)) / (
+            (firstDelta.x * secondDelta.y) - (firstDelta.y * secondDelta.x));
+    return firstIntersection >= 0 && secondIntersection >= 0
+        && firstIntersection <= 1 && secondIntersection <= 1;
 }
 
 /**
  * A polygon is a two-dimensional solid object
+ * This polygon is defined by its vertices
  */
 class Polygon(T) if (__traits(isScalar, T)) {
 
-    Vector!T[] points;
+    Vector!T[] points; ///The vertices of the polygon
 
     /**
-     * Creates a polygon using a list of points
+     * Creates a polygon using a list of points as vertices
      */
-    this(Vector!T[] points){
+    this(Vector!T[] points) {
         this.points = points;
     }
 
     /**
      * Returns whether or not a given point is inside the polygon
+     * TODO: untested and explain how it works
      */
-    bool isPointIn(U)(Vector!U point, int boundary = 2500){
+    bool contains(U)(Vector!U point, int boundary = 2500) {
         int intersectionCount;
-        Vector!U leftBound = new Vector!U(cast(U)(0), point.y);
-        Vector!U rightBound = new Vector!U(cast(U)(boundary), point.y);
-        for(int i = 0; i < points.length - 1; i++){
-            if(doSegmentsIntersect(leftBound, rightBound, points[i], points[i+1])){
+        Vector!U leftBound = new Vector!U(cast(U) 0, point.y);
+        Vector!U rightBound = new Vector!U(cast(U) boundary, point.y);
+        foreach (i; 0 .. this.points.length - 1) {
+            if (doSegmentsIntersect(leftBound, rightBound, this.points[i], this.points[i + 1])) {
                 intersectionCount++;
             }
         }
-        if(doSegmentsIntersect(leftBound, rightBound, points[0], points[points.length-1])){
+        if (doSegmentsIntersect(leftBound, rightBound, this.points[0], this.points[$ - 1])) {
             intersectionCount++;
         }
-        if(intersectionCount % 2 == 0){
-            return true;
-        }
-        return false;
+        return intersectionCount % 2 == 0;
     }
 
 }
