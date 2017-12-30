@@ -90,6 +90,56 @@ class Vector(T) if (__traits(isScalar, T)) {
 
 }
 
+bool doSegmentsIntersect(T, U)(Vector!T seg1i, Vector!T seg1t, Vector!U seg2i, Vector!U seg2t) {
+    double dotproduct = cast(double)((seg1.delta.x * seg2.delta.x + seg1.delta.y * seg2.delta.y) / (seg1.delta.magnitude * seg2.delta.magnitude));
+    if(dotproduct == 1 || dotproduct == -1){ 
+        return false;
+    }
+    double t1 = -(((seg2.initial.x - seg1.initial.x) * seg2.delta.y) - ((seg2.initial.y - seg1.initial.y) * seg2.delta.x)) / ((seg2.delta.x * seg1.delta.y) - (seg2.delta.y * seg1.delta.x));
+    double t2 = -(((seg1.initial.x - seg2.initial.x) * seg1.delta.y) - ((seg1.initial.y - seg2.initial.y) * seg1.delta.x)) / ((seg1.delta.x * seg2.delta.y) - (seg1.delta.y * seg2.delta.x));
+    if(t1 >= 0 && t2 >= 0 && t1 <= 1 && t2 <= 1){
+        return true;
+    }
+    return false;
+}
+
+/**
+ * A polygon is a two-dimensional solid object
+ */
+class Polygon(T) if (__traits(isScalar, T)) {
+
+    Vector!T[] points;
+
+    /**
+     * Creates a polygon using a list of points
+     */
+    this(Vector!T[] points){
+        this.points = points;
+    }
+
+    /**
+     * Returns whether or not a given point is inside the polygon
+     */
+    bool isPointIn(U)(Vector!U point, int boundary = 2500){
+        int intersectionCount;
+        Vector!U leftBound = new Vector!U(cast(U)(0), point.y);
+        Vector!U rightBound = new Vector!U(cast(U)(boundary), point.y);
+        for(int i = 0; i < points.length - 1; i++){
+            if(doSegmentsIntersect(leftBound, rightBound, points[i], points[i+1])){
+                intersectionCount++;
+            }
+        }
+        if(doSegmentsIntersect(leftBound, rightBound, points[0], points[points.length-1])){
+            intersectionCount++;
+        }
+        if(intersectionCount % 2 == 0){
+            return true;
+        }
+        return false;
+    }
+
+}
+
 /**
  * A rectangle is a box in 2d space
  * This struct only does Axis Aligned Bounding Boxes (AABB) which don't have rotation
