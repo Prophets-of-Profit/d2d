@@ -203,6 +203,34 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     T w; ///The rectangle's width
     T h; ///The rectangle's height
 
+    /** 
+     * Gets the coordinates of the top left corner of the rectangle 
+     */
+    @property Vector!T topLeft() {
+        return new Vector!T(this.x, this.y);
+    }
+
+    /** 
+     * Gets the coordinates of the bottom left corner of the rectangle 
+     */
+    @property Vector!T bottomLeft() {
+        return new Vector!T(this.x, this.y + this.h);
+    }
+
+    /** 
+     * Gets the coordinates of the top right corner of the rectangle 
+     */
+    @property Vector!T topRight() {
+        return new Vector!T(this.x + this.w, this.y);
+    }
+
+    /** 
+     * Gets the coordinates of the bottom right corner of the rectangle 
+     */
+    @property Vector!T bottomRight() {
+        return new Vector!T(this.x + this.w, this.y + this.h);
+    }
+
     /**
      * Gets the rectangle as an SDL_Rect
      */
@@ -210,6 +238,13 @@ class Rectangle(T) if (__traits(isScalar, T)) {
         sdlRectangle = SDL_Rect(cast(int) this.x, cast(int) this.y,
                 cast(int) this.w, cast(int) this.h);
         return &sdlRectangle;
+    }
+
+    /**
+     * Allows the rectangle to be casted to a polygon
+     */
+    override Polygon opCast(T)() if (is(T == Polygon)) {
+        return new Polygon!T([topLeft, topRight, bottomRight, bottomLeft]);
     }
 
     /**
