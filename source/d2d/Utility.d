@@ -94,14 +94,14 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Assigns a negation operator the vector
      * Negating a vector just turns it around and makes its components the opposite of what they are
      */
-    override Vector!T opUnary(string op)() if (op == "-") {
+    Vector!T opUnary(string op)() if (op == "-") {
         return new Vector!T(-x, -y);
     }
 
     /**
      * Allows the vector components to be postincremented or postdecremented
      */
-    override Vector!T opUnary(string op)() if (op == "++" || op == "--") {
+    Vector!T opUnary(string op)() if (op == "++" || op == "--") {
         mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
     }
 
@@ -109,7 +109,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Allows the vector to be used with normal operators
      * Works component-wise (eg. (3, 2, 1) + (1, 2, 3) = (4, 4, 4))
      */
-    override Vector!T opBinary(string op)(Vector!T otherVector)
+    Vector!T opBinary(string op)(Vector!T otherVector)
             if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
         mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
     }
@@ -118,7 +118,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Allows the vector to be used with normal operators
      * Works component-wise, so each operation of the constant is applied to each component
      */
-    override Vector!T opBinary(string op)(T constant)
+    Vector!T opBinary(string op)(T constant)
             if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
         mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
     }
