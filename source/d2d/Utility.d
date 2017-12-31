@@ -94,31 +94,33 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Assigns a negation operator the vector
      * Negating a vector just turns it around and makes its components the opposite of what they are
      */
-    Vector!T opUnary(string op)() if (op == "-") {
+    override Vector!T opUnary(string op)() if (op == "-") {
         return new Vector!T(-x, -y);
-    }
-
-    /**
-     * Allows the vector to be used with normal operators
-     * Works component-wise
-     */
-    Vector!T opUnary(string op)(Vector!T otherVector) if (op == "+" || op == "-" || op == "*") {
-        mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
-    }
-
-    /**
-     * Allows the vector to be used with normal operators
-     * Works component-wise
-     */
-    Vector!T opUnary(string op)(T constant) if (op == "+" || op == "-" || op == "*") {
-        mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
     }
 
     /**
      * Allows the vector components to be postincremented or postdecremented
      */
-    Vector!T opUnary(string op)() if (op == "++" || op == "--") {
+    override Vector!T opUnary(string op)() if (op == "++" || op == "--") {
         mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
+    }
+
+    /**
+     * Allows the vector to be used with normal operators
+     * Works component-wise (eg. (3, 2, 1) + (1, 2, 3) = (4, 4, 4))
+     */
+    override Vector!T opBinary(string op)(Vector!T otherVector)
+            if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+        mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
+    }
+
+    /**
+     * Allows the vector to be used with normal operators
+     * Works component-wise, so each operation of the constant is applied to each component
+     */
+    override Vector!T opBinary(string op)(T constant)
+            if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+        mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
     }
 
 }
