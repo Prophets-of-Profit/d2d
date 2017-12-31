@@ -54,11 +54,11 @@ class Display {
     }
 
     /**
-     * Constructs a display
+     * Constructs a display given a width, height, window flags, a title, a path for an image icon (or null), and renderer flags
      */
-    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN,
-            string title = "", string iconPath = null) {
-        this._window = new Window(w, h, flags, title);
+    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "",
+            string iconPath = null, uint rendererFlags = 0) {
+        this._window = new Window(w, h, flags, title, rendererFlags);
         if (iconPath !is null && iconPath != "") {
             this.window.icon = loadImage(iconPath);
         }
