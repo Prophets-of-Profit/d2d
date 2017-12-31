@@ -22,13 +22,6 @@ abstract class Screen : EventHandler {
     }
 
     /**
-     * Ensures that all components get destroyed
-     */
-    ~this() {
-        this.components.each!(component => component.destroy());
-    }
-
-    /**
      * How the screen should be drawn
      * Drawing of screen components is handled after this method
      */
@@ -36,6 +29,8 @@ abstract class Screen : EventHandler {
 
     /**
      * What the screen should do every frame
+     * If the renderer is on VSync, onFrame may be called more than once per actual frame
+     * Can be treated as the insides of a while(true) loop
      */
     void onFrame();
 

@@ -81,11 +81,11 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_KEYDOWN) {
             this._allKeys.filter!(key => key.id == event.key.keysym.sym)
-                .array[0].lastPressed = Clock.currTime();
+                .front.lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_KEYUP) {
             this._allKeys.filter!(key => key.id == event.key.keysym.sym)
-                .array[0].lastReleased = Clock.currTime();
+                .front.lastReleased = Clock.currTime();
         }
     }
 

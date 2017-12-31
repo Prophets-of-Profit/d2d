@@ -1,7 +1,6 @@
 module d2d.Mouse;
 
 import std.algorithm;
-import std.array;
 import std.datetime;
 import d2d.InputSource;
 
@@ -78,11 +77,11 @@ class Mouse : InputSource!uint, EventHandler {
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_MOUSEBUTTONDOWN) {
             this._allButtons.filter!(button => button.id == event.button.button)
-                .array[0].lastPressed = Clock.currTime();
+                .front.lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_MOUSEBUTTONUP) {
             this._allButtons.filter!(button => button.id == event.button.button)
-                .array[0].lastReleased = Clock.currTime();
+                .front.lastReleased = Clock.currTime();
         }
         else if (event.type == SDL_MOUSEWHEEL) {
             this._totalWheelDisplacement.x += event.wheel.x;

@@ -1,5 +1,6 @@
 module d2d;
 
+public import d2d.Button;
 public import d2d.Component;
 public import d2d.Display;
 public import d2d.EventHandler;
