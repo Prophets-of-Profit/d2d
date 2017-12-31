@@ -2,7 +2,8 @@ module d2d.Display;
 
 import std.algorithm;
 import std.conv;
-import std.datetime;
+import std.datetime.stopwatch;
+import core.thread;
 import d2d.EventHandler;
 import d2d.Keyboard;
 import d2d.Mouse;
@@ -15,9 +16,8 @@ public import d2d.sdl2;
  */
 class Display {
 
-    int framerate = 60; ///The framerate of the window. TODO If negative, it will be vsync
+    int framerate = 60; ///The framerate of the window. Will be ignored if the renderer is VSync
     bool isRunning; ///Whether the display is running; will stop running if set to false
-    void delegate() periodicAction; ///What the display should do every tick (usually faster or more often than a frame)
     Screen screen; ///The screen that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private ulong _frames; ///How many frames have passed
@@ -69,8 +69,9 @@ class Display {
      */
     void run() {
         this.isRunning = true;
-        SysTime lastTickTime;
+        StopWatch timer = StopWatch(AutoStart.yes);
         while (this.isRunning) {
+            timer.reset();
             SDL_Event event;
             while (SDL_PollEvent(&event) != 0) {
                 switch (event.type) {
@@ -96,19 +97,19 @@ class Display {
                     break;
                 }
             }
-            if (this.periodicAction !is null) {
-                this.periodicAction();
-            }
             if (this.screen !is null) {
                 this.screen.draw();
                 this.screen.components.each!(component => component.draw());
             }
-            if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC
-                    || Clock.currTime() >= lastTickTime + dur!"msecs"((1000 / this.framerate))) {
-                this.screen.onFrame();
-                this.window.renderer.present();
-                lastTickTime = Clock.currTime();
-                this._frames++;
+            this.screen.onFrame();
+            this.window.renderer.present();
+            this._frames++;
+            if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC) {
+                continue;
+            }
+            immutable sleepTime = 1000 / this.framerate - timer.peek().total!"msecs";
+            if (sleepTime > 0) {
+                Thread.sleep(msecs(sleepTime));
             }
         }
     }
