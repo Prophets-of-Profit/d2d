@@ -13,6 +13,7 @@ import d2d.sdl2;
 class Window {
 
     private SDL_Window* window;
+    private Renderer _renderer;
 
     /**
      * Returns the raw SDL data of this object
@@ -189,7 +190,7 @@ class Window {
      * Gets the window's renderer
      */
     @property Renderer renderer() {
-        return new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
+        return this._renderer;
     }
 
     /**
@@ -198,8 +199,8 @@ class Window {
     this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "",
             uint rendererFlags = 0, int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
         loadLibSDL();
-        this(ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags)));
-        new Renderer(this, rendererFlags);
+        this.window = ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags));
+        this._renderer = new Renderer(this, rendererFlags);
     }
 
     /**
@@ -207,6 +208,12 @@ class Window {
      */
     this(SDL_Window* alreadyExisting) {
         this.window = alreadyExisting;
+        try {
+            this._renderer = new Renderer(ensureSafe(SDL_GetRenderer(this.window)));
+        }
+        catch (Exception e) {
+            this._renderer = new Renderer(this);
+        }
     }
 
     /**
