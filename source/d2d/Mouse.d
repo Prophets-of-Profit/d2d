@@ -80,7 +80,7 @@ class Mouse : InputSource!uint, EventHandler {
             this._allButtons.filter!(button => button.id == event.button.button)
                 .array[0].lastPressed = Clock.currTime();
         }
-        else if (event.type == SDL_KEYUP) {
+        else if (event.type == SDL_MOUSEBUTTONUP) {
             this._allButtons.filter!(button => button.id == event.button.button)
                 .array[0].lastReleased = Clock.currTime();
         }
