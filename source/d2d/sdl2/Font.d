@@ -279,7 +279,7 @@ class Font {
                     text.toStringz, *color.handle));
         case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Solid(this.font,
-                    cast(ushort*) text.toStringz, *color.handle));
+                    (text.dup.map!(a => a.to!ushort).array ~ '\0').ptr, *color.handle));
         default:
             throw new Exception("No encoding given");
         }
@@ -301,7 +301,8 @@ class Font {
                     text.toStringz, *foreground.handle, *background.handle));
         case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Shaded(this.font,
-                    cast(ushort*) text.toStringz, *foreground.handle, *background.handle));
+                    (text.dup.map!(a => a.to!ushort).array ~ '\0').ptr,
+                    *foreground.handle, *background.handle));
         default:
             throw new Exception("No encoding given");
         }
@@ -322,7 +323,7 @@ class Font {
                     text.toStringz, *color.handle));
         case Encoding.UNICODE:
             return new Surface(TTF_RenderUNICODE_Blended(this.font,
-                    cast(ushort*) text.toStringz, *color.handle));
+                    (text.dup.map!(a => a.to!ushort).array ~ '\0').ptr, *color.handle));
         default:
             throw new Exception("No encoding given");
         }
