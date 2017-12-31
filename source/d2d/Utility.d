@@ -3,6 +3,8 @@ module d2d.Utility;
 import std.math;
 import d2d.sdl2;
 
+//TODO: move into separate math module
+
 /**
  * A color struct
  * As of right now, only works with additive RGBA, but may work with other formats later
@@ -105,12 +107,28 @@ class Vector(T) if (__traits(isScalar, T)) {
     }
 
     /**
+     * Allows the vector to be used with normal operators
+     * Works component-wise
+     */
+    Vector!T opUnary(string op)(T constant) if ("+-*".contains(op)) {
+        mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
+    }
+
+    /**
      * Allows the vector components to be postincremented or postdecremented
      */
     Vector!T opUnary(string s)() if (s == "++" || s == "--") {
         mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
     }
 
+}
+
+/**
+ * Calculates the dot product or the similarity of two vectors
+ */
+T dot(T)(Vector!T first, Vector!T second) {
+    immutable pairWiseMultiple = first * second;
+    return pairWiseMultiple.x + pairWiseMultiple.y;
 }
 
 /**
@@ -149,6 +167,7 @@ class Polygon(T) if (__traits(isScalar, T)) {
      */
     this(Vector!T[] points) {
         this.points = points;
+        assert(points.length > 2);
     }
 
     /**

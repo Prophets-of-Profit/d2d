@@ -10,6 +10,7 @@ import d2d.sdl2;
  * While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention
  * Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)
  * All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well
+ * TODO: implement curve drawing and polygon filling
  */
 class Renderer {
 
@@ -235,6 +236,16 @@ class Renderer {
      */
     void fillRect(iRectangle toFill) {
         ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
+    }
+
+    /**
+     * Draws a polygon by connecting all the vertices with lines
+     */
+    void drawPolygon(Polygon!int toDraw) {
+        foreach (i; 0 .. toDraw.points.length - 2) {
+            this.drawLine(toDraw.points[i], toDraw.points[i + 1]);
+        }
+        this.drawLine(toDraw.points[$ - 1], toDraw.points[0]);
     }
 
     /**
