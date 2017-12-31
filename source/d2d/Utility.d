@@ -94,7 +94,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Assigns a negation operator the vector
      * Negating a vector just turns it around and makes its components the opposite of what they are
      */
-    Vector!T opUnary(string s)() if (s == "-") {
+    Vector!T opUnary(string op)() if (op == "-") {
         return new Vector!T(-x, -y);
     }
 
@@ -102,7 +102,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Allows the vector to be used with normal operators
      * Works component-wise
      */
-    Vector!T opUnary(string op)(Vector!T otherVector) if ("+-*".contains(op)) {
+    Vector!T opUnary(string op)(Vector!T otherVector) if (op == "+" || op == "-" || op == "*") {
         mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
     }
 
@@ -110,14 +110,14 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Allows the vector to be used with normal operators
      * Works component-wise
      */
-    Vector!T opUnary(string op)(T constant) if ("+-*".contains(op)) {
+    Vector!T opUnary(string op)(T constant) if (op == "+" || op == "-" || op == "*") {
         mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
     }
 
     /**
      * Allows the vector components to be postincremented or postdecremented
      */
-    Vector!T opUnary(string s)() if (s == "++" || s == "--") {
+    Vector!T opUnary(string op)() if (op == "++" || op == "--") {
         mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
     }
 
