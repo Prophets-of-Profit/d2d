@@ -74,27 +74,15 @@ class Display {
             timer.reset();
             SDL_Event event;
             while (SDL_PollEvent(&event) != 0) {
-                switch (event.type) {
-                case SDL_QUIT:
+                if (event.type == SDL_QUIT) {
                     this.isRunning = false;
-                    goto default;
-                case SDL_MOUSEBUTTONDOWN:
-                case SDL_MOUSEBUTTONUP:
-                case SDL_MOUSEMOTION:
-                case SDL_MOUSEWHEEL:
-                    this.mouse.handleEvent(event);
-                    goto default;
-                case SDL_KEYDOWN:
-                case SDL_KEYUP:
-                    this.keyboard.handleEvent(event);
-                    goto default;
-                default:
-                    this.eventHandlers.each!(handler => handler.handleEvent(event));
-                    if (this.screen !is null) {
-                        this.screen.components.each!(component => component.handleEvent(event));
-                        this.screen.handleEvent(event);
-                    }
-                    break;
+                }
+                this.mouse.handleEvent(event);
+                this.keyboard.handleEvent(event);
+                this.eventHandlers.each!(handler => handler.handleEvent(event));
+                if (this.screen !is null) {
+                    this.screen.components.each!(component => component.handleEvent(event));
+                    this.screen.handleEvent(event);
                 }
             }
             if (this.screen !is null) {

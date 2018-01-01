@@ -22,6 +22,13 @@ class Button : Component {
     }
 
     /**
+     * Gets whether the mouse is hovering over this button
+     */
+    @property bool isHovered() {
+        return this.location.contains(this.container.mouse.location);
+    }
+
+    /**
      * Gets where the button is on the screen
      */
     override @property iRectangle location() {
@@ -53,17 +60,16 @@ class Button : Component {
      * Collects events and if the events signify the button has been pressed, calls the button's action
      */
     void handleEvent(SDL_Event event) {
-        if (event.button.button == SDL_BUTTON_LEFT) {
-            if (event.type == SDL_MOUSEBUTTONDOWN
-                    && this.location.contains(this.container.mouse.windowLocation)) {
-                this._isClicked = true;
-            }
-            else if (this._isClicked && event.type == SDL_MOUSEBUTTONUP) {
-                this._isClicked = false;
-                if (this.location.contains(this.container.mouse.windowLocation)) {
-                    this.action();
-                }
-            }
+        if (!this.isHovered) {
+            this._isClicked = false;
+            return;
+        }
+        if (event.type == SDL_MOUSEBUTTONDOWN && event.button.button == SDL_BUTTON_LEFT)
+            this._isClicked = true;
+        else if (this._isClicked && event.type == SDL_MOUSEBUTTONUP
+                && event.button.button == SDL_BUTTON_LEFT) {
+            this._isClicked = false;
+            this.action();
         }
     }
 

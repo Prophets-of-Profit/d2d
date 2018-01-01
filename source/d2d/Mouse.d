@@ -11,6 +11,7 @@ class Mouse : InputSource!uint, EventHandler {
 
     private Pressable!uint[] _allButtons; ///All of the buttons on the mouse
     private iVector _totalWheelDisplacement; ///Total displacement of the mousewheel since mouse construction
+    private iVector _location; ///The location of the mouse accounting for logical size or viewport
 
     alias allButtons = allPressables; ///Allows allPressables to be called as allButtons
 
@@ -22,6 +23,7 @@ class Mouse : InputSource!uint, EventHandler {
             new Pressable!uint(SDL_BUTTON_RIGHT),
             new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
         this._totalWheelDisplacement = new iVector(0, 0);
+        this._location = new iVector(0, 0);
     }
 
     /**
@@ -29,6 +31,14 @@ class Mouse : InputSource!uint, EventHandler {
      */
     override @property Pressable!uint[] allPressables() {
         return this._allButtons.dup;
+    }
+
+    /**
+     * Gets the mouse location accounting for logical size or viewport
+     * This should be what is most regularly used
+     */
+    @property iVector location() {
+        return this._location;
     }
 
     /**
@@ -75,17 +85,25 @@ class Mouse : InputSource!uint, EventHandler {
      * Acculmulates all of the mouse events and updates stored pressables accordingly
      */
     override void handleEvent(SDL_Event event) {
-        if (event.type == SDL_MOUSEBUTTONDOWN) {
+        switch (event.type) {
+        case SDL_MOUSEMOTION:
+            this._location.x = event.button.x;
+            this._location.y = event.button.y;
+            break;
+        case SDL_MOUSEBUTTONDOWN:
             this._allButtons.filter!(button => button.id == event.button.button)
                 .front.lastPressed = Clock.currTime();
-        }
-        else if (event.type == SDL_MOUSEBUTTONUP) {
+            break;
+        case SDL_MOUSEBUTTONUP:
             this._allButtons.filter!(button => button.id == event.button.button)
                 .front.lastReleased = Clock.currTime();
-        }
-        else if (event.type == SDL_MOUSEWHEEL) {
+            break;
+        case SDL_MOUSEWHEEL:
             this._totalWheelDisplacement.x += event.wheel.x;
             this._totalWheelDisplacement.y += event.wheel.y;
+            break;
+        default:
+            break;
         }
     }
 

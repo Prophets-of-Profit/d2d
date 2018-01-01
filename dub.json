@@ -7,7 +7,7 @@
 		"Elia Gorokhovsky"
 	],
 	"dependencies": {
-		"derelict-sdl2": "~>3.1.0-alpha.2"
+		"derelict-sdl2": "~>3.1.0-alpha.3"
 	},
 	"description": "A cross-platform framework for 2D graphics. Built with Derelict SDL2.",
 	"copyright": "Copyright © 2017, Saurabh Totey",
