@@ -16,17 +16,6 @@ class Mouse : InputSource!uint, EventHandler {
     alias allButtons = allPressables; ///Allows allPressables to be called as allButtons
 
     /**
-     * Makes a mouse and initializes all of the buttons
-     */
-    this() {
-        this._allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
-            new Pressable!uint(SDL_BUTTON_RIGHT),
-            new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
-        this._totalWheelDisplacement = new iVector(0, 0);
-        this._location = new iVector(0, 0);
-    }
-
-    /**
      * Returns all of the mouse buttons
      */
     override @property Pressable!uint[] allPressables() {
@@ -82,6 +71,35 @@ class Mouse : InputSource!uint, EventHandler {
     }
 
     /**
+     * Sets the cursor of the mouse
+     */
+    @property void cursor(Cursor newCursor) {
+        SDL_SetCursor(newCursor.handle);
+    }
+
+    /**
+     * Gets the cursor of the mouse
+     * Special precautions must be taken when using this method:
+     * Make sure to store the output of the cursor or make sure the cursor doesn't get GCed
+     * Because the actual cursor is being used in C, D will think this returned cursor won't be being used and destroy it
+     * It is probably better to avoid this method entirely
+     */
+    @property Cursor cursor() {
+        return new Cursor(ensureSafe(SDL_GetCursor()));
+    }
+
+    /**
+     * Makes a mouse and initializes all of the buttons
+     */
+    this() {
+        this._allButtons = [new Pressable!uint(SDL_BUTTON_LEFT), new Pressable!uint(SDL_BUTTON_MIDDLE),
+            new Pressable!uint(SDL_BUTTON_RIGHT),
+            new Pressable!uint(SDL_BUTTON_X1), new Pressable!uint(SDL_BUTTON_X2)];
+        this._totalWheelDisplacement = new iVector(0, 0);
+        this._location = new iVector(0, 0);
+    }
+
+    /**
      * Acculmulates all of the mouse events and updates stored pressables accordingly
      */
     override void handleEvent(SDL_Event event) {
@@ -107,4 +125,58 @@ class Mouse : InputSource!uint, EventHandler {
         }
     }
 
+}
+
+/**
+ * A cursor is how the mouse at its location looks
+ * While this class should *technically* be defined in d2d.sdl2, its only use is in Mouse
+ * And since this class is small, instead of giving it its own file, I'll keep it here
+ */
+class Cursor {
+
+    private SDL_Cursor* cursor;
+
+    /**
+     * Returns the raw SDL data of this object
+     */
+    @property handle() {
+        return this.cursor;
+    }
+
+    /**
+     * Creates a cursor from a surface and the hotspot
+     * The hotspot is where on the surface is the actual mouse location
+     */
+    this(Surface appearance, iVector hotspot) {
+        this.cursor = ensureSafe(SDL_CreateColorCursor(appearance.handle, hotspot.x, hotspot.y));
+    }
+
+    /**
+     * Creates a cursor from a predefined system cursor
+     */
+    this(SDL_SystemCursor id) {
+        this.cursor = ensureSafe(SDL_CreateSystemCursor(id));
+    }
+
+    /**
+     * Creates a cursor from an already SDL_Cursor
+     */
+    this(SDL_Cursor* alreadyExisting) {
+        this.cursor = alreadyExisting;
+    }
+
+    /**
+     * Ensures that SDL can properly dispose of the cursor
+     */
+    ~this() {
+        SDL_FreeCursor(this.cursor);
+    }
+
+}
+
+/** 
+ * Gets the system's default cursor
+ */
+Cursor defaultCursor() {
+    return new Cursor(ensureSafe(SDL_GetDefaultCursor()));
 }

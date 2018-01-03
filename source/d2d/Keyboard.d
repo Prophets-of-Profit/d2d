@@ -62,17 +62,17 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
     alias allKeys = allPressables; ///Allows allPressables to be called as allKeys
 
     /**
-     * Initializes all keys of a keyboard
-     */
-    this() {
-        this._allKeys = allKeyCodes.map!(code => new Pressable!SDL_Keycode(code)).array;
-    }
-
-    /**
      * Returns all of the keys on the keyboard
      */
     override @property Pressable!SDL_Keycode[] allPressables() {
         return this._allKeys.dup;
+    }
+
+    /**
+     * Initializes all keys of a keyboard
+     */
+    this() {
+        this._allKeys = allKeyCodes.map!(code => new Pressable!SDL_Keycode(code)).array;
     }
 
     /**
