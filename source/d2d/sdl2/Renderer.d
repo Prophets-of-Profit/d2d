@@ -199,8 +199,10 @@ class Renderer {
      * Sets the renderer's color and clears the screen
      */
     void clear(Color color) {
+        immutable Color oldColor = this.drawColor;
         this.drawColor = color;
         this.clear();
+        this.drawColor = oldColor;
     }
 
     /**
@@ -218,10 +220,30 @@ class Renderer {
     }
 
     /**
+     * Draws a line of a given color between the given points
+     */
+    void drawLine(iVector first, iVector second, Color color) {
+        immutable Color oldColor = this.drawColor;
+        this.drawColor = color;
+        this.drawLine(first, second);
+        this.drawColor = oldColor;
+    }
+
+    /**
      * Draws a point
      */
     void drawPoint(iVector toDraw) {
         ensureSafe(SDL_RenderDrawPoint(this.renderer, toDraw.x, toDraw.y));
+    }
+
+    /**
+     * Draws a point in the given color
+     */
+    void drawPoint(iVector toDraw, Color color) {
+        immutable Color oldColor = this.drawColor;
+        this.drawColor = color;
+        this.drawPoint(toDraw);
+        this.drawColor = oldColor;
     }
 
     /**
@@ -232,10 +254,30 @@ class Renderer {
     }
 
     /**
-     * Fills a rectangle in with the renderer's color
+     * Draws a rectangle with the given color
+     */
+    void drawRect(iRectangle toDraw, Color color) {
+        immutable Color oldColor = this.drawColor;
+        this.drawColor = color;
+        this.drawRect(toDraw));
+        this.drawColor = oldColor;
+    }
+
+    /**
+     * Fills a rectangle in
      */
     void fillRect(iRectangle toFill) {
         ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
+    }
+
+    /**
+     * Fills a rectangle in with the given color
+     */
+    void fillRect(iRectable toFill, Color color) {
+        immutable Color oldColor = this.drawColor;
+        this.drawColor = color;
+        this.fillRect(toFill);
+        this.drawColor = oldColor;
     }
 
     /**
