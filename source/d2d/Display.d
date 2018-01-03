@@ -87,7 +87,9 @@ class Display {
             }
             if (this.screen !is null) {
                 this.screen.draw();
-                this.screen.components.each!(component => component.draw());
+                if(this.screen.drawComponents) {
+                    this.screen.components.each!(component => component.draw());
+                }
             }
             this.screen.onFrame();
             this.window.renderer.present();
