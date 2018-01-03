@@ -37,7 +37,7 @@ class MyScreen : Screen {
 }
 
 void main() {
-    Display mainDisplay = new Display(640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, "This is a test");
+    Display mainDisplay = new Display(640, 480, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE, 0, "This is a test");
     mainDisplay.screen = new MyScreen(mainDisplay);
     mainDisplay.run();
 }

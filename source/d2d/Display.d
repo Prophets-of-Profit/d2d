@@ -54,10 +54,11 @@ class Display {
     }
 
     /**
-     * Constructs a display given a width, height, window flags, a title, a path for an image icon (or null), and renderer flags
+     * Constructs a display given a width, height, window flags, renderer flags, a title, and a path for an image icon (or null)
+     * Disregarding width and height, constructor asks for flags first because once set, those cannot be changed
      */
-    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "",
-            string iconPath = null, uint rendererFlags = 0) {
+    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN,
+            uint rendererFlags = 0, string title = "", string iconPath = null) {
         this._window = new Window(w, h, flags, title, rendererFlags);
         if (iconPath !is null && iconPath != "") {
             this.window.icon = loadImage(iconPath);
@@ -87,9 +88,7 @@ class Display {
             }
             if (this.screen !is null) {
                 this.screen.draw();
-                if(this.screen.drawComponents) {
-                    this.screen.components.each!(component => component.draw());
-                }
+                this.screen.components.each!(component => component.draw());
             }
             this.screen.onFrame();
             this.window.renderer.present();
