@@ -196,20 +196,20 @@ class Renderer {
     }
 
     /**
-     * Sets the renderer's color and clears the screen
-     */
-    void clear(Color color) {
-        immutable Color oldColor = this.drawColor;
-        this.drawColor = color;
-        this.clear();
-        this.drawColor = oldColor;
-    }
-
-    /**
      * Fills the screen with the existing renderer color
      */
     void clear() {
         ensureSafe(SDL_RenderClear(this.renderer));
+    }
+
+    /**
+     * Sets the renderer's color and clears the screen
+     */
+    void clear(Color color) {
+        immutable oldColor = this.drawColor;
+        this.drawColor = color;
+        this.clear();
+        this.drawColor = oldColor;
     }
 
     /**
@@ -223,7 +223,7 @@ class Renderer {
      * Draws a line of a given color between the given points
      */
     void drawLine(iVector first, iVector second, Color color) {
-        immutable Color oldColor = this.drawColor;
+        immutable oldColor = this.drawColor;
         this.drawColor = color;
         this.drawLine(first, second);
         this.drawColor = oldColor;
@@ -240,7 +240,7 @@ class Renderer {
      * Draws a point in the given color
      */
     void drawPoint(iVector toDraw, Color color) {
-        immutable Color oldColor = this.drawColor;
+        immutable oldColor = this.drawColor;
         this.drawColor = color;
         this.drawPoint(toDraw);
         this.drawColor = oldColor;
@@ -257,9 +257,9 @@ class Renderer {
      * Draws a rectangle with the given color
      */
     void drawRect(iRectangle toDraw, Color color) {
-        immutable Color oldColor = this.drawColor;
+        immutable oldColor = this.drawColor;
         this.drawColor = color;
-        this.drawRect(toDraw));
+        this.drawRect(toDraw);
         this.drawColor = oldColor;
     }
 
@@ -273,8 +273,8 @@ class Renderer {
     /**
      * Fills a rectangle in with the given color
      */
-    void fillRect(iRectable toFill, Color color) {
-        immutable Color oldColor = this.drawColor;
+    void fillRect(iRectangle toFill, Color color) {
+        immutable oldColor = this.drawColor;
         this.drawColor = color;
         this.fillRect(toFill);
         this.drawColor = oldColor;
