@@ -51,21 +51,15 @@ class Pressable(T) {
  */
 abstract class InputSource(T) : EventHandler {
 
-    @property Pressable!T[] allPressables(); ///Return a list of all of the pressables that can be accessed by the template type
-
-    /**
-     * Allows individual elements to be accessed from this as if this were an associative array
-     * Returns the first pressable that has the same id as the given code
-     */
-    Pressable!T opIndex(T code) {
-        return this.allPressables.filter!(key => key.id == code).front;
-    }
+    @property Pressable!T[T] allPressables(); ///Return a list of all of the pressables that can be accessed by the template type
 
     /**
      * Returns a list of all of the pressables that are held down.
      */
     Pressable!T[] getPressedPressables() {
-        return this.allPressables.filter!(pressable => pressable.isPressed).array;
+        return this.allPressables.values.filter!(pressable => pressable.isPressed).array;
     }
 
 }
+
+

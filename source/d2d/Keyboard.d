@@ -57,14 +57,14 @@ immutable SDL_Keycode[] allKeyCodes = [
  */
 class Keyboard : InputSource!SDL_Keycode, EventHandler {
 
-    private Pressable!SDL_Keycode[] _allKeys; ///All of the pressable structs visible
+    private Pressable!SDL_Keycode[SDL_Keycode] _allKeys; ///All of the pressable structs visible
 
     alias allKeys = allPressables; ///Allows allPressables to be called as allKeys
 
     /**
      * Returns all of the keys on the keyboard
      */
-    override @property Pressable!SDL_Keycode[] allPressables() {
+    override @property Pressable!SDL_Keycode[SDL_Keycode] allPressables() {
         return this._allKeys.dup;
     }
 
@@ -72,7 +72,9 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
      * Initializes all keys of a keyboard
      */
     this() {
-        this._allKeys = allKeyCodes.map!(code => new Pressable!SDL_Keycode(code)).array;
+        foreach(keycode; allKeyCodes) {
+            _allKeys[keycode] = new Pressable!SDL_Keycode(keycode);
+        }
     }
 
     /**
@@ -80,12 +82,10 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
      */
     override void handleEvent(SDL_Event event) {
         if (event.type == SDL_KEYDOWN) {
-            this._allKeys.filter!(key => key.id == event.key.keysym.sym)
-                .front.lastPressed = Clock.currTime();
+            this._allKeys[event.key.keysym.sym].lastPressed = Clock.currTime();
         }
         else if (event.type == SDL_KEYUP) {
-            this._allKeys.filter!(key => key.id == event.key.keysym.sym)
-                .front.lastReleased = Clock.currTime();
+            this._allKeys[event.key.keysym.sym].lastReleased = Clock.currTime();
         }
     }
 

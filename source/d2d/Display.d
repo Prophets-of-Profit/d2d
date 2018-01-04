@@ -21,8 +21,8 @@ class Display {
     Screen screen; ///The screen that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private ulong _frames; ///How many frames have passed
-    private Keyboard _keyboard = new Keyboard(); ///The keyboard input source
-    private Mouse _mouse = new Mouse(); ///The mouse input source
+    private Keyboard _keyboard; ///The keyboard input source
+    private Mouse _mouse; ///The mouse input source
     private Window _window; ///The actual SDL window
 
     /**
@@ -63,6 +63,8 @@ class Display {
         if (iconPath !is null && iconPath != "") {
             this.window.icon = loadImage(iconPath);
         }
+        this._keyboard = new Keyboard();
+        this._mouse = new Mouse();
     }
 
     /**
