@@ -61,5 +61,3 @@ abstract class InputSource(T) : EventHandler {
     }
 
 }
-
-

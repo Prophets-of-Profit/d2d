@@ -6,7 +6,7 @@ import std.datetime;
 import d2d.InputSource;
 
 ///A list of all of the key codes
-immutable SDL_Keycode[] allKeyCodes = [
+immutable allKeyCodes = [
     SDLK_UNKNOWN, SDLK_BACKSPACE, SDLK_TAB, SDLK_RETURN, SDLK_ESCAPE,
     SDLK_SPACE, SDLK_EXCLAIM, SDLK_QUOTEDBL, SDLK_HASH,
     SDLK_DOLLAR, SDLK_PERCENT, SDLK_AMPERSAND, SDLK_QUOTE, SDLK_LEFTPAREN,
@@ -72,9 +72,7 @@ class Keyboard : InputSource!SDL_Keycode, EventHandler {
      * Initializes all keys of a keyboard
      */
     this() {
-        foreach(keycode; allKeyCodes) {
-            _allKeys[keycode] = new Pressable!SDL_Keycode(keycode);
-        }
+        allKeyCodes.each!(keycode => this._allKeys[keycode] = new Pressable!SDL_Keycode(keycode));
     }
 
     /**

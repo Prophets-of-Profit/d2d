@@ -4,11 +4,10 @@ import std.algorithm;
 import std.datetime;
 import d2d.InputSource;
 
-immutable uint[] allButtonCodes = [SDL_BUTTON_LEFT, 
-                                  SDL_BUTTON_MIDDLE,
-                                  SDL_BUTTON_RIGHT,
-                                  SDL_BUTTON_X1,
-                                  SDL_BUTTON_X2];
+///A list of all of the button codes
+immutable allButtonCodes = [
+    SDL_BUTTON_LEFT, SDL_BUTTON_MIDDLE, SDL_BUTTON_RIGHT, SDL_BUTTON_X1, SDL_BUTTON_X2
+];
 
 /**
  * The mouse input source which acculmulates mouse information
@@ -98,9 +97,8 @@ class Mouse : InputSource!uint, EventHandler {
      * Makes a mouse and initializes all of the buttons
      */
     this() {
-        foreach(buttoncode; allButtonCodes) {
-            _allButtons[buttoncode] = new Pressable!uint(buttoncode);
-        }
+        allButtonCodes.each!(
+                buttonCode => this._allButtons[buttonCode] = new Pressable!uint(buttonCode));
         this._totalWheelDisplacement = new iVector(0, 0);
         this._location = new iVector(0, 0);
     }
@@ -115,12 +113,10 @@ class Mouse : InputSource!uint, EventHandler {
             this._location.y = event.button.y;
             break;
         case SDL_MOUSEBUTTONDOWN:
-            //this._allButtons.filter!(button => button.id == event.button.button)
-            //    .front.lastPressed = Clock.currTime();
+            this._allButtons[event.button.button].lastPressed = Clock.currTime();
             break;
         case SDL_MOUSEBUTTONUP:
-            //this._allButtons.filter!(button => button.id == event.button.button)
-            //    .front.lastReleased = Clock.currTime();
+            this._allButtons[event.button.button].lastReleased = Clock.currTime();
             break;
         case SDL_MOUSEWHEEL:
             this._totalWheelDisplacement.x += event.wheel.x;
