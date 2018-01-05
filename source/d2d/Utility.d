@@ -27,6 +27,21 @@ struct Color {
     }
 }
 
+enum DefaultColor {
+    RED=Color(255, 0, 0),
+    GREEN=Color(0, 255, 0),
+    BLUE=Color(0, 0, 255),
+    YELLOW=Color(255, 255, 0),
+    MAGENTA=Color(255, 0, 255),
+    CYAN=Color(0, 255, 255),
+    WHITE=Color(255, 255, 255),
+    PINK=Color(255, 125, 255),
+    ORANGE=Color(255, 125, 0),
+    LIGHTGREY=Color(175, 175, 175),
+    DARKGREY=Color(75, 75, 75),
+    BLACK=Color(0, 0, 0)
+}
+
 /**
  * A vector is an object representing distance in vertical and horizontal directions in 2d space
  * Location is accessed by x and y components
