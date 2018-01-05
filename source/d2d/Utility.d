@@ -275,6 +275,16 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     }
 
     /**
+     * Makes a rectangle given top left coordinates as a vector and width and height
+     */
+    this(Vector!T topLeft, T w, T h) {
+        this.x = topLeft.x;
+        this.y = topLeft.y;
+        this.w = w;
+        this.h = h;
+    }
+
+    /**
      * Returns whether this rectangle contains the given point
      */
     bool contains(U)(Vector!U point) {
