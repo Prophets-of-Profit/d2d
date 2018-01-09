@@ -27,19 +27,22 @@ struct Color {
     }
 }
 
-enum DefaultColor {
-    RED=Color(255, 0, 0),
-    GREEN=Color(0, 255, 0),
-    BLUE=Color(0, 0, 255),
-    YELLOW=Color(255, 255, 0),
-    MAGENTA=Color(255, 0, 255),
-    CYAN=Color(0, 255, 255),
-    WHITE=Color(255, 255, 255),
-    PINK=Color(255, 125, 255),
-    ORANGE=Color(255, 125, 0),
-    LIGHTGREY=Color(175, 175, 175),
-    DARKGREY=Color(75, 75, 75),
-    BLACK=Color(0, 0, 0)
+/**
+ * A list of pre-defined common colors
+ */
+enum PredefinedColor {
+    RED = Color(255, 0, 0),
+    GREEN = Color(0, 255, 0),
+    BLUE = Color(0, 0, 255),
+    YELLOW = Color(255, 255, 0),
+    MAGENTA = Color(255, 0, 255),
+    CYAN = Color(0, 255, 255),
+    WHITE = Color(255, 255, 255),
+    PINK = Color(255, 125, 255),
+    ORANGE = Color(255, 125, 0),
+    LIGHTGREY = Color(175, 175, 175),
+    DARKGREY = Color(75, 75, 75),
+    BLACK = Color(0, 0, 0)
 }
 
 /**
@@ -106,26 +109,51 @@ class Vector(T) if (__traits(isScalar, T)) {
     }
 
     /**
-     * Assigns a negation operator the vector
-     * Negating a vector just turns it around and makes its components the opposite of what they are
+     * A vector constructor; takes in a value that acts as both vector components
      */
-    Vector!T opUnary(string op)() if (op == "-") {
-        return new Vector!T(-x, -y);
+    this(T xy) {
+        this.x = xy;
+        this.y = xy;
     }
 
     /**
-     * Allows the vector components to be postincremented or postdecremented
+     * Allows assigning the vector to a single value to set all elements of the vector to such a value
      */
-    Vector!T opUnary(string op)() if (op == "++" || op == "--") {
-        mixin("return new Vector!T(x" ~ op ~ ", y" ~ op ~ ");");
+    void opAssign(T rhs) {
+        this.x = rhs;
+        this.y = rhs;
+    }
+
+    /**
+     * Allows the vector to have the joint operator assign syntax
+     * Works component-wise (eg. (3, 2, 1) += (1, 2, 3) makes (3, 2, 1) into (4, 4, 4))
+     */
+    void opOpAssign(string op)(Vector!T otherVector) {
+        mixin("this.x " ~ op ~ "= otherVector.x");
+        mixin("this.y " ~ op ~ "= otherVector.y");
+    }
+
+    /**
+     * Allows the vector to have the joint operator assign syntax
+     * Works component-wise, so each operation of the constant is applied to each component
+     */
+    void opOpAssign(string op)(T constant) {
+        mixin("this.x " ~ op ~ "= constant");
+        mixin("this.y " ~ op ~ "= constant");
+    }
+
+    /**
+     * Allows unary functions to be applied to the vector; aplies the same operator to all components
+     */
+    Vector!T opUnary(string op)() {
+        mixin("return new Vector!T(" ~ op ~ "x, " ~ op ~ "y);");
     }
 
     /**
      * Allows the vector to be used with normal operators
      * Works component-wise (eg. (3, 2, 1) + (1, 2, 3) = (4, 4, 4))
      */
-    Vector!T opBinary(string op)(Vector!T otherVector)
-            if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+    Vector!T opBinary(string op)(Vector!T otherVector) {
         mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
     }
 
@@ -133,8 +161,7 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Allows the vector to be used with normal operators
      * Works component-wise, so each operation of the constant is applied to each component
      */
-    Vector!T opBinary(string op)(T constant)
-            if (op == "+" || op == "-" || op == "*" || op == "/" || op == "%") {
+    Vector!T opBinary(string op)(T constant) {
         mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
     }
 
@@ -308,3 +335,6 @@ alias fVector = Vector!float;
 alias iRectangle = Rectangle!int;
 alias dRectangle = Rectangle!double;
 alias fRectangle = Rectangle!float;
+alias iPolygon = Polygon!int;
+alias dPolygon = Polygon!double;
+alias fPolygon = Polygon!float;

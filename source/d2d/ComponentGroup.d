@@ -23,8 +23,24 @@ class ComponentGroup : Component {
      * Gets the location of this group as the smallest rectangle that contains all components
      */
     override @property iRectangle location() {
-        //TODO: get the size of this by finding the smallest rectangle that contains all subComponents
-        return null;
+        iVector minValue = new iVector(int.max);
+        iVector maxValue = new iVector(int.min);
+        foreach (component; this.subComponents) {
+            if (component.location.x < minValue.x) {
+                minValue.x = component.location.x;
+            }
+            if (component.location.y < minValue.y) {
+                minValue.y = component.location.y;
+            }
+            if (component.location.x > maxValue.x) {
+                maxValue.x = component.location.x;
+            }
+            if (component.location.y > maxValue.y) {
+                maxValue.y = component.location.y;
+            }
+        }
+        iVector difference = maxValue - minValue;
+        return new iRectangle(minValue.x, minValue.y, difference.x, difference.y);
     }
 
     /**
