@@ -5,6 +5,7 @@ public import derelict.sdl2.image;
 public import derelict.sdl2.mixer;
 public import derelict.sdl2.ttf;
 public import derelict.sdl2.net;
+public import d2d.math;
 public import d2d.sdl2.Font;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;

@@ -9,4 +9,5 @@ public import d2d.Keyboard;
 public import d2d.Mouse;
 public import d2d.Screen;
 public import d2d.Utility;
+public import d2d.math;
 public import d2d.sdl2;
