@@ -2,7 +2,7 @@ module d2d.sdl2.Mouse;
 
 import std.algorithm;
 import std.datetime;
-import d2d.sdl2.InputSource;
+import d2d.sdl2;
 
 ///A list of all of the button codes
 immutable allButtonCodes = [

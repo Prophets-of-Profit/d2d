@@ -1,6 +1,6 @@
 module d2d.Button;
 
-import d2d.Component;
+import d2d;
 
 /**
  * A predefined component that may be used as one would normally expect

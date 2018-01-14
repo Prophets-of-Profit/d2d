@@ -1,6 +1,6 @@
 module d2d.sdl2.EventHandler;
 
-public import d2d.sdl2;
+import d2d.sdl2;
 
 /**
  * An interface that just defines an object that can collect and respond to sdl events

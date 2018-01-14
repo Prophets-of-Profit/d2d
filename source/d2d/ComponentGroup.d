@@ -1,7 +1,7 @@
 module d2d.ComponentGroup;
 
 import std.algorithm;
-public import d2d.Component;
+import d2d;
 
 /**
  * A ComponentGroup is just a way of grouping a bunch of related components into one singular group

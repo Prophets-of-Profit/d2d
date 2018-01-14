@@ -3,7 +3,7 @@ module d2d.sdl2.InputSource;
 import std.algorithm;
 import std.array;
 import std.datetime;
-public import d2d.sdl2.EventHandler;
+import d2d.sdl2;
 
 /**
  * A pressable input source that stores it's own state

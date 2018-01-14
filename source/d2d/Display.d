@@ -4,8 +4,8 @@ import std.algorithm;
 import std.conv;
 import std.datetime.stopwatch;
 import core.thread;
-public import d2d.Screen;
-public import d2d.sdl2;
+import d2d;
+import d2d.sdl2;
 
 /**
  * A display that handles collecting events and drawing to the screen and handling window stuff

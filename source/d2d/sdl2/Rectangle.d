@@ -7,7 +7,7 @@ import d2d.sdl2;
  * A rectangle is a box in 2d space
  * This struct only does Axis Aligned Bounding Boxes (AABB) which don't have rotation
  */
-class Rectangle(T) : Polygon!(T, 2, 4) {
+class Rectangle(T) {
 
     private SDL_Rect sdlRectangle;
     T x; ///The top left x coordinate of the rectangle
@@ -60,7 +60,13 @@ class Rectangle(T) : Polygon!(T, 2, 4) {
         this.y = y;
         this.w = w;
         this.h = h;
-        super([topLeft, topRight, bottomRight, bottomLeft]);
+    }
+
+    /**
+     * Allows the rectangle to be casted to a polygon
+     */
+    override Polygon!(T, 2, 4) opCast(U)() const if (is(U == Polygon!(T, 2, 4))) {
+        return new Polygon!(T, 2, 4)([topLeft, topRight, bottomRight, bottomLeft]);
     }
 
     /**

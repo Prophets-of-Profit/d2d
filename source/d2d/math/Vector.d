@@ -9,6 +9,7 @@ import std.parallelism;
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
  * Vectors currently don't support swizzling
+ * TODO: slice operators (and opCall?)
  */
 class Vector(T, ulong dimensions) {
 
@@ -203,6 +204,16 @@ class Vector(T, ulong dimensions) {
 }
 
 /**
+ * Calculates the dot product or the similarity of two vectors
+ */
+T dot(T)(Vector!T first, Vector!T second) {
+    immutable pairWiseMultiple = first * second;
+    return pairWiseMultiple.components.sum;
+}
+
+//TODO: implement cross product
+
+/**
  * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
  * TODO: untested and explain how it works
  */
@@ -223,14 +234,6 @@ bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
             (firstDelta.x * secondDelta.y) - (firstDelta.y * secondDelta.x));
     return firstIntersection >= 0 && secondIntersection >= 0
         && firstIntersection <= 1 && secondIntersection <= 1;
-}
-
-/**
- * Calculates the dot product or the similarity of two vectors
- */
-T dot(T)(Vector!T first, Vector!T second) {
-    immutable pairWiseMultiple = first * second;
-    return pairWiseMultiple.components.sum;
 }
 
 alias iVector = Vector!(int, 2);

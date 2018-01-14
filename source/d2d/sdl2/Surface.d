@@ -1,7 +1,7 @@
 module d2d.sdl2.Surface;
 
 import std.string;
-public import d2d.sdl2;
+import d2d.sdl2;
 
 /**
  * Surfaces are a rectangular collection of pixels

@@ -3,7 +3,7 @@ module d2d.sdl2.Keyboard;
 import std.algorithm;
 import std.array;
 import std.datetime;
-import d2d.sdl2.InputSource;
+import d2d.sdl2;
 
 ///A list of all of the key codes
 immutable allKeyCodes = [
