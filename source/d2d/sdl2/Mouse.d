@@ -119,8 +119,8 @@ class Mouse : InputSource!uint, EventHandler {
             this._allButtons[event.button.button].lastReleased = Clock.currTime();
             break;
         case SDL_MOUSEWHEEL:
-            this._totalWheelDisplacement.x = this._totalWheelDisplacement.x + event.wheel.x;
-            this._totalWheelDisplacement.y = this._totalWheelDisplacement.x + event.wheel.y;
+            this._totalWheelDisplacement.x += event.wheel.x;
+            this._totalWheelDisplacement.y += event.wheel.y;
             break;
         default:
             break;

@@ -19,11 +19,7 @@ class Vector(T, ulong dimensions) {
      * If the vector is at least 1-dimensional, makes x a viable property method
      */
     static if (dimensions > 0) {
-        @property void x(T value) {
-            this.components[0] = value;
-        }
-
-        @property T x() {
+        @property ref T x() {
             return this.components[0];
         }
     }
@@ -32,11 +28,7 @@ class Vector(T, ulong dimensions) {
      * If the vector is at least 2-dimensional, makes y a viable property method
      */
     static if (dimensions > 1) {
-        @property void y(T value) {
-            this.components[1] = value;
-        }
-
-        @property T y() {
+        @property ref T y() {
             return this.components[1];
         }
     }
@@ -45,11 +37,7 @@ class Vector(T, ulong dimensions) {
      * If the vector is at least 3-dimensional, makes z a viable property method
      */
     static if (dimensions > 2) {
-        @property void z(T value) {
-            this.components[2] = value;
-        }
-
-        @property T z() {
+        @property ref T z() {
             return this.components[2];
         }
     }
