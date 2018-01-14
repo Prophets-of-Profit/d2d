@@ -36,7 +36,8 @@ enum PredefinedColor {
     BLUE = Color(0, 0, 255),
     YELLOW = Color(255, 255, 0),
     MAGENTA = Color(255, 0, 255),
-    CYAN = Color(0, 255, 255),
+    CYAN = Color(0,
+            255, 255),
     WHITE = Color(255, 255, 255),
     PINK = Color(255, 125, 255),
     ORANGE = Color(255, 125, 0),
@@ -49,8 +50,8 @@ enum PredefinedColor {
  * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
  * TODO: untested and explain how it works
  */
-bool doSegmentsIntersect(T, U)(Vector!T firstInitial, Vector!T firstTerminal,
-        Vector!U secondInitial, Vector!U secondTerminal) {
+bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
+        2) firstTerminal, Vector!U secondInitial, Vector!U secondTerminal) {
     immutable firstDelta = firstTerminal - firstInitial;
     immutable secondDelta = secondTerminal - secondInitial;
     double dotproduct = cast(double)(firstDelta.x * secondDelta.x + firstDelta.y * secondDelta.y) / (
@@ -83,29 +84,29 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     /** 
      * Gets the coordinates of the top left corner of the rectangle 
      */
-    @property Vector!T topLeft() {
-        return new Vector!T(this.x, this.y);
+    @property Vector!(T, 2) topLeft() {
+        return new Vector!(T, 2)(this.x, this.y);
     }
 
     /** 
      * Gets the coordinates of the bottom left corner of the rectangle 
      */
-    @property Vector!T bottomLeft() {
-        return new Vector!T(this.x, this.y + this.h);
+    @property Vector!(T, 2) bottomLeft() {
+        return new Vector!(T, 2)(this.x, this.y + this.h);
     }
 
     /** 
      * Gets the coordinates of the top right corner of the rectangle 
      */
-    @property Vector!T topRight() {
-        return new Vector!T(this.x + this.w, this.y);
+    @property Vector!(T, 2) topRight() {
+        return new Vector!(T, 2)(this.x + this.w, this.y);
     }
 
     /** 
      * Gets the coordinates of the bottom right corner of the rectangle 
      */
-    @property Vector!T bottomRight() {
-        return new Vector!T(this.x + this.w, this.y + this.h);
+    @property Vector!(T, 2) bottomRight() {
+        return new Vector!(T, 2)(this.x + this.w, this.y + this.h);
     }
 
     /**
@@ -137,7 +138,7 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     /**
      * Makes a rectangle given top left coordinates as a vector and width and height
      */
-    this(Vector!T topLeft, T w, T h) {
+    this(Vector!(T, 2) topLeft, T w, T h) {
         this.x = topLeft.x;
         this.y = topLeft.y;
         this.w = w;
@@ -147,7 +148,7 @@ class Rectangle(T) if (__traits(isScalar, T)) {
     /**
      * Returns whether this rectangle contains the given point
      */
-    bool contains(U)(Vector!U point) {
+    bool contains(U)(Vector!(U, 2) point) {
         return point.x > this.x && point.x < this.x + this.w && point.y > this.y
             && point.y < this.y + this.h;
     }
@@ -165,3 +166,10 @@ bool intersects(T, U)(Rectangle!T rect1, Rectangle!U rect2) {
 alias iRectangle = Rectangle!int;
 alias dRectangle = Rectangle!double;
 alias fRectangle = Rectangle!float;
+
+SDL_Point temp;
+
+SDL_Point* handle(iVector vec) {
+    temp = SDL_Point(vec.x, vec.y);
+    return &temp;
+}

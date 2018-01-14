@@ -102,7 +102,8 @@ class Renderer {
      */
     @property fVector scale() {
         fVector scaling = new fVector(1, 1);
-        ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.x, &scaling.y));
+        ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.components[0],
+                &scaling.components[1]));
         return scaling;
     }
 
@@ -120,7 +121,8 @@ class Renderer {
      */
     @property iVector logicalSize() {
         iVector dimensions = new iVector(0, 0);
-        SDL_RenderGetLogicalSize(this.renderer, &dimensions.x, &dimensions.y);
+        SDL_RenderGetLogicalSize(this.renderer, &dimensions.components[0],
+                &dimensions.components[1]);
         return dimensions;
     }
 
@@ -129,7 +131,8 @@ class Renderer {
      */
     @property iVector outputSize() {
         iVector size = new iVector(0, 0);
-        ensureSafe(SDL_GetRendererOutputSize(this.renderer, &size.x, &size.y));
+        ensureSafe(SDL_GetRendererOutputSize(this.renderer,
+                &size.components[0], &size.components[1]));
         return size;
     }
 
@@ -278,16 +281,6 @@ class Renderer {
         this.drawColor = color;
         this.fillRect(toFill);
         this.drawColor = oldColor;
-    }
-
-    /**
-     * Draws a polygon by connecting all the vertices with lines
-     */
-    void drawPolygon(Polygon!int toDraw) {
-        foreach (i; 0 .. toDraw.points.length - 2) {
-            this.drawLine(toDraw.points[i], toDraw.points[i + 1]);
-        }
-        this.drawLine(toDraw.points[$ - 1], toDraw.points[0]);
     }
 
     /**

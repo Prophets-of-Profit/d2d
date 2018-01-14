@@ -1,44 +1,74 @@
 module d2d.math.Vector;
 
+import std.algorithm;
+import std.array;
 import std.math;
+import std.parallelism;
 import d2d.sdl2;
 
 /**
- * A vector is an object representing distance in vertical and horizontal directions in 2d space
- * Location is accessed by x and y components
- * Can also act as a point, representing distance from (0, 0)
- * TODO overload operators
+ * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
+ * Components are the first template parameter with the second template parameter being vector dimensionality
  */
-class Vector(T) if (__traits(isScalar, T)) {
+class Vector(T, ulong dimensions) {
 
-    private SDL_Point sdlPoint;
-    T x; ///X value of the point
-    T y; ///Y value of the point
+    T[] components; ///The components of the vector
 
     /**
-     * Gets the point as an SDL_Point
+     * If the vector is at least 1-dimensional, makes x a viable property method
      */
-    @property SDL_Point* handle() {
-        sdlPoint = SDL_Point(cast(int) this.x, cast(int) this.y);
-        return &sdlPoint;
+    static if (dimensions > 0) {
+        @property void x(T value) {
+            this.components[0] = value;
+        }
+
+        @property T x() {
+            return this.components[0];
+        }
     }
 
     /**
-     * Sets the angle of the vector
-     * Angles are in radians where right is 0 and up is pi / 2
+     * If the vector is at least 2-dimensional, makes y a viable property method
      */
-    @property void angle(double a) {
-        immutable mag = this.magnitude;
-        this.x = cast(T)(mag * cos(a));
-        this.y = cast(T)(mag * sin(a));
+    static if (dimensions > 1) {
+        @property void y(T value) {
+            this.components[1] = value;
+        }
+
+        @property T y() {
+            return this.components[1];
+        }
     }
 
     /**
-     * Gets the angle of the vector 
-     * Angles are in radians where right is 0 and up is pi / 2
+     * If the vector is at least 3-dimensional, makes z a viable property method
      */
-    @property double angle() {
-        return atan2(0.0 + this.y, 0.0 + this.x);
+    static if (dimensions > 2) {
+        @property void z(T value) {
+            this.components[2] = value;
+        }
+
+        @property T z() {
+            return this.components[2];
+        }
+    }
+
+    /**
+     * Sets the angles of the vector where the angles are given in radians
+     * Angles are direction angles (eg. first angle is direction from x, second is direction from y, etc...)
+     * 0 goes along the positive axis
+     */
+    @property void directionAngles(Vector!(T, dimensions) angles) {
+        //TODO: write this
+    }
+
+    /**
+     * Gets the angles of the vector where the angles are given in radians
+     * Angles are direction angles (eg. first angle is direction from x, second is direction from y, etc...)
+     * 0 goes along the positive axis
+     */
+    @property Vector!(T, dimensions) directionAngles() {
+        return new Vector!(T, dimensions)();
     }
 
     /**
@@ -46,49 +76,71 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Maintains component ratios of the vector
      */
     @property void magnitude(double mag) {
-        immutable scalar = mag / this.magnitude;
-        this.x = cast(T)(this.x * scalar);
-        this.y = cast(T)(this.y * scalar);
+        immutable scale = mag / this.magnitude;
+        foreach (component; this.components.parallel) {
+            component = cast(T)(component * scale);
+        }
     }
 
     /**
      * Gets the length of the vector
      */
     @property double magnitude() {
-        return sqrt(0.0 + this.x * this.x + this.y * this.y);
+        return sqrt(cast(double) this.components.reduce!((squareMag,
+                component) => squareMag + component.pow(2)));
     }
 
     /**
-     * A vector constructor; takes in an x value and a y value
+     * A vector constructor; takes in the number of args given and assigns them as components
      */
-    this(T x, T y) {
-        this.x = x;
-        this.y = y;
+    this(T[] components...) {
+        assert(components.length == dimensions);
+        this.components = components;
     }
 
     /**
      * A vector constructor; takes in a value that acts as both vector components
      */
-    this(T xy) {
-        this.x = xy;
-        this.y = xy;
+    this(T allComponents) {
+        foreach (component; this.components.parallel) {
+            component = allComponents;
+        }
+    }
+
+    /**
+     * Allows assigning the vector to a static array to set all components of the vector
+     */
+    void opAssign(T[] rhs) {
+        this.components = rhs;
     }
 
     /**
      * Allows assigning the vector to a single value to set all elements of the vector to such a value
      */
     void opAssign(T rhs) {
-        this.x = rhs;
-        this.y = rhs;
+        foreach (component; this.components.parallel) {
+            component = rhs;
+        }
     }
 
     /**
      * Allows the vector to have the joint operator assign syntax
      * Works component-wise (eg. (3, 2, 1) += (1, 2, 3) makes (3, 2, 1) into (4, 4, 4))
      */
-    void opOpAssign(string op)(Vector!T otherVector) {
-        mixin("this.x " ~ op ~ "= otherVector.x");
-        mixin("this.y " ~ op ~ "= otherVector.y");
+    void opOpAssign(string op)(Vector!(T, dimensions) otherVector) {
+        foreach (index, ref component; this.components.parallel) {
+            mixin("component " ~ op ~ "= otherVector.components[index];");
+        }
+    }
+
+    /**
+     * Allows the vector to have the joint operator assign syntax
+     * Works component-wise, so each operation of the constant is applied to each component
+     */
+    void opOpAssign(string op)(T[] otherComponents) {
+        foreach (index, ref component; this.components.parallel) {
+            mixin("component " ~ op ~ "= otherComponents[index];");
+        }
     }
 
     /**
@@ -96,31 +148,56 @@ class Vector(T) if (__traits(isScalar, T)) {
      * Works component-wise, so each operation of the constant is applied to each component
      */
     void opOpAssign(string op)(T constant) {
-        mixin("this.x " ~ op ~ "= constant");
-        mixin("this.y " ~ op ~ "= constant");
+        foreach (index, ref component; this.components.parallel) {
+            mixin("component " ~ op ~ "= constant;");
+        }
     }
 
     /**
      * Allows unary functions to be applied to the vector; aplies the same operator to all components
      */
-    Vector!T opUnary(string op)() {
-        mixin("return new Vector!T(" ~ op ~ "x, " ~ op ~ "y);");
+    Vector!(T, dimensions) opUnary(string op)() {
+        Vector!(T, dimensions) newVec = new Vector(this.components);
+        foreach (ref component; newVec.components.parallel) {
+            mixin("component = " ~ op ~ "component;");
+        }
+        return newVec;
     }
 
     /**
      * Allows the vector to be used with normal operators
      * Works component-wise (eg. (3, 2, 1) + (1, 2, 3) = (4, 4, 4))
      */
-    Vector!T opBinary(string op)(Vector!T otherVector) {
-        mixin("return new Vector!T(x" ~ op ~ "otherVector.x, y" ~ op ~ "otherVector.y);");
+    Vector!(T, dimensions) opBinary(string op)(Vector!(T, dimensions) otherVector) {
+        Vector!(T, dimensions) newVec = new Vector(this.components);
+        foreach (index, component; newVec.components.parallel) {
+            mixin("component " ~ op ~ "= otherVector.components[index];");
+        }
+        return newVec;
+    }
+
+    /**
+     * Allows the vector to be used with normal operators
+     * Works component-wise (eg. (3, 2, 1) + (1, 2, 3) = (4, 4, 4))
+     */
+    Vector!(T, dimensions) opBinary(string op)(T[] otherComponents) {
+        Vector!(T, dimensions) newVec = new Vector(this.components);
+        foreach (index, ref component; newVec.components.parallel) {
+            mixin("component " ~ op ~ "= otherComponents[index];");
+        }
+        return newVec;
     }
 
     /**
      * Allows the vector to be used with normal operators
      * Works component-wise, so each operation of the constant is applied to each component
      */
-    Vector!T opBinary(string op)(T constant) {
-        mixin("return new Vector!T(x" ~ op ~ "constant, y" ~ op ~ "constant);");
+    Vector!(T, dimensions) opBinary(string op)(T constant) {
+        Vector!(T, dimensions) newVec = new Vector(this.components);
+        foreach (index, ref component; newVec.components.parallel) {
+            mixin("component " ~ op ~ "= constant;");
+        }
+        return newVec;
     }
 
 }
@@ -130,9 +207,9 @@ class Vector(T) if (__traits(isScalar, T)) {
  */
 T dot(T)(Vector!T first, Vector!T second) {
     immutable pairWiseMultiple = first * second;
-    return pairWiseMultiple.x + pairWiseMultiple.y;
+    return pairWiseMultiple.components.sum;
 }
 
-alias iVector = Vector!int;
-alias dVector = Vector!double;
-alias fVector = Vector!float;
+alias iVector = Vector!(int, 2);
+alias dVector = Vector!(double, 2);
+alias fVector = Vector!(float, 2);

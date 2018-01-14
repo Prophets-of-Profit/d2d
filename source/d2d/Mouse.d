@@ -47,7 +47,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iVector windowLocation() {
         iVector location = new iVector(-1, -1);
-        SDL_GetMouseState(&location.x, &location.y);
+        SDL_GetMouseState(&location.components[0], &location.components[1]);
         return location;
     }
 
@@ -63,7 +63,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iVector screenLocation() {
         iVector location = new iVector(-1, -1);
-        SDL_GetGlobalMouseState(&location.x, &location.y);
+        SDL_GetGlobalMouseState(&location.components[0], &location.components[1]);
         return location;
     }
 
@@ -119,8 +119,8 @@ class Mouse : InputSource!uint, EventHandler {
             this._allButtons[event.button.button].lastReleased = Clock.currTime();
             break;
         case SDL_MOUSEWHEEL:
-            this._totalWheelDisplacement.x += event.wheel.x;
-            this._totalWheelDisplacement.y += event.wheel.y;
+            this._totalWheelDisplacement.x = this._totalWheelDisplacement.x + event.wheel.x;
+            this._totalWheelDisplacement.y = this._totalWheelDisplacement.x + event.wheel.y;
             break;
         default:
             break;

@@ -25,7 +25,7 @@ class Texture {
      */
     @property iVector dimensions() {
         iVector dim = new iVector(0, 0);
-        SDL_QueryTexture(this.texture, null, null, &dim.x, &dim.y);
+        SDL_QueryTexture(this.texture, null, null, &dim.components[0], &dim.components[1]);
         return dim;
     }
 
