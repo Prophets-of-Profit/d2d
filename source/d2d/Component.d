@@ -1,8 +1,8 @@
 module d2d.Component;
 
 public import d2d.Display;
-public import d2d.EventHandler;
-public import d2d.Rectangle;
+public import d2d.sdl2.EventHandler;
+public import d2d.sdl2.Rectangle;
 
 /**
  * A component defines something that can be drawn, handle events, and takes up a space on the screen

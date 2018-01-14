@@ -1,4 +1,4 @@
-module d2d.Rectangle;
+module d2d.sdl2.Rectangle;
 
 import std.math;
 import d2d.sdl2;

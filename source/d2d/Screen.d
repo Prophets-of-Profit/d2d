@@ -3,7 +3,7 @@ module d2d.Screen;
 import std.algorithm;
 import d2d.Component;
 public import d2d.Display;
-public import d2d.EventHandler;
+public import d2d.sdl2;
 
 /**
  * An object that represents an Activity or a Screen or a point in time of the display

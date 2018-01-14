@@ -1,4 +1,4 @@
-module d2d.EventHandler;
+module d2d.sdl2.EventHandler;
 
 public import d2d.sdl2;
 

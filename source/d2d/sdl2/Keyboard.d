@@ -1,9 +1,9 @@
-module d2d.Keyboard;
+module d2d.sdl2.Keyboard;
 
 import std.algorithm;
 import std.array;
 import std.datetime;
-import d2d.InputSource;
+import d2d.sdl2.InputSource;
 
 ///A list of all of the key codes
 immutable allKeyCodes = [

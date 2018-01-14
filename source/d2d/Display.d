@@ -4,9 +4,6 @@ import std.algorithm;
 import std.conv;
 import std.datetime.stopwatch;
 import core.thread;
-import d2d.EventHandler;
-import d2d.Keyboard;
-import d2d.Mouse;
 public import d2d.Screen;
 public import d2d.sdl2;
 
