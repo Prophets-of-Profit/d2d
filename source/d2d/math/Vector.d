@@ -4,11 +4,11 @@ import std.algorithm;
 import std.array;
 import std.math;
 import std.parallelism;
-import d2d.sdl2;
 
 /**
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
+ * Vectors currently don't support swizzling
  */
 class Vector(T, ulong dimensions) {
 
@@ -200,6 +200,29 @@ class Vector(T, ulong dimensions) {
         return newVec;
     }
 
+}
+
+/**
+ * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
+ * TODO: untested and explain how it works
+ */
+bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
+        2) firstTerminal, Vector!U secondInitial, Vector!U secondTerminal) {
+    immutable firstDelta = firstTerminal - firstInitial;
+    immutable secondDelta = secondTerminal - secondInitial;
+    double dotproduct = cast(double)(firstDelta.x * secondDelta.x + firstDelta.y * secondDelta.y) / (
+            firstDelta.magnitude * secondDelta.magnitude);
+    if (dotproduct == 1 || dotproduct == -1) {
+        return firstDelta == secondDelta;
+    }
+    immutable firstIntersection = -(((secondInitial.x - firstInitial.x) * secondDelta.y) - (
+            (secondInitial.y - firstInitial.y) * secondDelta.x)) / (
+            (secondDelta.x * firstDelta.y) - (secondDelta.y * firstDelta.x));
+    immutable secondIntersection = -(((firstInitial.x - secondInitial.x) * firstDelta.y) - (
+            (firstInitial.y - secondInitial.y) * firstDelta.x)) / (
+            (firstDelta.x * secondDelta.y) - (firstDelta.y * secondDelta.x));
+    return firstIntersection >= 0 && secondIntersection >= 0
+        && firstIntersection <= 1 && secondIntersection <= 1;
 }
 
 /**

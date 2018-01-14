@@ -5,14 +5,15 @@ public import derelict.sdl2.image;
 public import derelict.sdl2.mixer;
 public import derelict.sdl2.ttf;
 public import derelict.sdl2.net;
+public import d2d.Color;
 public import d2d.math;
 public import d2d.sdl2.Font;
+public import d2d.Rectangle;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;
 public import d2d.sdl2.Texture;
 public import d2d.sdl2.Window;
-public import d2d.Utility;
 
 import std.conv;
 
@@ -90,4 +91,15 @@ void ensureSafe(int output) {
 T ensureSafe(T)(T output) {
     ensureSafe((output is null).to!int);
     return output;
+}
+
+//A completely pointless variable to allow turning a 2d vector into an SDL_Point*; variable needed because excaping references is not allowed
+SDL_Point temp;
+
+/**
+ * Gets a 2d vector as an SDL_Point*
+ */
+SDL_Point* handle(iVector vec) {
+    temp = SDL_Point(vec.x, vec.y);
+    return &temp;
 }
