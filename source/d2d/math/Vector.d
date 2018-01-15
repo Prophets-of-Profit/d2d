@@ -11,7 +11,6 @@ import std.parallelism;
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
  * TODO: vector swizzling with opDispatch
  * TODO: slice operators (and opCall?)
- * TODO: get rid of .dups?
  */
 class Vector(T, ulong dimensions) {
 
@@ -58,7 +57,7 @@ class Vector(T, ulong dimensions) {
      */
     @property void magnitude(double mag) {
         immutable scale = mag / this.magnitude;
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             component = cast(T)(component * scale);
         }
     }
@@ -83,7 +82,7 @@ class Vector(T, ulong dimensions) {
      * A vector constructor; takes in a value that acts as both vector components
      */
     this(T allComponents) {
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             component = allComponents;
         }
     }
@@ -99,7 +98,7 @@ class Vector(T, ulong dimensions) {
      * Allows assigning the vector to a single value to set all elements of the vector to such a value
      */
     void opAssign(T rhs) {
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             component = rhs;
         }
     }
@@ -109,7 +108,7 @@ class Vector(T, ulong dimensions) {
      * Works component-wise (eg. (3, 2, 1) += (1, 2, 3) makes (3, 2, 1) into (4, 4, 4))
      */
     void opOpAssign(string op)(Vector!(T, dimensions) otherVector) {
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             mixin("component " ~ op ~ "= otherVector.components[i];");
         }
     }
@@ -119,7 +118,7 @@ class Vector(T, ulong dimensions) {
      * Works component-wise, so each operation of the constant is applied to each component
      */
     void opOpAssign(string op)(T[] otherComponents) {
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             mixin("component " ~ op ~ "= otherComponents[i];");
         }
     }
@@ -129,7 +128,7 @@ class Vector(T, ulong dimensions) {
      * Works component-wise, so each operation of the constant is applied to each component
      */
     void opOpAssign(string op)(T constant) {
-        foreach (i, ref component; this.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             mixin("component " ~ op ~ "= constant;");
         }
     }
@@ -139,7 +138,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opUnary(string op)() {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (i, ref component; newVec.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) newVec.components).parallel) {
             mixin("component = " ~ op ~ "component;");
         }
         return newVec;
@@ -151,7 +150,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(Vector!(T, dimensions) otherVector) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (i, ref component; newVec.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) newVec.components).parallel) {
             mixin("component " ~ op ~ "= otherVector.components[i];");
         }
         return newVec;
@@ -163,7 +162,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(T[] otherComponents) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (i, ref component; newVec.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) newVec.components).parallel) {
             mixin("component " ~ op ~ "= otherComponents[i];");
         }
         return newVec;
@@ -175,7 +174,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(T constant) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (i, ref component; newVec.components.dup.parallel) {
+        foreach (i, ref component; (cast(T[]) newVec.components).parallel) {
             mixin("component " ~ op ~ "= constant;");
         }
         return newVec;
