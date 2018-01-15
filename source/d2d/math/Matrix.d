@@ -8,7 +8,7 @@ import std.array;
  */
 class Matrix(T, ulong rows, ulong columns) {
 
-    T[rows][columns] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
+    T[][] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
 
     /**
      * Recursively finds the determinant of the matrix if the matrix is square
@@ -41,9 +41,29 @@ class Matrix(T, ulong rows, ulong columns) {
         }
     }
     
-
+    /**
+     * Constructs a matrix from a two-dimensional array of elements
+     */
     this(T[][] elements) {
         this.elements = elements;
+    }
+
+    /**
+     * Allows assigning the matrix to a static two-dimensional array to set all components of the vector
+     */
+    void opAssign(T[][] rhs) {
+        this.elements = rhs;
+    }
+
+    /**
+     * Allows assigning the matrix to a single value to set all elements of the vector to such a value
+     */
+    void opAssign(T rhs) {
+        foreach (i; 0..this.elements.length) {
+            foreach(element; this.elements[i].parallel){
+                element = rhs;
+            }
+        }
     }
 
 }
