@@ -187,8 +187,8 @@ class Vector(T, ulong dimensions) {
      */
     void opDispatch(string op)(Vector!(T, op.length) otherVector) {
         static foreach (i, val; op) {
-            mixin("this." ~ val ~ " = otherVector[" ~ i ~ "];");
-        }
+                mixin("this." ~ val ~ " = otherVector[" ~ i ~ "];");
+            }
     }
 
     /**
@@ -199,8 +199,8 @@ class Vector(T, ulong dimensions) {
     Vector!(T, op.length) opDispatch(string op)() {
         Vector!(T, op.length) swizzled = new Vector!(T, op.length)(0);
         static foreach (i, val; op) {
-            mixin("swizzled.components[" ~ i ~ "] = this." ~ val ~ ";");
-        }
+                mixin("swizzled.components[" ~ i ~ "] = this." ~ val ~ ";");
+            }
         return swizzled;
     }
 
@@ -222,12 +222,23 @@ class Vector(T, ulong dimensions) {
 /**
  * Calculates the dot product or the similarity of two vectors
  */
-T dot(T)(Vector!T first, Vector!T second) {
+T dot(T, ulong dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
     immutable pairWiseMultiple = first * second;
     return pairWiseMultiple.components.sum;
 }
 
-//TODO: implement cross product
+/**
+ * Calculates the cross product or the perpindicular vector to two vectors
+ * Currently only works on 2 or 3 dimensional vectors
+ */
+Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) second)
+        if (size == 2 || size == 3) {
+    static if (size == 2) {
+        return new Vector!(T, 3)(0, 0, first.x * second.y - first.y * second.x);
+    }
+    return new Vector!(T, 3)(first.y * second.z - first.z * second.y,
+            first.z * second.x - first.x * second.z, first.x * second.y - first.y * second.x);
+}
 
 /**
  * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
