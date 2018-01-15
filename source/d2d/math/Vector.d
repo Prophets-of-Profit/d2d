@@ -8,37 +8,29 @@ import std.parallelism;
 /**
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
- * Vectors currently don't support swizzling
+ * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
+ * TODO: vector swizzling with opDispatch
  * TODO: slice operators (and opCall?)
+ * TODO: get rid of .dups?
  */
 class Vector(T, ulong dimensions) {
 
-    T[] components; ///The components of the vector
-
-    /**
-     * If the vector is at least 1-dimensional, makes x a viable property method
-     */
-    static if (dimensions > 0) {
-        @property ref T x() {
-            return this.components[0];
-        }
-    }
-
-    /**
-     * If the vector is at least 2-dimensional, makes y a viable property method
-     */
-    static if (dimensions > 1) {
-        @property ref T y() {
-            return this.components[1];
-        }
-    }
-
-    /**
-     * If the vector is at least 3-dimensional, makes z a viable property method
-     */
-    static if (dimensions > 2) {
-        @property ref T z() {
-            return this.components[2];
+    ///The components of the vector
+    union {
+        T[dimensions] components;
+        struct {
+            static if (dimensions > 0) {
+                T x;
+            }
+            static if (dimensions > 1) {
+                T y;
+            }
+            static if (dimensions > 2) {
+                T z;
+            }
+            static if (dimensions > 3) {
+                T w;
+            }
         }
     }
 
@@ -66,7 +58,7 @@ class Vector(T, ulong dimensions) {
      */
     @property void magnitude(double mag) {
         immutable scale = mag / this.magnitude;
-        foreach (component; this.components.parallel) {
+        foreach (i, ref component; this.components.dup.parallel) {
             component = cast(T)(component * scale);
         }
     }
@@ -91,7 +83,7 @@ class Vector(T, ulong dimensions) {
      * A vector constructor; takes in a value that acts as both vector components
      */
     this(T allComponents) {
-        foreach (component; this.components.parallel) {
+        foreach (i, ref component; this.components.dup.parallel) {
             component = allComponents;
         }
     }
@@ -107,7 +99,7 @@ class Vector(T, ulong dimensions) {
      * Allows assigning the vector to a single value to set all elements of the vector to such a value
      */
     void opAssign(T rhs) {
-        foreach (component; this.components.parallel) {
+        foreach (i, ref component; this.components.dup.parallel) {
             component = rhs;
         }
     }
@@ -117,8 +109,8 @@ class Vector(T, ulong dimensions) {
      * Works component-wise (eg. (3, 2, 1) += (1, 2, 3) makes (3, 2, 1) into (4, 4, 4))
      */
     void opOpAssign(string op)(Vector!(T, dimensions) otherVector) {
-        foreach (index, ref component; this.components.parallel) {
-            mixin("component " ~ op ~ "= otherVector.components[index];");
+        foreach (i, ref component; this.components.dup.parallel) {
+            mixin("component " ~ op ~ "= otherVector.components[i];");
         }
     }
 
@@ -127,8 +119,8 @@ class Vector(T, ulong dimensions) {
      * Works component-wise, so each operation of the constant is applied to each component
      */
     void opOpAssign(string op)(T[] otherComponents) {
-        foreach (index, ref component; this.components.parallel) {
-            mixin("component " ~ op ~ "= otherComponents[index];");
+        foreach (i, ref component; this.components.dup.parallel) {
+            mixin("component " ~ op ~ "= otherComponents[i];");
         }
     }
 
@@ -137,7 +129,7 @@ class Vector(T, ulong dimensions) {
      * Works component-wise, so each operation of the constant is applied to each component
      */
     void opOpAssign(string op)(T constant) {
-        foreach (index, ref component; this.components.parallel) {
+        foreach (i, ref component; this.components.dup.parallel) {
             mixin("component " ~ op ~ "= constant;");
         }
     }
@@ -147,7 +139,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opUnary(string op)() {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (ref component; newVec.components.parallel) {
+        foreach (i, ref component; newVec.components.dup.parallel) {
             mixin("component = " ~ op ~ "component;");
         }
         return newVec;
@@ -159,8 +151,8 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(Vector!(T, dimensions) otherVector) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (index, component; newVec.components.parallel) {
-            mixin("component " ~ op ~ "= otherVector.components[index];");
+        foreach (i, ref component; newVec.components.dup.parallel) {
+            mixin("component " ~ op ~ "= otherVector.components[i];");
         }
         return newVec;
     }
@@ -171,8 +163,8 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(T[] otherComponents) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (index, ref component; newVec.components.parallel) {
-            mixin("component " ~ op ~ "= otherComponents[index];");
+        foreach (i, ref component; newVec.components.dup.parallel) {
+            mixin("component " ~ op ~ "= otherComponents[i];");
         }
         return newVec;
     }
@@ -183,7 +175,7 @@ class Vector(T, ulong dimensions) {
      */
     Vector!(T, dimensions) opBinary(string op)(T constant) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
-        foreach (index, ref component; newVec.components.parallel) {
+        foreach (i, ref component; newVec.components.dup.parallel) {
             mixin("component " ~ op ~ "= constant;");
         }
         return newVec;
