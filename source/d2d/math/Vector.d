@@ -39,8 +39,11 @@ class Vector(T, ulong dimensions) {
      * Angles are direction angles (eg. first angle is direction from x, second is direction from y, etc...)
      * 0 goes along the positive axis
      */
-    @property void directionAngles(Vector!(T, dimensions) angles) {
-        //TODO: write this
+    @property void directionAngles(Vector!(double, dimensions) angles) {
+        immutable mag = this.magnitude;
+        foreach (i, angle; (cast(double[]) angles.components).parallel) {
+            this.components[i] = cast(T)(mag * cos(angle));
+        }
     }
 
     /**
@@ -48,8 +51,13 @@ class Vector(T, ulong dimensions) {
      * Angles are direction angles (eg. first angle is direction from x, second is direction from y, etc...)
      * 0 goes along the positive axis
      */
-    @property Vector!(T, dimensions) directionAngles() {
-        return new Vector!(T, dimensions)();
+    @property Vector!(double, dimensions) directionAngles() {
+        Vector!(double, dimensions) angles = new Vector!(double, dimensions)();
+        immutable mag = this.magnitude;
+        foreach (i, component; (cast(T[]) this.components).parallel) {
+            angles.components[i] = acos(component / mag);
+        }
+        return angles;
     }
 
     /**
