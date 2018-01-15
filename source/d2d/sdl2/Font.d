@@ -228,8 +228,7 @@ class Font {
      */
     iVector minimumOffset(char glyph) {
         iVector offset = new iVector(0, 0);
-        TTF_GlyphMetrics(this.font, glyph, &offset.components[0],
-                &offset.components[1], null, null, null);
+        TTF_GlyphMetrics(this.font, glyph, &offset.x, &offset.y, null, null, null);
         return offset;
     }
 
@@ -239,8 +238,7 @@ class Font {
      */
     iVector maximumOffset(char glyph) {
         iVector offset = new iVector(0, 0);
-        TTF_GlyphMetrics(this.font, glyph, null, null, &offset.components[0],
-                &offset.components[1], null);
+        TTF_GlyphMetrics(this.font, glyph, null, null, &offset.x, &offset.y, null);
         return offset;
     }
 

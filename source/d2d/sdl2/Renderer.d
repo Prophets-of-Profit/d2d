@@ -102,8 +102,7 @@ class Renderer {
      */
     @property fVector scale() {
         fVector scaling = new fVector(1, 1);
-        ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.components[0],
-                &scaling.components[1]));
+        ensureSafe(SDL_RenderGetScale(this.renderer, &scaling.x, &scaling.y));
         return scaling;
     }
 
@@ -121,8 +120,7 @@ class Renderer {
      */
     @property iVector logicalSize() {
         iVector dimensions = new iVector(0, 0);
-        SDL_RenderGetLogicalSize(this.renderer, &dimensions.components[0],
-                &dimensions.components[1]);
+        SDL_RenderGetLogicalSize(this.renderer, &dimensions.x, &dimensions.y);
         return dimensions;
     }
 
@@ -131,8 +129,7 @@ class Renderer {
      */
     @property iVector outputSize() {
         iVector size = new iVector(0, 0);
-        ensureSafe(SDL_GetRendererOutputSize(this.renderer,
-                &size.components[0], &size.components[1]));
+        ensureSafe(SDL_GetRendererOutputSize(this.renderer, &size.x, &size.y));
         return size;
     }
 

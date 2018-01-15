@@ -47,7 +47,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iVector windowLocation() {
         iVector location = new iVector(-1, -1);
-        SDL_GetMouseState(&location.components[0], &location.components[1]);
+        SDL_GetMouseState(&location.x, &location.y);
         return location;
     }
 
@@ -63,7 +63,7 @@ class Mouse : InputSource!uint, EventHandler {
      */
     @property iVector screenLocation() {
         iVector location = new iVector(-1, -1);
-        SDL_GetGlobalMouseState(&location.components[0], &location.components[1]);
+        SDL_GetGlobalMouseState(&location.x, &location.y);
         return location;
     }
 

@@ -2,6 +2,7 @@ module d2d.math.Vector;
 
 import std.algorithm;
 import std.array;
+import std.conv;
 import std.math;
 import std.parallelism;
 
@@ -9,8 +10,8 @@ import std.parallelism;
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
- * TODO: vector swizzling with opDispatch
- * TODO: slice operators (and opCall?)
+ * Vector swizzling works on any compiler that allows for static foreach
+ * TODO: slice and cast operators (and opCall?)
  */
 class Vector(T, ulong dimensions) {
 
@@ -178,6 +179,42 @@ class Vector(T, ulong dimensions) {
             mixin("component " ~ op ~ "= constant;");
         }
         return newVec;
+    }
+
+    /**
+     * Allows setting vector components with swizzling
+     * (eg. (1, 2, 3).xz = (4, 5) => (4, 2, 5))
+     */
+    void opDispatch(string op)(Vector!(T, op.length) otherVector) {
+        static foreach (i, val; op) {
+            mixin("this." ~ val ~ " = otherVector[" ~ i ~ "];");
+        }
+    }
+
+    /**
+     * Allows for vector swizzing
+     * (eg. (1, 2, 3).xxyzyz = (1, 1, 2, 3, 2, 3))
+     * TODO: only ensure valid swizzles are allowed for this opDispatch
+     */
+    Vector!(T, op.length) opDispatch(string op)() {
+        Vector!(T, op.length) swizzled = new Vector!(T, op.length)(0);
+        static foreach (i, val; op) {
+            mixin("swizzled.components[" ~ i ~ "] = this." ~ val ~ ";");
+        }
+        return swizzled;
+    }
+
+    /**
+     * Gives the vector a pretty string format
+     * (eg. (1, 2, 3) => <1, 2, 3>)
+     */
+    override string toString() {
+        string representation = "<";
+        foreach (i; 0 .. this.components.length) {
+            representation ~= this.components[i].to!string;
+            representation ~= (i + 1 != this.components.length) ? ", " : ">";
+        }
+        return representation;
     }
 
 }

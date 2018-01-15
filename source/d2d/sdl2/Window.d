@@ -78,7 +78,7 @@ class Window {
      */
     @property iVector maximumSize() {
         iVector maxSize = new iVector(0, 0);
-        SDL_GetWindowMaximumSize(this.window, &maxSize.components[0], &maxSize.components[1]);
+        SDL_GetWindowMaximumSize(this.window, &maxSize.x, &maxSize.y);
         return maxSize;
     }
 
@@ -94,7 +94,7 @@ class Window {
      */
     @property iVector minimumSize() {
         iVector minSize = new iVector(0, 0);
-        SDL_GetWindowMinimumSize(this.window, &minSize.components[0], &minSize.components[1]);
+        SDL_GetWindowMinimumSize(this.window, &minSize.x, &minSize.y);
         return minSize;
     }
 
@@ -110,7 +110,7 @@ class Window {
      */
     @property iVector size() {
         iVector s = new iVector(0, 0);
-        SDL_GetWindowSize(this.window, &s.components[0], &s.components[1]);
+        SDL_GetWindowSize(this.window, &s.x, &s.y);
         return s;
     }
 
@@ -142,7 +142,7 @@ class Window {
      */
     @property iVector position() {
         iVector pos;
-        SDL_GetWindowPosition(this.window, &pos.components[0], &pos.components[1]);
+        SDL_GetWindowPosition(this.window, &pos.x, &pos.y);
         return pos;
     }
 
