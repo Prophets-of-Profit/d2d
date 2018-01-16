@@ -7,12 +7,10 @@ import d2d;
  * Ensures that the mouse was clicked and released over the button
  * Button doesn't handle timing of press or anything like that
  */
-class Button : Component {
+abstract class Button : Component {
 
     private bool _isClicked; ///An internally used flag to store whether the mouse has clicked (not released) over the button
     iRectangle _location; ///Where the button is on the screen
-    void delegate() action; ///What the button should do when pressed
-    Texture appearance; ///What the button looks like; texture will be stretched to completely fill location
 
     /**
      * Gets whether the mouse button is held down over this button
@@ -43,16 +41,11 @@ class Button : Component {
     }
 
     /**
-     * Makes a button given its container, location, action, and appearance
-     * No given appearance makes the button transparent
+     * Makes a button given its location
      */
-    this(Display container, iRectangle location, void delegate() action, Surface appearance = null) {
+    this(Display container, iRectangle location) {
         super(container);
         this._location = location;
-        this.action = action;
-        if (appearance !is null) {
-            this.appearance = new Texture(appearance, this.container.window.renderer);
-        }
     }
 
     /**
@@ -73,14 +66,6 @@ class Button : Component {
         }
     }
 
-    /**
-     * How the button should be drawn
-     * Draws itself in its location
-     */
-    override void draw() {
-        if (this.appearance !is null) {
-            this.container.window.renderer.copy(this.appearance, this.location);
-        }
-    }
+    void action(); //What the button should do when clicked
 
 }
