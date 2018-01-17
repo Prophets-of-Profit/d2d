@@ -5,6 +5,7 @@ import d2d.math.Vector;
 /**
  * A polygon is a solid object defined by its vertices
  * T is the type of the polygon, dimensions is in how many dimensions; sides is how many sides the polygon has
+ * TODO: rename
  */
 class Polygon(T, ulong dimensions, ulong sides) {
 

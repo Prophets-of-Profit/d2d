@@ -10,3 +10,4 @@ docs/
 dub.selections.json
 .vscode
 *.a
+d2d.lib

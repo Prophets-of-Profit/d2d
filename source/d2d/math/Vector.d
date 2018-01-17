@@ -250,7 +250,7 @@ Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) seco
 
 /**
  * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
- * TODO: untested and explain how it works
+ * TODO: untested and explain how it works and move to segment
  */
 bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
         2) firstTerminal, Vector!U secondInitial, Vector!U secondTerminal) {

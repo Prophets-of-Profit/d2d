@@ -77,6 +77,13 @@ class Rectangle(T) {
             && point.y < this.y + this.h;
     }
 
+    /**
+     * Returns whether this rectangle completely contains the other rectangle
+     */
+    bool contains(U)(Rectangle!(U) other) {
+        return this.x < other.x && this.y < other.y && this.x + this.w > other.x + other.w && this.y + this.h > other.y + other.h;
+    }
+
 }
 
 /**
