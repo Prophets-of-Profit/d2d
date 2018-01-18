@@ -9,7 +9,7 @@ For certain functionalities, SDL DLLs are required at runtime alongside the exec
 Getting started is simple. All that is needed to get started is a display and a screen.\
 These can be obtained by importing either `d2d`, `d2d.Display`, or `d2d.Screen`.\
 A screen is something that represents a distinct activity or action of a program. Thusly, a screen must define `void handleEvent(SDL_Event event)`, `void draw()`, and `void onFrame()`. A screen's constructor must also call the super-constructor which takes in a display.\
-Once a basic screen is defined, a display can be made. The constructor parameters for a display are `(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "", string iconPath = null)`.\
+Once a basic screen is defined, a display can be made. The constructor parameters for a display are `(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, uint rendererFlags = 0, string title = "", string iconPath = null)`.\
 After constructing a display, you can either run the display or set the screen. Without setting the screen, running the display wouldn't do much.\
 To set the screen of a display, simply call `[your display].screen = [your screen];`. A display's screen can be changed at any time.\
 Once the display is all set up, all you need to do from there is to call the display's run method (`[your display].run();`). Once that is done, the rest is up to you!
