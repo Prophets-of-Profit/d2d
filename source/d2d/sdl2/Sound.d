@@ -72,10 +72,10 @@ class Sound(SoundType T) {
  */
 void pause(SoundType T)() {
     static if (T == SoundType.Chunk) {
-        ensureSafe(Mix_Pause(-1));
+        Mix_Pause(-1);
     }
     else {
-        ensureSafe(Mix_PauseMusic());
+        Mix_PauseMusic();
     }
 }
 
@@ -87,10 +87,10 @@ void pause(SoundType T)() {
  */
 void resume(SoundType T)() {
     static if (T == SoundType.Chunk) {
-        ensureSafe(Mix_Resume(-1));
+        Mix_Resume(-1);
     }
     else {
-        ensureSafe(Mix_ResumeMusic());
+        Mix_ResumeMusic();
     }
 }
 
