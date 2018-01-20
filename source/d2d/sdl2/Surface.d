@@ -190,3 +190,12 @@ Surface loadImage(string imagePath) {
     loadLibImage();
     return new Surface(ensureSafe(IMG_Load(imagePath.toStringz)));
 }
+
+/**
+ * Returns a scaled version of the surface to the width and height of given rectangle
+ */
+Surface scaled(Surface original, iRectangle dstRect) {
+    Surface scaledSurface = new Surface(dstRect.w, dstRect.h);
+    scaledSurface.blit(original, null, dstRect);
+    return scaledSurface;
+}
