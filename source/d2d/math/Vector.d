@@ -52,7 +52,7 @@ class Vector(T, ulong dimensions) {
      * 0 goes along the positive axis
      */
     @property Vector!(double, dimensions) directionAngles() {
-        Vector!(double, dimensions) angles = new Vector!(double, dimensions)();
+        Vector!(double, dimensions) angles = new Vector!(double, dimensions)(cast(T) 0);
         immutable mag = this.magnitude;
         foreach (i, component; (cast(T[]) this.components).parallel) {
             angles.components[i] = acos(component / mag);
