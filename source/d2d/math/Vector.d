@@ -75,8 +75,8 @@ class Vector(T, ulong dimensions) {
      * Gets the length of the vector
      */
     @property double magnitude() {
-        return sqrt(cast(double) this.components.reduce!((squareMag,
-                component) => squareMag + component.pow(2)));
+        return sqrt(cast(double) reduce!((squareMag,
+                component) => squareMag + component.pow(2))(cast(T) 0, this.components));
     }
 
     /**
