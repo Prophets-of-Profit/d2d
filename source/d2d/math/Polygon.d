@@ -41,3 +41,7 @@ class Polygon(T, ulong dimensions, ulong sides) {
     }
 
 }
+
+alias iPolygon(T) = Polygon!(int, 2, T);
+alias dPolygon(T) = Polygon!(double, 2, T);
+alias fPolygon(T) = Polygon!(float, 2, T);
