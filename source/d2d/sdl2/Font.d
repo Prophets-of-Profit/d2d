@@ -244,6 +244,7 @@ class Font {
 
     /**
      * Gets a rectangle describing the offset of the given glyph
+     * Width of the rectangle is width of the glyph
      */
     iRectangle offset(char glyph) {
         iVector minOffset = this.minimumOffset(glyph);
