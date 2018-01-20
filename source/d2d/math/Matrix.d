@@ -91,6 +91,27 @@ class Matrix(T, ulong rows, ulong columns) {
     }
 
     /**
+     * Interchange two rows by their indices
+     */
+    void interchange(ulong i, ulong j) {
+        this.elements.swapAt(i, j);
+    }
+
+    /** 
+     * Scale a row by a constant scalar value
+     */
+    void scale(ulong row)(T scalar) {
+        this.elements[row][] *= scalar;
+    }
+
+    /**
+     * Replace a row by the sum of itself and a multiple of another row
+     */
+    void add(ulong row)(ulong i, T scalar) {
+        this.elements[row][] += scalar * this.elements[i][];
+    }
+
+    /**
      * Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
      */
     void opAssign(T[rows][columns] rhs) {
