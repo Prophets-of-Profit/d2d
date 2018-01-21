@@ -28,13 +28,6 @@ class Segment(T, ulong dimensions) {
     }
 
     /**
-     * TODO: Returns either null or the location of intersection between this segment and another segment
-     */
-    Vector!(T, dimensions) intersects(U)(Segment!(U, dimensions) other) {
-        return null;
-    }
-
-    /**
      * Returns whether this segment contains the other point
      * Checks that a segment from origin to point has magnitude between initial and terminal's magnitude
      * Also checks that when point magnitude is 1 and direction magnitude is 1, they have the same or they have negated components
@@ -69,4 +62,12 @@ class Segment(T, ulong dimensions) {
         return true;
     }
 
+}
+
+/**
+ * TODO: Returns either null or the location of intersection between the two given segments
+ */
+Vector!(T, dimensions) intersection(T)(Segment!(T, dimensions) first,
+        Segment!(T, dimensions) second) {
+    return null;
 }

@@ -248,29 +248,6 @@ Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) seco
             first.z * second.x - first.x * second.z, first.x * second.y - first.y * second.x);
 }
 
-/**
- * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
- * TODO: untested and explain how it works and move to segment
- */
-bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
-        2) firstTerminal, Vector!U secondInitial, Vector!U secondTerminal) {
-    immutable firstDelta = firstTerminal - firstInitial;
-    immutable secondDelta = secondTerminal - secondInitial;
-    double dotproduct = cast(double)(firstDelta.x * secondDelta.x + firstDelta.y * secondDelta.y) / (
-            firstDelta.magnitude * secondDelta.magnitude);
-    if (dotproduct == 1 || dotproduct == -1) {
-        return firstDelta == secondDelta;
-    }
-    immutable firstIntersection = -(((secondInitial.x - firstInitial.x) * secondDelta.y) - (
-            (secondInitial.y - firstInitial.y) * secondDelta.x)) / (
-            (secondDelta.x * firstDelta.y) - (secondDelta.y * firstDelta.x));
-    immutable secondIntersection = -(((firstInitial.x - secondInitial.x) * firstDelta.y) - (
-            (firstInitial.y - secondInitial.y) * firstDelta.x)) / (
-            (firstDelta.x * secondDelta.y) - (firstDelta.y * secondDelta.x));
-    return firstIntersection >= 0 && secondIntersection >= 0
-        && firstIntersection <= 1 && secondIntersection <= 1;
-}
-
 alias iVector = Vector!(int, 2);
 alias dVector = Vector!(double, 2);
 alias fVector = Vector!(float, 2);
