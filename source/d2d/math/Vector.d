@@ -202,7 +202,7 @@ class Vector(T, ulong dimensions) {
     /**
      * Allows for vector swizzing
      * (eg. (1, 2, 3).xxyzyz = (1, 1, 2, 3, 2, 3))
-     * TODO: only ensure valid swizzles are allowed for this opDispatch
+     * TODO: only ensure valid swizzles are allowed for this opDispatch and fix
      */
     Vector!(T, op.length) opDispatch(string op)() {
         Vector!(T, op.length) swizzled = new Vector!(T, op.length)(0);
