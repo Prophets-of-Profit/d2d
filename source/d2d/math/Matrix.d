@@ -129,4 +129,40 @@ class Matrix(T, ulong rows, ulong columns) {
         }
     }
 
+    /**
+     * Returns the i, jth element in the matrix by row, column
+     * Equivalent to this.elements[i][j]
+     */
+    T opIndex(ulong i, ulong j) {
+        assert(i < rows && j < columns, "Index falls outside of matrix size");
+        return this.elements[i][j];
+    }
+
+    /**
+     * Returns a matrix consisting of the specified indices, with upper left corner i, j and size newRows, newColumns
+     */
+    Matrix!(T, newRows, newColumns) opIndex(ulong i, ulong j, ulong newRows, ulong newColumns) {
+        assert(i + newRows < rows && j + newColumns < columns, "Indices fall outside of matrix size");
+        T[][] rows = this.elements[i..i + newRows];
+        return new Matrix!(T, newRows, newColumns)(rows.map!(a => a[j..j + newColumns]).array);
+    }
+
+    /**
+     * Sets a value at a certain spot in the matrix
+     */
+    void opIndexAssign(T c, ulong i, ulong j) {
+        assert(i < rows && j < columns, "Index falls outside of matrix size");
+        this.elements[i][j] = c;
+    }
+
+    /**
+     * Sets a submatrix of the matrix to another matrix
+     */
+    void opIndexAssign(ulong height, ulong width)(Matrix!(T, height, width) c, ulong i, ulong j) {
+        assert(i + height < rows && j + width < columns, "Indices fall outside of matrix size");
+        foreach(index, row; this.elements[i .. i + height].parallel) {
+            row[j .. j + width] = c.elements[row];
+        }
+    }
+
 }

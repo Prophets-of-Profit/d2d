@@ -225,6 +225,16 @@ class Vector(T, ulong dimensions) {
         return representation;
     }
 
+    /**
+     * Returns whether the vector is approximately equal to another vector
+     */
+    bool opEquals(Vector!(T, dimensions) cmp) {
+        foreach(i, ref component; (cast(T[]) this.components).parallel) {
+            if(!approxEqual(component, cmp.components[i])) return false;
+        }
+        return true;
+    }
+
 }
 
 /**
@@ -236,7 +246,7 @@ T dot(T, ulong dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
 }
 
 /**
- * Calculates the cross product or the perpindicular vector to two vectors
+ * Calculates the cross product or the perpendicular vector to two vectors
  * Currently only works on 2 or 3 dimensional vectors
  */
 Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) second)
