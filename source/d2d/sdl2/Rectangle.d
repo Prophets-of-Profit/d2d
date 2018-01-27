@@ -44,6 +44,13 @@ class Rectangle(T) {
     }
 
     /**
+     * Gets the coordinates of the center of the rectangle
+     */
+    @property Vector!(T, 2) center() {
+        return new Vector!(T, 2)(this.x + this.w / 2, this.y + this.h / 2);
+    }
+
+    /**
      * Gets the rectangle as an SDL_Rect
      */
     @property SDL_Rect* handle() {

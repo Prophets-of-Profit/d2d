@@ -5,7 +5,7 @@ import d2d.math.Vector;
 /**
  * A polygon is a solid object defined by its vertices
  * T is the type of the polygon, dimensions is in how many dimensions; sides is how many sides the polygon has
- * TODO: rename
+ * TODO: rename?
  */
 class Polygon(T, ulong dimensions, ulong sides) {
 
@@ -17,8 +17,8 @@ class Polygon(T, ulong dimensions, ulong sides) {
      * Creates a polygon using a list of vertices as vertices
      */
     this(Vector!(T, dimensions)[sides] vertices) {
-        this.vertices = vertices;
         assert(vertices.length > 2);
+        this.vertices = vertices;
     }
 
     /**
@@ -41,3 +41,7 @@ class Polygon(T, ulong dimensions, ulong sides) {
     }
 
 }
+
+alias iPolygon(T) = Polygon!(int, 2, T);
+alias dPolygon(T) = Polygon!(double, 2, T);
+alias fPolygon(T) = Polygon!(float, 2, T);

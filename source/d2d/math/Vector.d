@@ -52,7 +52,7 @@ class Vector(T, ulong dimensions) {
      * 0 goes along the positive axis
      */
     @property Vector!(double, dimensions) directionAngles() {
-        Vector!(double, dimensions) angles = new Vector!(double, dimensions)();
+        Vector!(double, dimensions) angles = new Vector!(double, dimensions)(cast(T) 0);
         immutable mag = this.magnitude;
         foreach (i, component; (cast(T[]) this.components).parallel) {
             angles.components[i] = acos(component / mag);
@@ -202,7 +202,7 @@ class Vector(T, ulong dimensions) {
     /**
      * Allows for vector swizzing
      * (eg. (1, 2, 3).xxyzyz = (1, 1, 2, 3, 2, 3))
-     * TODO: only ensure valid swizzles are allowed for this opDispatch
+     * TODO: only ensure valid swizzles are allowed for this opDispatch and fix
      */
     Vector!(T, op.length) opDispatch(string op)() {
         Vector!(T, op.length) swizzled = new Vector!(T, op.length)(0);
@@ -225,6 +225,16 @@ class Vector(T, ulong dimensions) {
         return representation;
     }
 
+    /**
+     * Returns whether the vector is approximately equal to another vector
+     */
+    bool opEquals(Vector!(T, dimensions) cmp) {
+        foreach(i, ref component; (cast(T[]) this.components).parallel) {
+            if(!approxEqual(component, cmp.components[i])) return false;
+        }
+        return true;
+    }
+
 }
 
 /**
@@ -236,7 +246,7 @@ T dot(T, ulong dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
 }
 
 /**
- * Calculates the cross product or the perpindicular vector to two vectors
+ * Calculates the cross product or the perpendicular vector to two vectors
  * Currently only works on 2 or 3 dimensional vectors
  */
 Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) second)
@@ -246,29 +256,6 @@ Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) seco
     }
     return new Vector!(T, 3)(first.y * second.z - first.z * second.y,
             first.z * second.x - first.x * second.z, first.x * second.y - first.y * second.x);
-}
-
-/**
- * Returns whether two segments defined by (initial, terminal, initial, terminal) intersect
- * TODO: untested and explain how it works and move to segment
- */
-bool doSegmentsIntersect(T, U)(Vector!(T, 2) firstInitial, Vector!(T,
-        2) firstTerminal, Vector!U secondInitial, Vector!U secondTerminal) {
-    immutable firstDelta = firstTerminal - firstInitial;
-    immutable secondDelta = secondTerminal - secondInitial;
-    double dotproduct = cast(double)(firstDelta.x * secondDelta.x + firstDelta.y * secondDelta.y) / (
-            firstDelta.magnitude * secondDelta.magnitude);
-    if (dotproduct == 1 || dotproduct == -1) {
-        return firstDelta == secondDelta;
-    }
-    immutable firstIntersection = -(((secondInitial.x - firstInitial.x) * secondDelta.y) - (
-            (secondInitial.y - firstInitial.y) * secondDelta.x)) / (
-            (secondDelta.x * firstDelta.y) - (secondDelta.y * firstDelta.x));
-    immutable secondIntersection = -(((firstInitial.x - secondInitial.x) * firstDelta.y) - (
-            (firstInitial.y - secondInitial.y) * firstDelta.x)) / (
-            (firstDelta.x * secondDelta.y) - (firstDelta.y * secondDelta.x));
-    return firstIntersection >= 0 && secondIntersection >= 0
-        && firstIntersection <= 1 && secondIntersection <= 1;
 }
 
 alias iVector = Vector!(int, 2);

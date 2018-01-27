@@ -281,6 +281,44 @@ class Renderer {
     }
 
     /**
+     * Draws a polygon
+     */
+    void drawPolygon(ulong sides)(iPolygon!sides toDraw) {
+        foreach (i; 0 .. toDraw.vertices.length - 2) {
+            this.drawLine(toDraw.vertices[i], toDraw.vertices[i + 1]);
+        }
+        this.drawLine(toDraw.vertices[$ - 1], toDraw.vertices[0]);
+    }
+
+    /**
+     * Draws a polygon with the given color
+     */
+    void drawPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+        immutable oldColor = this.drawColor;
+        this.drawColor = color;
+        this.drawPolygon(toDraw);
+        this.drawColor = oldColor;
+    }
+
+    /**
+     * Fills a polygon
+     * TODO:
+     */
+    void fillPolygon(ulong sides)(iPolygon!sides toDraw) {
+
+    }
+
+    /**
+     * Fills a polygon with a given color
+     */
+    void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+        immutable oldColor = this.drawColor;
+        this.drawColor = color;
+        this.fillPolygon(toDraw);
+        this.drawColor = oldColor;
+    }
+
+    /**
      * Updates what the renderer has drawn by actually outputting or presenting it
      */
     void present() {
