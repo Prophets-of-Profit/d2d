@@ -51,6 +51,13 @@ class Display {
     }
 
     /**
+     * Gets the contained window's renderer
+     */
+    @property Renderer renderer() {
+        return this._window.renderer;
+    }
+
+    /**
      * Constructs a display given a width, height, window flags, renderer flags, a title, and a path for an image icon (or null)
      * Disregarding width and height, constructor asks for flags first because once set, those cannot be changed
      */
