@@ -228,7 +228,13 @@ class Vector(T, ulong dimensions) {
     /**
      * Returns whether the vector is approximately equal to another vector
      */
-    bool opEquals(Vector!(T, dimensions) cmp) {
+    override bool opEquals(Object o) {
+        Vector!(T, dimensions) cmp;
+        try {
+            cmp = cast(Vector!(T, dimensions)) o;
+        } catch(Exception e) {
+            return false;
+        }
         foreach(i, ref component; (cast(T[]) this.components).parallel) {
             if(!approxEqual(component, cmp.components[i])) return false;
         }
