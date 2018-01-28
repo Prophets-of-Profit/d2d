@@ -284,10 +284,9 @@ class Renderer {
      * Draws a polygon
      */
     void drawPolygon(ulong sides)(iPolygon!sides toDraw) {
-        foreach (i; 0 .. toDraw.vertices.length - 2) {
-            this.drawLine(toDraw.vertices[i], toDraw.vertices[i + 1]);
+        foreach (i; 0 .. toDraw.vertices.length) {
+            this.drawLine(toDraw.vertices[i], toDraw.vertices[(i + 1) % toDraw.vertices.length]);
         }
-        this.drawLine(toDraw.vertices[$ - 1], toDraw.vertices[0]);
     }
 
     /**

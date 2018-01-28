@@ -42,6 +42,6 @@ class Polygon(T, ulong dimensions, ulong sides) {
 
 }
 
-alias iPolygon(T) = Polygon!(int, 2, T);
-alias dPolygon(T) = Polygon!(double, 2, T);
-alias fPolygon(T) = Polygon!(float, 2, T);
+alias iPolygon(ulong T) = Polygon!(int, 2, T);
+alias dPolygon(ulong T) = Polygon!(double, 2, T);
+alias fPolygon(ulong T) = Polygon!(float, 2, T);
