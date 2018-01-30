@@ -21,6 +21,7 @@ class Display {
     private Keyboard _keyboard; ///The keyboard input source
     private Mouse _mouse; ///The mouse input source
     private Window _window; ///The actual SDL window
+    private Renderer _renderer; ///The renderer for the window
 
     /**
      * Gets how many frames have passed since the window started
@@ -54,7 +55,7 @@ class Display {
      * Gets the contained window's renderer
      */
     @property Renderer renderer() {
-        return this._window.renderer;
+        return this._renderer;
     }
 
     /**
@@ -63,7 +64,8 @@ class Display {
      */
     this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN,
             uint rendererFlags = 0, string title = "", string iconPath = null) {
-        this._window = new Window(w, h, flags, title, rendererFlags);
+        this._window = new Window(w, h, flags, title);
+        this._renderer = new Renderer(this._window, rendererFlags);
         if (iconPath !is null && iconPath != "") {
             this.window.icon = loadImage(iconPath);
         }
@@ -95,8 +97,8 @@ class Display {
             if (this.screen !is null) {
                 this.screen.draw();
                 this.screen.components.each!(component => component.draw());
+                this.screen.onFrame();
             }
-            this.screen.onFrame();
             this.window.renderer.present();
             this._frames++;
             if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC) {

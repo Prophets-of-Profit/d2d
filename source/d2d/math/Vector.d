@@ -235,10 +235,13 @@ class Vector(T, ulong dimensions) {
         } catch(Exception e) {
             return false;
         }
+        bool isEqual = true;
         foreach(i, ref component; (cast(T[]) this.components).parallel) {
-            if(!approxEqual(component, cmp.components[i])) return false;
+            if (!approxEqual(component, cmp.components[i])) {
+                isEqual = false;
+            }
         }
-        return true;
+        return isEqual;
     }
 
 }

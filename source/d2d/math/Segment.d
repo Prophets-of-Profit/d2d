@@ -2,6 +2,7 @@ module d2d.math.Segment;
 
 import std.math;
 import std.parallelism;
+import d2d.math.Vector;
 
 /**
  * A segment class that is defined by two 
@@ -45,21 +46,7 @@ class Segment(T, ulong dimensions) {
         Vector!(T, dimensions) direcCopy = this.direction;
         pointCopy.magnitude = 1;
         direcCopy.magnitude = 1;
-        bool cont = true;
-        foreach (i, ref component; (cast(T[]) direcCopy.components).parallel) {
-            if (!approxEquals(component, pointCopy.components[i])) {
-                cont = false;
-                break;
-            }
-        }
-        if (!cont) {
-            foreach (i, ref component; (cast(T[]) direcCopy.components).parallel) {
-                if (!approxEquals(component, -pointCopy.components[i])) {
-                    return false;
-                }
-            }
-        }
-        return true;
+        return pointCopy == direcCopy || pointCopy == -direcCopy;
     }
 
 }
