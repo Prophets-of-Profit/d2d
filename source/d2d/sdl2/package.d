@@ -107,3 +107,26 @@ SDL_Point* handle(iVector vec) {
     temp = SDL_Point(vec.x, vec.y);
     return &temp;
 }
+
+
+/**
+ * Returns the rectangle bounding a 2d polygon
+ */
+Rectangle!T bound(T, ulong sides)(Polygon!(T, 2, sides) toBound) {
+    Rectangle!T bounds = new Rectangle!T(T.max, T.max, T.max + 1, T.max + 1);
+    foreach (point; toBound.vertices) {
+        if (point.x < bounds.x) {
+            bounds.x = point.x;
+        }
+        if (point.x > bounds.x + bounds.w) {
+            bounds.w = point.x - bounds.x;
+        }
+        if (point.y < bounds.y) {
+            bounds.y = point.y;
+        }
+        if (point.y > bounds.y + bounds.h) {
+            bounds.h = point.y - bounds.y;
+        }
+    }
+    return bounds;
+}

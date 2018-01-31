@@ -15,6 +15,7 @@ class Polygon(T, ulong dimensions, ulong sides) {
 
     /**
      * Creates a polygon using a list of vertices as vertices
+     * TODO: rework constructor to use varargs?
      */
     this(Vector!(T, dimensions)[sides] vertices) {
         assert(vertices.length > 2);

@@ -1,5 +1,6 @@
 module d2d.sdl2.Renderer;
 
+import std.algorithm;
 import std.math;
 import d2d.sdl2;
 
@@ -301,10 +302,33 @@ class Renderer {
 
     /**
      * Fills a polygon
-     * TODO:
+     * Uses scanlining
+     * TODO: could be much more efficient
      */
     void fillPolygon(ulong sides)(iPolygon!sides toDraw) {
-
+        iRectangle bounds = bound(toDraw);
+        int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
+        foreach (i; 0 .. toDraw.vertices.length) {
+            Segment!(int, 2) polygonSide = new Segment!(int, 2)(toDraw.vertices[i], toDraw.vertices[(i + 1) % toDraw.vertices.length]);
+            foreach (y; bounds.y .. bounds.y + bounds.h) {
+                //If the segment is a horizontal line at this y, draws the horizontal line and then breaks
+                if (y == polygonSide.initial.y && polygonSide.initial.y == polygonSide.terminal.y) {
+                        this.drawLine(polygonSide.initial, polygonSide.terminal);
+                    break;
+                }
+                // TODO: Checks that the y value is exists within the segment
+                // if (!(y > polygonSide.initial.y && y < polygonSide.terminal.y) && !(y < polygonSide.terminal.y && y > polygonSide.initial.y)) {
+                //     break;
+                // }
+                //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
+                intersections[y] ~= ((y - polygonSide.initial.y) * (polygonSide.terminal.x - polygonSide.initial.x) + polygonSide.initial.x * (polygonSide.terminal.y - polygonSide.initial.y)) / (polygonSide.terminal.y - polygonSide.initial.y);
+            }
+        }
+        foreach(y, xValues; intersections) {
+            foreach (i; 0 .. xValues.sort.length - 1) {
+                this.drawLine(new iVector(xValues[i], y), new iVector(xValues[i + 1], y));
+            }
+        }
     }
 
     /**
@@ -313,7 +337,7 @@ class Renderer {
     void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
         immutable oldColor = this.drawColor;
         this.drawColor = color;
-        this.fillPolygon(toDraw);
+        this.fillPolygon!sides(toDraw);
         this.drawColor = oldColor;
     }
 
