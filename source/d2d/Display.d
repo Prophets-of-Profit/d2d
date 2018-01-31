@@ -99,9 +99,9 @@ class Display {
                 this.screen.components.each!(component => component.draw());
                 this.screen.onFrame();
             }
-            this.window.renderer.present();
+            this.renderer.present();
             this._frames++;
-            if (this.window.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC) {
+            if (this.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC) {
                 continue;
             }
             immutable sleepTime = 1000 / this.framerate - timer.peek().total!"msecs";
