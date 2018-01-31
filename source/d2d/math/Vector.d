@@ -5,13 +5,14 @@ import std.array;
 import std.conv;
 import std.math;
 import std.parallelism;
+import std.traits;
 
 /**
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
  * Vector swizzling works on any compiler that allows for static foreach
- * TODO: slice and cast operators (and opCall?)
+ * TODO: slice operators and dispatch forwarding
  */
 class Vector(T, ulong dimensions) {
 
@@ -140,6 +141,18 @@ class Vector(T, ulong dimensions) {
         foreach (i, ref component; (cast(T[]) this.components).parallel) {
             mixin("component " ~ op ~ "= constant;");
         }
+    }
+
+    /**
+     * Casts the vector to a vector of another type
+     */
+    U opCast(U)() if (is(U : Vector!V, V...)) {
+        alias type = TemplateArgsOf!U[0];
+        U newVec = new U(type.init);
+        foreach (i, component; (cast(T[]) this.components).parallel) {
+            newVec.components[i] = cast(type) component;
+        }
+        return newVec;
     }
 
     /**
