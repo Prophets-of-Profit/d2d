@@ -19,6 +19,8 @@ public import d2d.sdl2.Surface;
 public import d2d.sdl2.Texture;
 public import d2d.sdl2.Window;
 
+import std.algorithm;
+import std.array;
 import std.conv;
 
 /**
@@ -113,20 +115,7 @@ SDL_Point* handle(iVector vec) {
  * Returns the rectangle bounding a 2d polygon
  */
 Rectangle!T bound(T, ulong sides)(Polygon!(T, 2, sides) toBound) {
-    Rectangle!T bounds = new Rectangle!T(T.max, T.max, T.max + 1, T.max + 1);
-    foreach (point; toBound.vertices) {
-        if (point.x < bounds.x) {
-            bounds.x = point.x;
-        }
-        if (point.x > bounds.x + bounds.w) {
-            bounds.w = point.x - bounds.x;
-        }
-        if (point.y < bounds.y) {
-            bounds.y = point.y;
-        }
-        if (point.y > bounds.y + bounds.h) {
-            bounds.h = point.y - bounds.y;
-        }
-    }
-    return bounds;
+    Vector!(T, 2)[] sortedX = (cast(Vector!(T, 2)[]) toBound.vertices).dup.sort!((a, b) => a.x < b.x).array;
+    Vector!(T, 2)[] sortedY = (cast(Vector!(T, 2)[]) toBound.vertices).dup.sort!((a, b) => a.y < b.y).array;
+    return new Rectangle!T(sortedX[0].x, sortedY[0].y, sortedX[$ - 1].x - sortedX[0].x, sortedY[$ - 1].y - sortedY[0].y);
 }
