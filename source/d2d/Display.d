@@ -96,11 +96,12 @@ class Display {
             }
             if (this.screen !is null) {
                 this.screen.draw();
+                SDL_Rect* oldClipRect = this.renderer.clipRect().handle;
                 foreach (component; this.screen.components) {
                     this.renderer.clipRect = component.location;
                     component.draw();
-                    this.renderer.clipRect = null;
                 }
+                this.renderer.clipRect = (oldClipRect is null)? null : new iRectangle((*oldClipRect).x, (*oldClipRect).y, (*oldClipRect).w, (*oldClipRect).h);
                 this.screen.onFrame();
             }
             this.renderer.present();
