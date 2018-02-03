@@ -96,7 +96,11 @@ class Display {
             }
             if (this.screen !is null) {
                 this.screen.draw();
-                this.screen.components.each!(component => component.draw());
+                foreach (component; this.screen.components) {
+                    this.renderer.clipRect = component.location;
+                    component.draw();
+                    this.renderer.clipRect = null;
+                }
                 this.screen.onFrame();
             }
             this.renderer.present();
