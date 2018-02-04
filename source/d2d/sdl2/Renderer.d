@@ -11,7 +11,7 @@ import d2d.sdl2;
  * While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention
  * Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)
  * All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well
- * TODO: implement curve drawing and polygon filling
+ * TODO: implement curve drawing
  */
 class Renderer {
 
@@ -214,6 +214,16 @@ class Renderer {
     }
 
     /**
+     * Internally used function that performs an action with a certain color
+     */
+    private void performWithColor(Color color, void delegate() action) {
+        immutable oldColor = this.drawColor;
+        this.drawColor = color;
+        action();
+        this.drawColor = oldColor;
+    }
+
+    /**
      * Draws a line between the given points
      */
     void drawLine(iVector first, iVector second) {
@@ -224,10 +234,21 @@ class Renderer {
      * Draws a line of a given color between the given points
      */
     void drawLine(iVector first, iVector second, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.drawLine(first, second);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.drawLine(first, second);});
+    }
+
+    /**
+     * Draws a line given a segment
+     */
+    void drawLine(Segment!(int, 2) line) {
+        this.drawLine(line.initial, line.terminal);
+    }
+
+    /**
+     * Draws a line with a specific color
+     */
+    void drawLine(Segment!(int, 2) line, Color color) {
+        this.performWithColor(color, {this.drawLine(line);});
     }
 
     /**
@@ -241,10 +262,7 @@ class Renderer {
      * Draws a point in the given color
      */
     void drawPoint(iVector toDraw, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.drawPoint(toDraw);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.drawPoint(toDraw);});
     }
 
     /**
@@ -258,10 +276,7 @@ class Renderer {
      * Draws a rectangle with the given color
      */
     void drawRect(iRectangle toDraw, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.drawRect(toDraw);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.drawRect(toDraw);});
     }
 
     /**
@@ -275,10 +290,7 @@ class Renderer {
      * Fills a rectangle in with the given color
      */
     void fillRect(iRectangle toFill, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.fillRect(toFill);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.fillRect(toFill);});
     }
 
     /**
@@ -294,10 +306,7 @@ class Renderer {
      * Draws a polygon with the given color
      */
     void drawPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.drawPolygon(toDraw);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.drawPolygon(toDraw);});
     }
 
     /**
@@ -308,8 +317,7 @@ class Renderer {
     void fillPolygon(ulong sides)(iPolygon!sides toDraw) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
-        foreach (i; 0 .. toDraw.vertices.length) {
-            Segment!(int, 2) polygonSide = new Segment!(int, 2)(toDraw.vertices[i], toDraw.vertices[(i + 1) % toDraw.vertices.length]);
+        foreach (polygonSide; toDraw.sides) {
             foreach (y; bounds.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
@@ -328,7 +336,7 @@ class Renderer {
                 
                 //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
                 iVector sideDirection = polygonSide.direction;
-                int dy = y - polygonSide.initial.y;
+                immutable dy = y - polygonSide.initial.y;
                 intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection.y;
             
             }
@@ -344,10 +352,7 @@ class Renderer {
      * Fills a polygon with a given color
      */
     void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.fillPolygon!sides(toDraw);
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.fillPolygon!sides(toDraw);});
     }
 
     /**

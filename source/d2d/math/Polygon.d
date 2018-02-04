@@ -1,24 +1,35 @@
 module d2d.math.Polygon;
 
+import std.parallelism;
+import std.range;
+import d2d.math.Segment;
 import d2d.math.Vector;
 
 /**
  * A polygon is a solid object defined by its vertices
  * T is the type of the polygon, dimensions is in how many dimensions; sides is how many sides the polygon has
- * TODO: rename?
+ * TODO: rename or move to SDL?
  */
-class Polygon(T, ulong dimensions, ulong sides) {
+class Polygon(T, ulong dimensions, ulong numSides) {
 
-    Vector!(T, dimensions)[sides] vertices; ///The vertices of the polygon
+    Vector!(T, dimensions)[numSides] vertices; ///The vertices of the polygon
 
-    //TODO: add more polygon constructors
+    /**
+     * Gets the sides of a polygon
+     */
+    @property Segment!(T, dimensions)[numSides] sides() {
+        Segment!(T, dimensions)[numSides] s;
+        foreach (i; iota(0, numSides).parallel) {
+            s[i] = new Segment!(T, dimensions)(this.vertices[i], this.vertices[(i + 1) % $]);
+        }
+        return s;
+    }
 
     /**
      * Creates a polygon using a list of vertices as vertices
-     * TODO: rework constructor to use varargs?
      */
-    this(Vector!(T, dimensions)[sides] vertices) {
-        assert(vertices.length > 2);
+    this(Vector!(T, dimensions)[] vertices...) {
+        assert(vertices.length == numSides);
         this.vertices = vertices;
     }
 
