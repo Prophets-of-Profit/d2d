@@ -12,6 +12,7 @@ public import d2d.sdl2.Font;
 public import d2d.sdl2.InputSource;
 public import d2d.sdl2.Keyboard;
 public import d2d.sdl2.Mouse;
+public import d2d.sdl2.Polygon;
 public import d2d.sdl2.Rectangle;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;
@@ -19,8 +20,6 @@ public import d2d.sdl2.Surface;
 public import d2d.sdl2.Texture;
 public import d2d.sdl2.Window;
 
-import std.algorithm;
-import std.array;
 import std.conv;
 
 /**
@@ -108,28 +107,4 @@ SDL_Point temp;
 SDL_Point* handle(iVector vec) {
     temp = SDL_Point(vec.x, vec.y);
     return &temp;
-}
-
-
-/**
- * Returns the rectangle bounding a 2d polygon
- */
-Rectangle!T bound(T, ulong sides)(Polygon!(T, 2, sides) toBound) {
-    Vector!(T, 2) minVals = new Vector!(T, 2)(T.max);
-    Vector!(T, 2) maxVals = new Vector!(T, 2)(T.max + 1); //Causes an overflow to get small value
-    foreach (vertex; toBound.vertices) {
-        if (vertex.x < minVals.x) {
-            minVals.x = vertex.x;
-        }
-        if (vertex.x > maxVals.x) {
-            maxVals.x = vertex.x;
-        }
-        if (vertex.y < minVals.y) {
-            minVals.y = vertex.y;
-        }
-        if (vertex.y > maxVals.y) {
-            maxVals.y = vertex.y;
-        }
-    }
-    return new Rectangle!T(minVals.x, minVals.y, maxVals.x - minVals.x, maxVals.y - minVals.y);
 }
