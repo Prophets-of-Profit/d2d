@@ -82,6 +82,7 @@ class Display {
         while (this.isRunning) {
             timer.reset();
             SDL_Event event;
+            immutable screenExists = this.screen !is null;
             while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     this.isRunning = false;
@@ -89,19 +90,19 @@ class Display {
                 this.mouse.handleEvent(event);
                 this.keyboard.handleEvent(event);
                 this.eventHandlers.each!(handler => handler.handleEvent(event));
-                if (this.screen !is null) {
+                if (screenExists) {
                     this.screen.components.each!(component => component.handleEvent(event));
                     this.screen.handleEvent(event);
                 }
             }
-            if (this.screen !is null) {
+            if (screenExists) {
                 this.screen.draw();
-                SDL_Rect* oldClipRect = this.renderer.clipRect().handle;
+                iRectangle oldClipRect = this.renderer.clipRect();
                 foreach (component; this.screen.components) {
                     this.renderer.clipRect = component.location;
                     component.draw();
                 }
-                this.renderer.clipRect = (oldClipRect is null)? null : new iRectangle((*oldClipRect).x, (*oldClipRect).y, (*oldClipRect).w, (*oldClipRect).h);
+                this.renderer.clipRect = oldClipRect;
                 this.screen.onFrame();
             }
             this.renderer.present();

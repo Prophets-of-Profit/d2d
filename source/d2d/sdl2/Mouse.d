@@ -32,7 +32,7 @@ class Mouse : InputSource!uint, EventHandler {
      * This should be what is most regularly used
      */
     @property iVector location() {
-        return this._location;
+        return new iVector(this._location.components);
     }
 
     /**
@@ -72,7 +72,7 @@ class Mouse : InputSource!uint, EventHandler {
      * Records changes in wheel from the start of mouse construction
      */
     @property iVector totalWheelDisplacement() {
-        return this._totalWheelDisplacement;
+        return new iVector(this._totalWheelDisplacement.components);
     }
 
     /**

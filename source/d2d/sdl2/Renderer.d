@@ -88,7 +88,7 @@ class Renderer {
     @property iRectangle clipRect() {
         SDL_Rect clipArea;
         SDL_RenderGetClipRect(this.renderer, &clipArea);
-        return new iRectangle(clipArea.x, clipArea.y, clipArea.w, clipArea.h);
+        return (clipArea.w == 0 && clipArea.h == 0)? null : new iRectangle(clipArea.x, clipArea.y, clipArea.w, clipArea.h);
     }
 
     /**
