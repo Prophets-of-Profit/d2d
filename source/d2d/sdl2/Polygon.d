@@ -19,7 +19,7 @@ class Polygon(T, ulong numSides) {
      */
     @property Segment!(T, 2)[numSides] sides() {
         Segment!(T, 2)[numSides] s;
-        foreach (i; iota(0, numSides).parallel) {
+        foreach (i; iota(0, cast(uint)numSides).parallel) {
             s[i] = new Segment!(T, 2)(this.vertices[i], this.vertices[(i + 1) % $]);
         }
         return s;
