@@ -5,3 +5,5 @@ dub.selections.json
 /d2d
 d2d.exe
 libd2d.a
+*.dll
+*.lib
