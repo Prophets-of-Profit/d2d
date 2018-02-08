@@ -1,5 +1,7 @@
 module d2d.sdl2.Polygon;
 
+import std.algorithm;
+import std.array;
 import std.parallelism;
 import std.range;
 import d2d.sdl2.Rectangle;
@@ -35,21 +37,22 @@ class Polygon(T, ulong numSides) {
 
     /**
      * Returns whether or not a given point is inside the polygon
-     * TODO: untested and explain how it works
+     * This algorithm uses scanlining (see Renderer.fillPolygon) 
+     * Conceptually, it draws a ray to the left from the given point; if the ray intersects the polygon an odd number of times
+     * the point is within the polygon
      */
-    bool contains(U)(Vector!(U, 2) point, int boundary = 2500) {
-        int intersectionCount;
-        Vector!(U, 2) leftBound = new Vector!(U, 2)(cast(U) 0, point.y);
-        Vector!(U, 2) rightBound = new Vector!(U, 2)(cast(U) boundary, point.y);
-        foreach (i; 0 .. this.vertices.length - 1) {
-            if (doSegmentsIntersect(leftBound, rightBound, this.vertices[i], this.vertices[i + 1])) {
-                intersectionCount++;
+    bool contains(U)(Vector!(U, 2) point) {
+        Rectangle!T bounds = bound!(T, numSides)(this);
+        Segment!(T, 2)[] relevantSides = (cast(Segment!(T, 2)[]) this.sides).filter!(a => (a.initial.y - point.y) * (a.terminal.y - point.y) <= 0).array;
+        int intersections;
+        foreach(side; relevantSides) {
+            immutable dy = point.y - side.initial.y;
+            immutable intersection = (dy * side.direction.x + side.initial.x * side.direction.y) / side.direction.y;
+            if(intersection < point.x) {
+                intersections++;
             }
         }
-        if (doSegmentsIntersect(leftBound, rightBound, this.vertices[0], this.vertices[$ - 1])) {
-            intersectionCount++;
-        }
-        return intersectionCount % 2 == 0;
+        return intersections % 2 == 1;
     }
 
 }
