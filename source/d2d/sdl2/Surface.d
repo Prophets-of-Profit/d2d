@@ -22,6 +22,20 @@ class Surface {
     }
 
     /**
+     * Returns the width of the surface
+     */
+    @property int width() {
+        return this.surface.w;
+    }
+
+    /**
+     * Returns the height of the surface
+     */
+    @property int height() {
+        return this.surface.h;
+    }
+
+    /**
      * Sets the alpha modifier for the surface
      * Alpha modification works by multiplying the alphaMultiplier / 255 into the surface pixels
      */
