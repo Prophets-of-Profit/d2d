@@ -22,17 +22,10 @@ class Surface {
     }
 
     /**
-     * Returns the width of the surface
+     * Gets the surfaces dimensions as a vector with width as the x component and height as the y component
      */
-    @property int width() {
-        return this.surface.w;
-    }
-
-    /**
-     * Returns the height of the surface
-     */
-    @property int height() {
-        return this.surface.h;
+    @property iVector dimensions() {
+        return new iVector(this.surface.w, this.surface.h);
     }
 
     /**
