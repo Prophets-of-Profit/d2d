@@ -42,7 +42,6 @@ class Polygon(T, ulong numSides) {
      * the point is within the polygon
      */
     bool contains(U)(Vector!(U, 2) point) {
-        Rectangle!T bounds = bound!(T, numSides)(this);
         Segment!(T, 2)[] relevantSides = (cast(Segment!(T, 2)[]) this.sides).filter!(a => (a.initial.y - point.y) * (a.terminal.y - point.y) <= 0).array;
         int intersections;
         foreach(side; relevantSides) {

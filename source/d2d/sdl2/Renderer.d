@@ -318,6 +318,7 @@ class Renderer {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
+            //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
             foreach (y; bounds.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
@@ -333,7 +334,6 @@ class Renderer {
                     intersections[y] ~= polygonSide.initial.x;
                     continue;
                 }
-                
                 //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
                 iVector sideDirection = polygonSide.direction;
                 immutable dy = y - polygonSide.initial.y;

@@ -13,7 +13,7 @@ import d2d.sdl2;
  */
 class Display {
 
-    int framerate = 60; ///The framerate of the window. Will be ignored if the renderer is VSync
+    int frameSleep = 1000 / 60; ///How long to wait between frames in milliseconds; will be ignored in case of VSync
     bool isRunning; ///Whether the display is running; will stop running if set to false
     Screen screen; ///The screen that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
@@ -22,6 +22,20 @@ class Display {
     private Mouse _mouse; ///The mouse input source
     private Window _window; ///The actual SDL window
     private Renderer _renderer; ///The renderer for the window
+    
+    /**
+     * Sets the window's framerate
+     */
+    @property void framerate(int fps) {
+        this.frameSleep = 1000 / fps;
+    }
+
+    /**
+     * Gets the window's framerate
+     */
+    @property int framerate() {
+        return 1000 / this.frameSleep;
+    }
 
     /**
      * Gets how many frames have passed since the window started
@@ -110,7 +124,7 @@ class Display {
             if (this.renderer.info.flags & SDL_RENDERER_PRESENTVSYNC) {
                 continue;
             }
-            immutable sleepTime = 1000 / this.framerate - timer.peek().total!"msecs";
+            immutable sleepTime = this.frameSleep - timer.peek().total!"msecs";
             if (sleepTime > 0) {
                 Thread.sleep(msecs(sleepTime));
             }
