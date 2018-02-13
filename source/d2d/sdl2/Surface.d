@@ -180,11 +180,56 @@ class Surface {
 
     /**
      * Fills a rectangle of the surface with the given color
+     * Due to how SDL surfaces work, all other drawing functions on surface are built with this one
      */
     void fillRect(iRectangle destination, Color color) {
         ensureSafe(SDL_FillRect(this.surface, (destination is null) ? null
                 : destination.handle, SDL_MapRGBA(this.surface.format, color.r,
                 color.g, color.b, color.a)));
+    }
+
+    /**
+     * Draws a point on the surface with the given color
+     */
+    void drawPoint(iVector point, Color color) {
+        this.fillRect(new iRectangle(point.x, point.y, 1, 1), color);
+    }
+
+    /**
+     * Draws a line on the surface with the given color
+     */
+    void drawLine(iVector first, iVector second, Color color) {
+        //TODO: do
+    }
+
+    /**
+     * Draws a line on the surface with the given color
+     */
+    void drawLine(Segment!(int, 2) line, Color color) {
+        this.drawLine(line.initial, line.terminal, color);
+    }
+
+    /**
+     * Draws a polygon on the surface with the given color
+     */
+    void drawPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+        foreach (polygonSide; toDraw.sides) {
+            this.drawLine(polygonSide, color);
+        }
+    }
+
+    /**
+     * Draws a rectangle on the surface
+     */
+    void drawRect(iRectangle rect, Color color) {
+        this.drawPolygon!4(cast(iPolygon!4) rect, color);
+    }
+
+    /**
+     * Fills a polygon on the surface with the given color
+     */
+    void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+        //TODO: make
     }
 
 }

@@ -72,8 +72,8 @@ class Rectangle(T) {
     /**
      * Allows the rectangle to be casted to a polygon
      */
-    override Polygon!(T, 2, 4) opCast(U)() const if (is(U == Polygon!(T, 2, 4))) {
-        return new Polygon!(T, 2, 4)([topLeft, topRight, bottomRight, bottomLeft]);
+    U opCast(U)() if (is(U : Polygon!(T, 4))) {
+        return new Polygon!(T, 4)(this.topLeft, this.topRight, this.bottomRight, this.bottomLeft);
     }
 
     /**
