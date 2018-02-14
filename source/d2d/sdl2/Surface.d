@@ -1,5 +1,6 @@
 module d2d.sdl2.Surface;
 
+import std.range;
 import std.string;
 import d2d.sdl2;
 
@@ -199,7 +200,17 @@ class Surface {
      * Draws a line on the surface with the given color
      */
     void drawLine(iVector first, iVector second, Color color) {
-        //TODO: do
+        if (first.x == second.x) {
+            this.fillRect(new iRectangle(first.x, first.y, 1, second.y - first.y), color);
+        } else if (first.y == second.y) {
+            this.fillRect(new iRectangle(first.x, first.y, second.x - first.x, 1), color);
+        } else {
+            foreach(x; iota(first.x, second.x, second.x > first.x ? 1 : -1)) {
+                //Iterating through x and using point slope form
+                immutable intersection = (second.y - first.y) / (second.x - first.x) * (x - first.x) + first.y;
+                this.drawPoint(new iVector(x, intersection), color);
+            }
+        }
     }
 
     /**
