@@ -1,5 +1,6 @@
 module d2d.sdl2.Surface;
 
+import std.algorithm;
 import std.range;
 import std.string;
 import d2d.sdl2;
@@ -240,7 +241,37 @@ class Surface {
      * Fills a polygon on the surface with the given color
      */
     void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
-        //TODO: make
+        iRectangle bounds = bound(toDraw);
+        int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
+        foreach (polygonSide; toDraw.sides) {
+            //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
+            foreach (y; bounds.y .. bounds.bottomLeft.y) {
+                //Checks that the y value exists within the segment
+                if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
+                    continue;
+                }
+                //If the segment is a horizontal line at this y, draws the horizontal line and then breaks
+                if (y == polygonSide.initial.y && polygonSide.initial.y == polygonSide.terminal.y) {
+                    this.drawLine(polygonSide.initial, polygonSide.terminal, color);
+                    continue;
+                }
+                //Vertical lines
+                if(polygonSide.initial.x == polygonSide.terminal.x) {
+                    intersections[y] ~= polygonSide.initial.x;
+                    continue;
+                }
+                //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
+                iVector sideDirection = polygonSide.direction;
+                immutable dy = y - polygonSide.initial.y;
+                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection.y;
+            
+            }
+        }
+        foreach(y, xValues; intersections) {
+            foreach (i; 0 .. xValues.sort.length - 1) {
+                this.drawLine(new iVector(xValues[i], y), new iVector(xValues[i + 1], y), color);
+            }
+        }
     }
 
 }
