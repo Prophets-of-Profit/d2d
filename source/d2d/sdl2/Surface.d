@@ -11,6 +11,7 @@ import d2d.sdl2;
  * Surfaces can also be converted to textures which are more efficient but less flexible
  * Surfaces are handled in software as opposed to textures which are handled in hardware
  * Surfaces can be used, but when used repeatedly and stored, textures should be preferred
+ * Surface draw methods do not respect alpha, but surface blitting does; to draw with alpha, draw to another surface, and blit to desired surface
  */
 class Surface {
 
@@ -160,6 +161,13 @@ class Surface {
     }
 
     /**
+     * Saves the surface as a BMP with the given file name
+     */
+    void saveBMP(string fileName) {
+        ensureSafe(SDL_SaveBMP(this.surface, fileName.toStringz));
+    }
+
+    /**
      * Blits another surface onto this surface
      * Takes the surface to blit, the slice of the surface to blit, and where on this surface to blit to
      * Is faster than a scaled blit to a rectangle
@@ -286,10 +294,21 @@ Surface loadImage(string imagePath) {
 }
 
 /**
- * Returns a scaled version of the surface to the width and height of given rectangle
+ * Returns a surface that fits the given rectangle
+ * Fits the original surface within the returned surface to be as large as it can while maintaining aspect ratio
+ * Also centers the original surface within the returned surface
  */
 Surface scaled(Surface original, iRectangle dstRect) {
     Surface scaledSurface = new Surface(dstRect.w, dstRect.h);
-    scaledSurface.blit(original, null, dstRect);
+    iVector newDimensions = new iVector(0);
+    if (dstRect.w / original.dimensions.x > dstRect.h / original.dimensions.y) {
+        newDimensions.y = dstRect.h;
+        newDimensions.x = original.dimensions.x / original.dimensions.y * newDimensions.y;
+        scaledSurface.blit(original, null, new iRectangle(dstRect.w / 2 - newDimensions.x / 2, 0, newDimensions.x, newDimensions.y));
+    } else {
+        newDimensions.x = dstRect.w;
+        newDimensions.y = original.dimensions.y / original.dimensions.x * newDimensions.x;
+        scaledSurface.blit(original, null, new iRectangle(0, dstRect.h / 2 - newDimensions.y / 2, newDimensions.x, newDimensions.y));
+    }
     return scaledSurface;
 }
