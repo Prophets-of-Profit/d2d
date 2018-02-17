@@ -3,6 +3,7 @@ d2d is a lightweight game framework that is made to be easy to use.\
 d2d is built off of LibSDL2 and directly ports over most SDL objects in an easy and idiomatic way.\
 Currently, as the name suggests, only 2D functionality is currently being worked on. However, d2d allows for the underlying SDL to be used and substituted in, so 3D additions can easily be used alongside d2d.\
 For certain functionalities, SDL DLLs are required at runtime alongside the executable as SDL is loaded dynamically.\
+Tutorials can be found at https://github.com/KadinTucker/d2d-tutorials. \
 **Real documentation will be coming soon.**
 
 ## Basic Usage
