@@ -195,6 +195,16 @@ class Renderer {
                 ? null : sourceRect.handle, destinationRect.handle,
                 angle * 180 / PI, (center is null) ? null : center.handle, flip));
     }
+    
+    /**
+     * Internally used function that performs an action with a certain color
+     */
+    private void performWithColor(Color color, void delegate() action) {
+        immutable oldColor = this.drawColor;
+        this.drawColor = color;
+        action();
+        this.drawColor = oldColor;
+    }
 
     /**
      * Fills the screen with the existing renderer color
@@ -207,20 +217,7 @@ class Renderer {
      * Sets the renderer's color and clears the screen
      */
     void clear(Color color) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        this.clear();
-        this.drawColor = oldColor;
-    }
-
-    /**
-     * Internally used function that performs an action with a certain color
-     */
-    private void performWithColor(Color color, void delegate() action) {
-        immutable oldColor = this.drawColor;
-        this.drawColor = color;
-        action();
-        this.drawColor = oldColor;
+        this.performWithColor(color, {this.clear();});
     }
 
     /**
