@@ -1,0 +1,10 @@
+{
+	"name": "helloworld-mk1",
+	"authors": [
+		"Kadin Tucker"
+	],
+	"dependencies": {
+		"d2d": "~>1.4.8"
+	},
+	"description": "The first in a series of tutorials for using the graphics package d2d."
+}
