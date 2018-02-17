@@ -282,13 +282,6 @@ class Surface {
         }
     }
 
-    /**
-     * Exports the surface to a bitmap image
-     */
-    void saveBMP(string filename) {
-        ensureSafe(SDL_SaveBMP(this.surface, cast(char*)(filename)));
-    }
-
 }
 
 /**
