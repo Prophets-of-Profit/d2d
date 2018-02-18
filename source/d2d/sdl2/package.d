@@ -108,3 +108,8 @@ SDL_Point* handle(iVector vec) {
     temp = SDL_Point(vec.x, vec.y);
     return &temp;
 }
+
+//Aliases 2d vectors to their commonly used presets
+alias iVector = Vector!(int, 2);
+alias dVector = Vector!(double, 2);
+alias fVector = Vector!(float, 2);

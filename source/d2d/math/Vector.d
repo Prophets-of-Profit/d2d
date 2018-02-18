@@ -262,7 +262,3 @@ Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) seco
     return new Vector!(T, 3)(first.y * second.z - first.z * second.y,
             first.z * second.x - first.x * second.z, first.x * second.y - first.y * second.x);
 }
-
-alias iVector = Vector!(int, 2);
-alias dVector = Vector!(double, 2);
-alias fVector = Vector!(float, 2);
