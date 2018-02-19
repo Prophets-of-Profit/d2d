@@ -11,8 +11,7 @@ import std.traits;
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
- * Vector swizzling works on any compiler that allows for static foreach
- * TODO: slice operators and dispatch forwarding and vectorizing more of these operations?
+ * TODO: slice operators, swizzling, and dispatch forwarding and vectorizing more of these operations?
  */
 class Vector(T, ulong dimensions) {
 
@@ -182,29 +181,6 @@ class Vector(T, ulong dimensions) {
         Vector!(T, dimensions) newVec = new Vector(this.components);
         mixin("newVec.components[] " ~ op ~ "= constant;");
         return newVec;
-    }
-
-    /**
-     * Allows setting vector components with swizzling
-     * (eg. (1, 2, 3).xz = (4, 5) => (4, 2, 5))
-     */
-    void opDispatch(string op)(Vector!(T, op.length) otherVector) {
-        static foreach (i, val; op) {
-                mixin("this." ~ val ~ " = otherVector[" ~ i ~ "];");
-            }
-    }
-
-    /**
-     * Allows for vector swizzing
-     * (eg. (1, 2, 3).xxyzyz = (1, 1, 2, 3, 2, 3))
-     * TODO: only ensure valid swizzles are allowed for this opDispatch and fix
-     */
-    Vector!(T, op.length) opDispatch(string op)() {
-        Vector!(T, op.length) swizzled = new Vector!(T, op.length)(0);
-        static foreach (i, val; op) {
-                mixin("swizzled.components[" ~ i ~ "] = this." ~ val ~ ";");
-            }
-        return swizzled;
     }
 
     /**
