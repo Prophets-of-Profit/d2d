@@ -225,7 +225,7 @@ class Surface {
     /**
      * Draws a line on the surface with the given color
      */
-    void drawLine(Segment!(int, 2) line, Color color) {
+    void drawLine(iSegment line, Color color) {
         this.drawLine(line.initial, line.terminal, color);
     }
 

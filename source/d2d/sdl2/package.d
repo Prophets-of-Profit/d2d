@@ -113,3 +113,8 @@ SDL_Point* handle(iVector vec) {
 alias iVector = Vector!(int, 2);
 alias dVector = Vector!(double, 2);
 alias fVector = Vector!(float, 2);
+
+//Aliases 2d segments to their commonly used presets
+alias iSegment = Segment!(int, 2);
+alias dSegment = Segment!(double, 2);
+alias fSegment = Segment!(float, 2);

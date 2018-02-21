@@ -237,14 +237,14 @@ class Renderer {
     /**
      * Draws a line given a segment
      */
-    void drawLine(Segment!(int, 2) line) {
+    void drawLine(iSegment line) {
         this.drawLine(line.initial, line.terminal);
     }
 
     /**
      * Draws a line with a specific color
      */
-    void drawLine(Segment!(int, 2) line, Color color) {
+    void drawLine(iSegment line, Color color) {
         this.performWithColor(color, {this.drawLine(line);});
     }
 
