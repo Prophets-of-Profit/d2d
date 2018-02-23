@@ -4,6 +4,7 @@ import std.algorithm;
 import std.array;
 import std.parallelism;
 import std.range;
+import std.traits;
 import d2d.sdl2.Rectangle;
 import d2d.math.Segment;
 import d2d.math.Vector;
@@ -33,6 +34,14 @@ class Polygon(T, ulong numSides) {
     this(Vector!(T, 2)[] vertices...) {
         assert(vertices.length == numSides);
         this.vertices = vertices;
+    }
+
+    /**
+     * Casts the polygon to a polygon of another type
+     */
+    U opCast(U)() if (is(U : Polygon!V, V...)) {
+        alias type = TemplateArgsOf!U[0];
+        return new U(cast(Vector!(type, 2)[]) this.vertices);
     }
 
     /**
