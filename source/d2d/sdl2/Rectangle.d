@@ -1,6 +1,7 @@
 module d2d.sdl2.Rectangle;
 
 import std.math;
+import std.traits;
 import d2d.sdl2;
 
 /**
@@ -81,12 +82,7 @@ class Rectangle(T) {
      */
     U opCast(U)() if (is(U : Rectangle!V, V...)) {
         alias type = TemplateArgsOf!U[0];
-        U newRect = new U(type.init);
-        newRect.x = cast(type)this.x;
-        newRect.y = cast(type)this.y;
-        newRect.w = cast(type)this.w;
-        newRect.h = cast(type)this.h;
-        return newVec;
+        return new U(cast(type) this.x, cast(type) this.y, cast(type) this.w, cast(type) this.h);
     }
 
     /**
