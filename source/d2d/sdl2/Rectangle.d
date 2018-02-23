@@ -77,6 +77,19 @@ class Rectangle(T) {
     }
 
     /**
+     * Casts the rectangle to a rectangle of another type
+     */
+    U opCast(U)() if (is(U : Rectangle!V, V...)) {
+        alias type = TemplateArgsOf!U[0];
+        U newRect = new U(type.init);
+        newRect.x = cast(type)this.x;
+        newRect.y = cast(type)this.y;
+        newRect.w = cast(type)this.w;
+        newRect.h = cast(type)this.h;
+        return newVec;
+    }
+
+    /**
      * Returns whether this rectangle contains the given point
      */
     bool contains(U)(Vector!(U, 2) point) {
