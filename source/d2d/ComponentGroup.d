@@ -39,11 +39,11 @@ class ComponentGroup : Component {
             if (component.location.y < minValue.y) {
                 minValue.y = component.location.y;
             }
-            if (component.location.x > maxValue.x) {
-                maxValue.x = component.location.x;
+            if (component.location.x + component.location.w > maxValue.x) {
+                maxValue.x = component.location.x + component.location.w;
             }
-            if (component.location.y > maxValue.y) {
-                maxValue.y = component.location.y;
+            if (component.location.y + component.location.h > maxValue.y) {
+                maxValue.y = component.location.y + component.location.h;
             }
         }
         iVector difference = maxValue - minValue;
