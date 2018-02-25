@@ -52,6 +52,13 @@ class Rectangle(T) {
     }
 
     /**
+     * Gets the dimensions of the rectangle
+     */
+    @property Vector!(T, 2) dimensions() {
+        return new Vector!(T, 2)(this.w, this.h);
+    }
+
+    /**
      * Gets the rectangle as an SDL_Rect
      */
     @property SDL_Rect* handle() {
@@ -98,6 +105,13 @@ class Rectangle(T) {
      */
     bool contains(U)(Rectangle!(U) other) {
         return this.x < other.x && this.y < other.y && this.x + this.w > other.x + other.w && this.y + this.h > other.y + other.h;
+    }
+
+    /**
+     * Gives the rectangle as a pretty string
+     */
+    override string toString() {
+        return "Rectangle[" ~ this.topLeft.toString ~ ", " ~ this.bottomRight.toString ~ "]";
     }
 
 }

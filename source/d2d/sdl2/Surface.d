@@ -298,17 +298,14 @@ Surface loadImage(string imagePath) {
  * Fits the original surface within the returned surface to be as large as it can while maintaining aspect ratio
  * Also centers the original surface within the returned surface
  */
-Surface scaled(Surface original, iRectangle dstRect) {
-    Surface scaledSurface = new Surface(dstRect.w, dstRect.h);
-    iVector newDimensions = new iVector(0);
-    if (dstRect.w / original.dimensions.x > dstRect.h / original.dimensions.y) {
-        newDimensions.y = dstRect.h;
-        newDimensions.x = original.dimensions.x / original.dimensions.y * newDimensions.y;
-        scaledSurface.blit(original, null, new iRectangle(dstRect.w / 2 - newDimensions.x / 2, 0, newDimensions.x, newDimensions.y));
-    } else {
-        newDimensions.x = dstRect.w;
-        newDimensions.y = original.dimensions.y / original.dimensions.x * newDimensions.x;
-        scaledSurface.blit(original, null, new iRectangle(0, dstRect.h / 2 - newDimensions.y / 2, newDimensions.x, newDimensions.y));
-    }
+Surface scaled(Surface original, iVector desiredDimensions) {
+    Surface scaledSurface = new Surface(desiredDimensions.x , desiredDimensions.y, SDL_PIXELFORMAT_RGBA32);
+    iVector newDimensions = cast(iVector) (cast(dVector) original.dimensions * min(cast(double) desiredDimensions.x / original.dimensions.x, cast(double) desiredDimensions.y / original.dimensions.y));
+    iRectangle newLoc = new iRectangle(
+        (desiredDimensions.x - newDimensions.x) / 2,
+        (desiredDimensions.y - newDimensions.y) / 2,
+        newDimensions.x,
+        newDimensions.y);
+    scaledSurface.blit(original, null, newLoc);
     return scaledSurface;
 }
