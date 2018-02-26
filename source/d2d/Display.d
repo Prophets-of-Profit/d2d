@@ -15,7 +15,7 @@ class Display {
 
     int frameSleep = 1000 / 60; ///How long to wait between frames in milliseconds; will be ignored in case of VSync
     bool isRunning; ///Whether the display is running; will stop running if set to false
-    Screen screen; ///The screen that the display is displaying right now
+    Activity screen; ///The screen that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private ulong _frames; ///How many frames have passed
     private Keyboard _keyboard; ///The keyboard input source
