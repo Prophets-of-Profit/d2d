@@ -13,7 +13,7 @@ public import d2d.sdl2.InputSource;
 public import d2d.sdl2.Keyboard;
 public import d2d.sdl2.Mouse;
 public import d2d.sdl2.Polygon;
-public import d2d.sdl2.Rectangle;
+public import d2d.sdl2.AxisAlignedRectangle;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;

@@ -1,4 +1,4 @@
-module d2d.sdl2.Rectangle;
+module d2d.sdl2.AxisAlignedRectangle;
 
 import std.math;
 import std.traits;
@@ -6,9 +6,10 @@ import d2d.sdl2;
 
 /**
  * A rectangle is a box in 2d space
- * This struct only does Axis Aligned Bounding Boxes (AABB) which don't have rotation
+ * Because these rectangles are axis aligned, they don't have any rotation
+ * TODO: upgrade to Axis Aligned Bounding Box in d2d.math?
  */
-class Rectangle(T) {
+class AxisAlignedRectangle(T) {
 
     private SDL_Rect sdlRectangle;
     T x; ///The top left x coordinate of the rectangle
@@ -87,7 +88,7 @@ class Rectangle(T) {
     /**
      * Casts the rectangle to a rectangle of another type
      */
-    U opCast(U)() if (is(U : Rectangle!V, V...)) {
+    U opCast(U)() if (is(U : AxisAlignedRectangle!V, V...)) {
         alias type = TemplateArgsOf!U[0];
         return new U(cast(type) this.x, cast(type) this.y, cast(type) this.w, cast(type) this.h);
     }
@@ -103,7 +104,7 @@ class Rectangle(T) {
     /**
      * Returns whether this rectangle completely contains the other rectangle
      */
-    bool contains(U)(Rectangle!(U) other) {
+    bool contains(U)(AxisAlignedRectangle!(U) other) {
         return this.x < other.x && this.y < other.y && this.x + this.w > other.x + other.w && this.y + this.h > other.y + other.h;
     }
 
@@ -111,7 +112,7 @@ class Rectangle(T) {
      * Gives the rectangle as a pretty string
      */
     override string toString() {
-        return "Rectangle[" ~ this.topLeft.toString ~ ", " ~ this.bottomRight.toString ~ "]";
+        return "AxisAlignedRectangle[<x, y> = " ~ this.topLeft.toString ~ "; <w, h> = " ~ this.dimensions.toString ~ "]";
     }
 
 }
@@ -119,11 +120,11 @@ class Rectangle(T) {
 /**
  * Returns whether two rectangles intersect
  */
-bool intersects(T, U)(Rectangle!T rect1, Rectangle!U rect2) {
+bool intersects(T, U)(AxisAlignedRectangle!T rect1, AxisAlignedRectangle!U rect2) {
     return rect1.x < rect2.x + rect2.w && rect1.x + rect1.w > rect2.x
         && rect1.y < rect2.y + rect2.h && rect1.h + rect1.y > rect2.y;
 }
 
-alias iRectangle = Rectangle!int;
-alias dRectangle = Rectangle!double;
-alias fRectangle = Rectangle!float;
+alias iRectangle = AxisAlignedRectangle!int;
+alias dRectangle = AxisAlignedRectangle!double;
+alias fRectangle = AxisAlignedRectangle!float;
