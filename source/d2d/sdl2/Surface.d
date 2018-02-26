@@ -242,7 +242,7 @@ class Surface {
      * Draws a rectangle on the surface
      */
     void drawRect(iRectangle rect, Color color) {
-        this.drawPolygon!4(cast(iPolygon!4) rect, color);
+        this.drawPolygon!4(rect.toPolygon(), color);
     }
 
     /**

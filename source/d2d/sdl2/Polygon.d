@@ -5,7 +5,7 @@ import std.array;
 import std.parallelism;
 import std.range;
 import std.traits;
-import d2d.sdl2.AxisAlignedRectangle;
+import d2d.math.AxisAlignedBoundingBox;
 import d2d.math.Segment;
 import d2d.math.Vector;
 
@@ -68,7 +68,7 @@ class Polygon(T, ulong numSides) {
 /**
  * Returns the rectangle bounding a polygon
  */
-AxisAlignedRectangle!T bound(T, ulong sides)(Polygon!(T, sides) toBound) {
+AxisAlignedBoundingBox!(T, 2) bound(T, ulong sides)(Polygon!(T, sides) toBound) {
     Vector!(T, 2) minVals = new Vector!(T, 2)(T.max);
     Vector!(T, 2) maxVals = new Vector!(T, 2)(T.max + 1); //Causes an overflow to get small value
     foreach (vertex; toBound.vertices) {
@@ -85,7 +85,7 @@ AxisAlignedRectangle!T bound(T, ulong sides)(Polygon!(T, sides) toBound) {
             maxVals.y = vertex.y;
         }
     }
-    return new AxisAlignedRectangle!T(minVals.x, minVals.y, maxVals.x - minVals.x, maxVals.y - minVals.y);
+    return new AxisAlignedBoundingBox!(T, 2)(minVals.x, minVals.y, maxVals.x - minVals.x, maxVals.y - minVals.y);
 }
 
 alias iPolygon(ulong T) = Polygon!(int, T);

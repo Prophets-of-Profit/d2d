@@ -13,7 +13,6 @@ public import d2d.sdl2.InputSource;
 public import d2d.sdl2.Keyboard;
 public import d2d.sdl2.Mouse;
 public import d2d.sdl2.Polygon;
-public import d2d.sdl2.AxisAlignedRectangle;
 public import d2d.sdl2.Renderer;
 public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;
@@ -98,21 +97,42 @@ T ensureSafe(T)(T output) {
     return output;
 }
 
-//A completely pointless variable to allow turning a 2d vector into an SDL_Point*; variable needed because excaping references is not allowed
-SDL_Point temp;
+//Completely pointless temporary variables to get math objects into SDL structs
+private SDL_Point tempPoint;
+private SDL_Rect tempRect;
 
 /**
  * Gets a 2d vector as an SDL_Point*
  */
 SDL_Point* handle(iVector vec) {
-    temp = SDL_Point(vec.x, vec.y);
-    return &temp;
+    tempPoint = SDL_Point(vec.x, vec.y);
+    return &tempPoint;
+}
+
+/**
+ * Gets a 2d axis aligned bounding box as an SDL_Rect*
+ */
+SDL_Rect* handle(iRectangle rec) {
+    tempRect = SDL_Rect(rec.x, rec.y, rec.w, rec.h);
+    return &tempRect;
+}
+
+/**
+ * Gets a 2d axis aligned bounding box as a polygon
+ */
+Polygon!(T, 4) toPolygon(T)(AxisAlignedBoundingBox!(T, 2) rec) {
+    return new Polygon!(T, 4)(rec.topLeft, rec.topRight, rec.bottomRight, rec.bottomLeft);
 }
 
 //Aliases 2d vectors to their commonly used presets
 alias iVector = Vector!(int, 2);
 alias dVector = Vector!(double, 2);
 alias fVector = Vector!(float, 2);
+
+//Aliases 2d axis aligned bounding boxes to their commonly used presets
+alias iRectangle = AxisAlignedBoundingBox!(int, 2);
+alias dRectangle = AxisAlignedBoundingBox!(double, 2);
+alias fRectangle = AxisAlignedBoundingBox!(float, 2);
 
 //Aliases 2d segments to their commonly used presets
 alias iSegment = Segment!(int, 2);

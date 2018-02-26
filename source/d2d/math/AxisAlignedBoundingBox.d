@@ -1,17 +1,16 @@
-module d2d.sdl2.AxisAlignedRectangle;
+module d2d.math.AxisAlignedBoundingBox;
 
 import std.math;
 import std.traits;
-import d2d.sdl2;
+import d2d.math.Vector;
 
 /**
  * A rectangle is a box in 2d space
  * Because these rectangles are axis aligned, they don't have any rotation
- * TODO: upgrade to Axis Aligned Bounding Box in d2d.math?
+ * TODO: make this class dimension agnostic currently only works for 2d
  */
-class AxisAlignedRectangle(T) {
+class AxisAlignedBoundingBox(T, ulong dimensions) {
 
-    private SDL_Rect sdlRectangle;
     T x; ///The top left x coordinate of the rectangle
     T y; ///The top left y coordinate of the rectangle
     T w; ///The rectangle's width
@@ -60,15 +59,6 @@ class AxisAlignedRectangle(T) {
     }
 
     /**
-     * Gets the rectangle as an SDL_Rect
-     */
-    @property SDL_Rect* handle() {
-        sdlRectangle = SDL_Rect(cast(int) this.x, cast(int) this.y,
-                cast(int) this.w, cast(int) this.h);
-        return &sdlRectangle;
-    }
-
-    /**
      * Makes a rectangle given top left coordinates and a width and a height
      */
     this(T x, T y, T w, T h) {
@@ -79,16 +69,9 @@ class AxisAlignedRectangle(T) {
     }
 
     /**
-     * Allows the rectangle to be casted to a polygon
-     */
-    U opCast(U)() if (is(U : Polygon!(T, 4))) {
-        return new Polygon!(T, 4)(this.topLeft, this.topRight, this.bottomRight, this.bottomLeft);
-    }
-
-    /**
      * Casts the rectangle to a rectangle of another type
      */
-    U opCast(U)() if (is(U : AxisAlignedRectangle!V, V...)) {
+    U opCast(U)() if (is(U : AxisAlignedBoundingBox!(V, dimensions), V...)) {
         alias type = TemplateArgsOf!U[0];
         return new U(cast(type) this.x, cast(type) this.y, cast(type) this.w, cast(type) this.h);
     }
@@ -104,7 +87,7 @@ class AxisAlignedRectangle(T) {
     /**
      * Returns whether this rectangle completely contains the other rectangle
      */
-    bool contains(U)(AxisAlignedRectangle!(U) other) {
+    bool contains(U)(AxisAlignedBoundingBox!(U) other) {
         return this.x < other.x && this.y < other.y && this.x + this.w > other.x + other.w && this.y + this.h > other.y + other.h;
     }
 
@@ -112,7 +95,7 @@ class AxisAlignedRectangle(T) {
      * Gives the rectangle as a pretty string
      */
     override string toString() {
-        return "AxisAlignedRectangle[<x, y> = " ~ this.topLeft.toString ~ "; <w, h> = " ~ this.dimensions.toString ~ "]";
+        return "AxisAlignedBoundingBox[<x, y> = " ~ this.topLeft.toString ~ "; <w, h> = " ~ this.dimensions.toString ~ "]";
     }
 
 }
@@ -120,11 +103,7 @@ class AxisAlignedRectangle(T) {
 /**
  * Returns whether two rectangles intersect
  */
-bool intersects(T, U)(AxisAlignedRectangle!T rect1, AxisAlignedRectangle!U rect2) {
+bool intersects(T, U)(AxisAlignedBoundingBox!T rect1, AxisAlignedBoundingBox!U rect2) {
     return rect1.x < rect2.x + rect2.w && rect1.x + rect1.w > rect2.x
         && rect1.y < rect2.y + rect2.h && rect1.h + rect1.y > rect2.y;
 }
-
-alias iRectangle = AxisAlignedRectangle!int;
-alias dRectangle = AxisAlignedRectangle!double;
-alias fRectangle = AxisAlignedRectangle!float;
