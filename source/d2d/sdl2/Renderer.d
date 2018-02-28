@@ -169,8 +169,8 @@ class Renderer {
      * Copies a texture to the window at the given point
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
-    void copy(Texture texture, iVector destination, iRectangle sourceRect = null) {
-        this.copy(texture, new iRectangle(destination.x, destination.y,
+    void copy(Texture texture, int x, int y, iRectangle sourceRect = null) {
+        this.copy(texture, new iRectangle(x, y,
                 texture.dimensions.x, texture.dimensions.y), sourceRect);
     }
 
@@ -251,8 +251,15 @@ class Renderer {
     /**
      * Draws a point
      */
+    void drawPoint(int x, int y) {
+        ensureSafe(SDL_RenderDrawPoint(this.renderer, x, y));
+    }
+
+    /**
+     * Draws a point
+     */
     void drawPoint(iVector toDraw) {
-        ensureSafe(SDL_RenderDrawPoint(this.renderer, toDraw.x, toDraw.y));
+        this.drawPoint(toDraw.x, toDraw.y);
     }
 
     /**

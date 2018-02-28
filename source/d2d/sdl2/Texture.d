@@ -121,9 +121,9 @@ class Texture {
      * Creates a texture given explicit parameters that are required by SDL CreateTexture
      * Allows for more control over how the texture works
      */
-    this(Renderer renderer, uint format, SDL_TextureAccess access, iVector dimensions) {
+    this(Renderer renderer, uint format, SDL_TextureAccess access, int width, int height) {
         this.texture = ensureSafe(SDL_CreateTexture(renderer.handle, format,
-                access, dimensions.x, dimensions.y));
+                access, width, height));
     }
 
     /**

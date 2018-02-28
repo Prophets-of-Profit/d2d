@@ -172,8 +172,8 @@ class Surface {
      * Takes the surface to blit, the slice of the surface to blit, and where on this surface to blit to
      * Is faster than a scaled blit to a rectangle
      */
-    void blit(Surface src, iRectangle srcRect, iVector dstLocation) {
-        SDL_Rect dst = SDL_Rect(dstLocation.x, dstLocation.y, 0, 0);
+    void blit(Surface src, iRectangle srcRect, int dstX, int dstY) {
+        SDL_Rect dst = SDL_Rect(dstX, dstY, 0, 0);
         ensureSafe(SDL_BlitSurface(src.handle, (srcRect is null) ? null
                 : srcRect.handle, this.surface, &dst));
     }
@@ -201,8 +201,15 @@ class Surface {
     /**
      * Draws a point on the surface with the given color
      */
+    void drawPoint(int x, int y, Color color) {
+        this.fillRect(new iRectangle(x, y, 1, 1), color);
+    }
+
+    /**
+     * Draws a point on the surface with the given color
+     */
     void drawPoint(iVector point, Color color) {
-        this.fillRect(new iRectangle(point.x, point.y, 1, 1), color);
+        this.drawPoint(point.x, point.y, color);
     }
 
     /**
@@ -298,12 +305,12 @@ Surface loadImage(string imagePath) {
  * Fits the original surface within the returned surface to be as large as it can while maintaining aspect ratio
  * Also centers the original surface within the returned surface
  */
-Surface scaled(Surface original, iVector desiredDimensions) {
-    Surface scaledSurface = new Surface(desiredDimensions.x , desiredDimensions.y, SDL_PIXELFORMAT_RGBA32);
-    iVector newDimensions = cast(iVector) (cast(dVector) original.dimensions * min(cast(double) desiredDimensions.x / original.dimensions.x, cast(double) desiredDimensions.y / original.dimensions.y));
+Surface scaled(Surface original, int desiredW, int desiredH) {
+    Surface scaledSurface = new Surface(desiredW, desiredH, SDL_PIXELFORMAT_RGBA32);
+    iVector newDimensions = cast(iVector) (cast(dVector) original.dimensions * min(cast(double) desiredW / original.dimensions.x, cast(double) desiredH / original.dimensions.y));
     iRectangle newLoc = new iRectangle(
-        (desiredDimensions.x - newDimensions.x) / 2,
-        (desiredDimensions.y - newDimensions.y) / 2,
+        (desiredW - newDimensions.x) / 2,
+        (desiredH - newDimensions.y) / 2,
         newDimensions.x,
         newDimensions.y);
     scaledSurface.blit(original, null, newLoc);

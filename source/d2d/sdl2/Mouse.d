@@ -149,8 +149,8 @@ class Cursor {
      * Creates a cursor from a surface and the hotspot
      * The hotspot is where on the surface is the actual mouse location
      */
-    this(Surface appearance, iVector hotspot) {
-        this.cursor = ensureSafe(SDL_CreateColorCursor(appearance.handle, hotspot.x, hotspot.y));
+    this(Surface appearance, int hotspotX, int hotspotY) {
+        this.cursor = ensureSafe(SDL_CreateColorCursor(appearance.handle, hotspotX, hotspotY));
     }
 
     /**
