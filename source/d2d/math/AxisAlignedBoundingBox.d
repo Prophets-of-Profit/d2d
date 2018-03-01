@@ -9,7 +9,6 @@ import d2d.math.Vector;
 /**
  * A rectangle is a box in 2d space
  * Because these rectangles are axis aligned, they don't have any rotation
- * TODO: make this class dimension agnostic currently only works for 2d
  */
 class AxisAlignedBoundingBox(T, ulong dimensions) {
 
@@ -18,9 +17,26 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
     /**
      * Gets all the vertices of the AABB
+     * TODO: this is really bad and probably doesn't work
      */
     @property Vector!(T, dimensions)[] vertices() {
-        //TODO:
+        Vector!(T, dimensions)[] allVerts;
+        if (this.extent == 0) {
+            return [this.initialPoint];
+        }
+        foreach (i, component; this.extent) {
+            foreach (i; 0..dimensions) {
+                AxisAlignedBoundingBox!(T, dimensions) copy = AxisAlignedBoundingBox!(T, dimensions)(new Vector!(T, dimensions)(this.initialPoint.components), new Vector!(T, dimensions)(this.extent.components));
+                copy.initialPoint[i] += copy.extent[i];
+                copy.extent[i] = 0;
+                foreach (vertex; copy.vertices) {
+                    if (!allVerts.canFind(vertex)) {
+                        allVerts ~= vertex;
+                    }
+                }
+            }
+        }
+        return allVerts;
     }
 
     /**
@@ -40,12 +56,12 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
     /**
      * Returns whether the box contains the given point
-     * TODO: untested and doesn't account for whether extent is negative
+     * TODO: untested
      */
     bool contains(Vector!(T, dimensions) point) {
         bool contains = true;
         foreach(i, ref component; (cast(T[]) point.components).parallel) {
-            if (component < this.initialPoint.components[i] || component > this.initialPoint.components[i] + this.extent.components[i]) {
+            if ((component < this.initialPoint.components[i] || component > this.initialPoint.components[i] + this.extent.components[i]) && (component > this.initialPoint.components[i] || component < this.initialPoint.components[i] + this.extent.components[i])) {
                 contains = false;
             }
         }
@@ -58,5 +74,11 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
  * Returns whether two rectangles intersect
  */
 bool intersects(T, U)(AxisAlignedBoundingBox!T rect1, AxisAlignedBoundingBox!U rect2) {
-    //TODO:
+    bool contains;
+    foreach(vertex; rect1.vertices) {
+        if (rect2.contains(vertex)) {
+            contains = true;
+        }
+    }
+    return contains;
 }

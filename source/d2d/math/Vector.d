@@ -197,20 +197,30 @@ class Vector(T, ulong dimensions) {
     }
 
     /**
-     * Returns whether the vector is equal to another vector
+     * Returns whether the vector is equal to another vector or constant
      * Uses approxEquals to do easy equality for vectors of doubles
      */
     override bool opEquals(Object o) {
-        Vector!(T, dimensions) cmp;
-        try {
-            cmp = cast(Vector!(T, dimensions)) o;
-        } catch(Exception e) {
-            return false;
-        }
         bool isEqual = true;
-        foreach(i, ref component; (cast(T[]) this.components).parallel) {
-            if (!approxEqual(component, cmp.components[i])) {
-                isEqual = false;
+        try {
+            Vector!(T, dimensions) cmp = cast(Vector!(T, dimensions)) o;
+            foreach(i, ref component; (cast(T[]) this.components).parallel) {
+                if (!approxEqual(component, cmp.components[i])) {
+                    isEqual = false;
+                }
+            }
+        } catch(Exception e) try {
+            T cmp = cast(T) o;
+            foreach(i, ref component; (cast(T[]) this.components).parallel) {
+                if (!approxEqual(component, cmp)) {
+                    isEqual = false;
+                }
+            }
+        } catch (Exception e) {
+            foreach(i, ref component; (cast(T[]) this.components).parallel) {
+                if (component != o) {
+                    isEqual = false;
+                }
             }
         }
         return isEqual;
