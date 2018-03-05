@@ -270,7 +270,7 @@ class Font {
      * Text is less smooth than other render options
      * This is the fastest rendering speed, and color can be changed without having to render again 
      */
-    Surface renderTextSolid(string text, Color color, Encoding T = Encoding.UTF8) {
+    Surface renderTextSolid(string text, Color color = Color(0, 0, 0), Encoding T = Encoding.UTF8) {
         switch (T) {
         case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Solid(this.font,
@@ -314,7 +314,7 @@ class Font {
      * The surface has alpha transparency
      * Renders about as slowly as the Shaded render method, but blits more slowly than Solid and Shaded
      */
-    Surface renderTextBlended(string text, Color color, Encoding T = Encoding.UTF8) {
+    Surface renderTextBlended(string text, Color color = Color(0, 0, 0), Encoding T = Encoding.UTF8) {
         switch (T) {
         case Encoding.LATIN1:
             return new Surface(TTF_RenderText_Blended(this.font,
@@ -334,7 +334,7 @@ class Font {
      * Renders a glyph quickly 
      * See renderTextSolid
      */
-    Surface renderGlyphSolid(char glyph, Color color) {
+    Surface renderGlyphSolid(char glyph, Color color = Color(0, 0, 0)) {
         return new Surface(TTF_RenderGlyph_Solid(this.font, glyph, *color.handle));
     }
 
@@ -351,7 +351,7 @@ class Font {
      * Renders a glyph very slowly but with very high quality
      * See renderTextBlended
      */
-    Surface renderGlyphBlended(char glyph, Color color) {
+    Surface renderGlyphBlended(char glyph, Color color = Color(0, 0, 0)) {
         return new Surface(TTF_RenderGlyph_Blended(this.font, glyph, *color.handle));
     }
 
