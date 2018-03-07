@@ -17,7 +17,6 @@ abstract class Component : EventHandler {
     }
 
     @property iRectangle location(); ///Gets where the component is on the screen
-    @property void location(iRectangle); ///Sets where the component is on the screen
     void draw(); ///How the component should draw itself on the screen
 
 }

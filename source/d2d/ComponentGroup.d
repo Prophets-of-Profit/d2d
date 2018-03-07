@@ -13,20 +13,6 @@ class ComponentGroup : Component {
     Component[] subComponents; ///The components that are in this ComponentGroup
 
     /**
-     * Scales the locations of all of the sub components to ensure the size of this group is the new location
-     * TODO: untested
-     */
-    override @property void location(iRectangle location) {
-        const oldLocation = this.location;
-        foreach (component; this.subComponents) {
-            component.location.x = component.location.x / oldLocation.w * location.w;
-            component.location.y = component.location.y / oldLocation.h * location.h;
-            component.location.w = component.location.w / oldLocation.w * location.w;
-            component.location.h = component.location.h / oldLocation.h * location.h;
-        }
-    }
-
-    /**
      * Gets the location of this group as the smallest rectangle that contains all components
      */
     override @property iRectangle location() {

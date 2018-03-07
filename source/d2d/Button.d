@@ -36,7 +36,7 @@ abstract class Button : Component {
     /**
      * Sets where the button is on the screen
      */
-    override @property void location(iRectangle newLocation) {
+    @property void location(iRectangle newLocation) {
         this._location = newLocation;
     }
 
