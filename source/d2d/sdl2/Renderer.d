@@ -223,35 +223,35 @@ class Renderer {
     /**
      * Draws a line between the given points
      */
-    void drawLine(iVector first, iVector second) {
+    void draw(iVector first, iVector second) {
         ensureSafe(SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y));
     }
 
     /**
      * Draws a line of a given color between the given points
      */
-    void drawLine(iVector first, iVector second, Color color) {
-        this.performWithColor(color, {this.drawLine(first, second);});
+    void draw(iVector first, iVector second, Color color) {
+        this.performWithColor(color, {this.draw(first, second);});
     }
 
     /**
      * Draws a line given a segment
      */
-    void drawLine(iSegment line) {
-        this.drawLine(line.initial, line.terminal);
+    void draw(iSegment line) {
+        this.draw(line.initial, line.terminal);
     }
 
     /**
      * Draws a line with a specific color
      */
-    void drawLine(iSegment line, Color color) {
-        this.performWithColor(color, {this.drawLine(line);});
+    void draw(iSegment line, Color color) {
+        this.performWithColor(color, {this.draw(line);});
     }
 
     /**
      * Draws a point
      */
-    void drawPoint(int x, int y) {
+    void draw(int x, int y) {
         ensureSafe(SDL_RenderDrawPoint(this.renderer, x, y));
     }
 
@@ -259,48 +259,48 @@ class Renderer {
      * Draws a point
      */
     void drawPoint(iVector toDraw) {
-        this.drawPoint(toDraw.x, toDraw.y);
+        this.draw(toDraw.x, toDraw.y);
     }
 
     /**
      * Draws a point in the given color
      */
-    void drawPoint(iVector toDraw, Color color) {
+    void draw(iVector toDraw, Color color) {
         this.performWithColor(color, {this.drawPoint(toDraw);});
     }
 
     /**
      * Draws a rectangle
      */
-    void drawRect(iRectangle toDraw) {
+    void draw(iRectangle toDraw) {
         ensureSafe(SDL_RenderDrawRect(this.renderer, toDraw.handle));
     }
 
     /**
      * Draws a rectangle with the given color
      */
-    void drawRect(iRectangle toDraw, Color color) {
-        this.performWithColor(color, {this.drawRect(toDraw);});
+    void draw(iRectangle toDraw, Color color) {
+        this.performWithColor(color, {this.draw(toDraw);});
     }
 
     /**
      * Fills a rectangle in
      */
-    void fillRect(iRectangle toFill) {
+    void fill(iRectangle toFill) {
         ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
     }
 
     /**
      * Fills a rectangle in with the given color
      */
-    void fillRect(iRectangle toFill, Color color) {
-        this.performWithColor(color, {this.fillRect(toFill);});
+    void fill(iRectangle toFill, Color color) {
+        this.performWithColor(color, {this.fill(toFill);});
     }
 
     /**
      * Draws a polygon
      */
-    void drawPolygon(ulong sides)(iPolygon!sides toDraw) {
+    void draw(ulong sides)(iPolygon!sides toDraw) {
         foreach (polygonSide; toDraw.sides) {
             this.drawLine(polygonSide);
         }
@@ -309,7 +309,7 @@ class Renderer {
     /**
      * Draws a polygon with the given color
      */
-    void drawPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void draw(ulong sides)(iPolygon!sides toDraw, Color color) {
         this.performWithColor(color, {this.drawPolygon(toDraw);});
     }
 
@@ -318,7 +318,7 @@ class Renderer {
      * Uses scanlining
      * TODO: could be much more efficient
      */
-    void fillPolygon(ulong sides)(iPolygon!sides toDraw) {
+    void fill(ulong sides)(iPolygon!sides toDraw) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
@@ -330,7 +330,7 @@ class Renderer {
                 }
                 //If the segment is a horizontal line at this y, draws the horizontal line and then breaks
                 if (y == polygonSide.initial.y && polygonSide.initial.y == polygonSide.terminal.y) {
-                    this.drawLine(polygonSide.initial, polygonSide.terminal);
+                    this.draw(polygonSide.initial, polygonSide.terminal);
                     continue;
                 }
                 //Vertical lines
@@ -347,7 +347,7 @@ class Renderer {
         }
         foreach(y, xValues; intersections) {
             foreach (i; 0 .. xValues.sort.length - 1) {
-                this.drawLine(new iVector(xValues[i], y), new iVector(xValues[i + 1], y));
+                this.draw(new iVector(xValues[i], y), new iVector(xValues[i + 1], y));
             }
         }
     }
@@ -355,8 +355,8 @@ class Renderer {
     /**
      * Fills a polygon with a given color
      */
-    void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
-        this.performWithColor(color, {this.fillPolygon!sides(toDraw);});
+    void fill(ulong sides)(iPolygon!sides toDraw, Color color) {
+        this.performWithColor(color, {this.fill!sides(toDraw);});
     }
 
     /**

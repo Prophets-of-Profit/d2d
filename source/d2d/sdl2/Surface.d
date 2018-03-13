@@ -192,7 +192,7 @@ class Surface {
      * Fills a rectangle of the surface with the given color
      * Due to how SDL surfaces work, all other drawing functions on surface are built with this one
      */
-    void fillRect(iRectangle destination, Color color) {
+    void fill(iRectangle destination, Color color) {
         ensureSafe(SDL_FillRect(this.surface, (destination is null) ? null
                 : destination.handle, SDL_MapRGBA(this.surface.format, color.r,
                 color.g, color.b, color.a)));
@@ -201,30 +201,30 @@ class Surface {
     /**
      * Draws a point on the surface with the given color
      */
-    void drawPoint(int x, int y, Color color) {
-        this.fillRect(new iRectangle(x, y, 1, 1), color);
+    void draw(int x, int y, Color color) {
+        this.fill(new iRectangle(x, y, 1, 1), color);
     }
 
     /**
      * Draws a point on the surface with the given color
      */
-    void drawPoint(iVector point, Color color) {
-        this.drawPoint(point.x, point.y, color);
+    void draw(iVector point, Color color) {
+        this.draw(point.x, point.y, color);
     }
 
     /**
      * Draws a line on the surface with the given color
      */
-    void drawLine(iVector first, iVector second, Color color) {
+    void draw(iVector first, iVector second, Color color) {
         if (first.x == second.x) {
-            this.fillRect(new iRectangle(first.x, first.y, 1, second.y - first.y), color);
+            this.fill(new iRectangle(first.x, first.y, 1, second.y - first.y), color);
         } else if (first.y == second.y) {
-            this.fillRect(new iRectangle(first.x, first.y, second.x - first.x, 1), color);
+            this.fill(new iRectangle(first.x, first.y, second.x - first.x, 1), color);
         } else {
             foreach(x; iota(first.x, second.x, second.x > first.x ? 1 : -1)) {
                 //Iterating through x and using point slope form
                 immutable intersection = (second.y - first.y) / (second.x - first.x) * (x - first.x) + first.y;
-                this.drawPoint(new iVector(x, intersection), color);
+                this.draw(new iVector(x, intersection), color);
             }
         }
     }
@@ -232,30 +232,30 @@ class Surface {
     /**
      * Draws a line on the surface with the given color
      */
-    void drawLine(iSegment line, Color color) {
-        this.drawLine(line.initial, line.terminal, color);
+    void draw(iSegment line, Color color) {
+        this.draw(line.initial, line.terminal, color);
     }
 
     /**
      * Draws a polygon on the surface with the given color
      */
-    void drawPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void draw(ulong sides)(iPolygon!sides toDraw, Color color) {
         foreach (polygonSide; toDraw.sides) {
-            this.drawLine(polygonSide, color);
+            this.draw(polygonSide, color);
         }
     }
 
     /**
      * Draws a rectangle on the surface
      */
-    void drawRect(iRectangle rect, Color color) {
-        this.drawPolygon!4(rect.toPolygon(), color);
+    void draw(iRectangle rect, Color color) {
+        this.draw!4(rect.toPolygon(), color);
     }
 
     /**
      * Fills a polygon on the surface with the given color
      */
-    void fillPolygon(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void fill(ulong sides)(iPolygon!sides toDraw, Color color) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
