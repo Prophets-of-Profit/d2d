@@ -1,5 +1,6 @@
 module d2d.math.AxisAlignedBoundingBox;
 
+import std.algorithm;
 import std.math;
 import std.parallelism;
 import std.traits;
@@ -16,19 +17,37 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
     Vector!(T, dimensions) extent; ///The extent in each direction the AABB extends from the initial point (eg.)
 
     /**
+     * Gives the AABB convenient 2d aliases
+     */
+    static if (dimensions == 2) {
+        alias x = initialPoint.x;
+        alias y = initialPoint.y;
+        alias w = extent.x;
+        alias h = extent.y;
+        //TODO: whether these properties work is unkown and the indices as of right now were chosen arbitrarily: TEST!!!!
+        @property Vector!(T, 2) topLeft() { return this.vertices[0]; }
+        @property Vector!(T, 2) topRight() { return this.vertices[1]; }
+        @property Vector!(T, 2) bottomLeft() { return this.vertices[3]; }
+        @property Vector!(T, 2) bottomRight() { return this.vertices[2]; }
+    }
+
+    /**
      * Gets all the vertices of the AABB
      * TODO: this is really bad and probably doesn't work
      */
     @property Vector!(T, dimensions)[] vertices() {
         Vector!(T, dimensions)[] allVerts;
-        if (this.extent == 0) {
+        if (this.extent == new Vector!(T, dimensions)(0)) {
             return [this.initialPoint];
         }
-        foreach (i, component; this.extent) {
+        foreach (component; this.extent.components) {
             foreach (i; 0..dimensions) {
-                AxisAlignedBoundingBox!(T, dimensions) copy = AxisAlignedBoundingBox!(T, dimensions)(new Vector!(T, dimensions)(this.initialPoint.components), new Vector!(T, dimensions)(this.extent.components));
-                copy.initialPoint[i] += copy.extent[i];
-                copy.extent[i] = 0;
+                AxisAlignedBoundingBox!(T, dimensions) copy = new AxisAlignedBoundingBox!(T, dimensions)(new Vector!(T, dimensions)(this.initialPoint.components), new Vector!(T, dimensions)(this.extent.components));
+                if (copy.extent.components[i] == 0) {
+                    continue;
+                }
+                copy.initialPoint.components[i] += copy.extent.components[i];
+                copy.extent.components[i] = 0;
                 foreach (vertex; copy.vertices) {
                     if (!allVerts.canFind(vertex)) {
                         allVerts ~= vertex;
@@ -44,6 +63,14 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
      */
     @property Segment!(T, dimensions)[] edges() {
         //TODO:
+        return null;
+    }
+
+    /**
+     * Gets the point that is the middle or center of the AABB
+     */
+    @property Vector!(T, dimensions) center() {
+        return this.initialPoint + this.extent / 2;
     }
 
     /**
@@ -55,30 +82,31 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
     }
 
     /**
+     * Creates an AABB from the same as the vector constructor, but as a varargs input
+     */
+    this(T[] args...) {
+        this.initialPoint = new Vector!(T, dimensions)(0);
+        this.extent = new Vector!(T, dimensions)(0);
+        foreach (i; 0..dimensions) {
+            this.initialPoint.components[i] = args[i];
+            this.extent.components[i] = args[i + dimensions];
+        }
+    }
+
+    /**
      * Returns whether the box contains the given point
      * TODO: untested
      */
     bool contains(Vector!(T, dimensions) point) {
-        bool contains = true;
-        foreach(i, ref component; (cast(T[]) point.components).parallel) {
-            if ((component < this.initialPoint.components[i] || component > this.initialPoint.components[i] + this.extent.components[i]) && (component > this.initialPoint.components[i] || component < this.initialPoint.components[i] + this.extent.components[i])) {
-                contains = false;
-            }
-        }
-        return contains;
+        return false;
     }
 
 }
 
 /**
  * Returns whether two rectangles intersect
+ * TODO: replace: doesn't work
  */
 bool intersects(T, U)(AxisAlignedBoundingBox!T rect1, AxisAlignedBoundingBox!U rect2) {
-    bool contains;
-    foreach(vertex; rect1.vertices) {
-        if (rect2.contains(vertex)) {
-            contains = true;
-        }
-    }
-    return contains;
+    return false;
 }

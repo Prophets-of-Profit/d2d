@@ -202,25 +202,10 @@ class Vector(T, ulong dimensions) {
      */
     override bool opEquals(Object o) {
         bool isEqual = true;
-        try {
-            Vector!(T, dimensions) cmp = cast(Vector!(T, dimensions)) o;
-            foreach(i, ref component; (cast(T[]) this.components).parallel) {
-                if (!approxEqual(component, cmp.components[i])) {
-                    isEqual = false;
-                }
-            }
-        } catch(Exception e) try {
-            T cmp = cast(T) o;
-            foreach(i, ref component; (cast(T[]) this.components).parallel) {
-                if (!approxEqual(component, cmp)) {
-                    isEqual = false;
-                }
-            }
-        } catch (Exception e) {
-            foreach(i, ref component; (cast(T[]) this.components).parallel) {
-                if (component != o) {
-                    isEqual = false;
-                }
+        Vector!(T, dimensions) cmp = cast(Vector!(T, dimensions)) o;
+        foreach(i, ref component; (cast(T[]) this.components).parallel) {
+            if (!approxEqual(component, cmp.components[i])) {
+                isEqual = false;
             }
         }
         return isEqual;
