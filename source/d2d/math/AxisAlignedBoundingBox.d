@@ -3,6 +3,7 @@ module d2d.math.AxisAlignedBoundingBox;
 import std.algorithm;
 import std.math;
 import std.parallelism;
+import std.range;
 import std.traits;
 import d2d.math.Segment;
 import d2d.math.Vector;
@@ -25,7 +26,6 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
         alias y = this.initialPoint.y;
         alias w = this.extent.x;
         alias h = this.extent.y;
-        //TODO: whether these properties work is unkown and the indices as of right now were chosen arbitrarily: TEST!!!!
         @property Vector!(T, 2) topLeft() { return this.vertices[0]; }
         @property Vector!(T, 2) topRight() { return this.vertices[1]; }
         @property Vector!(T, 2) bottomLeft() { return this.vertices[3]; }
@@ -117,8 +117,24 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
 /**
  * Returns whether two rectangles intersect
- * TODO: replace: doesn't work
+ * TODO: untested
  */
-bool intersects(T, U)(AxisAlignedBoundingBox!T rect1, AxisAlignedBoundingBox!U rect2) {
-    return false;
+bool intersects(T, U)(AxisAlignedBoundingBox!T first, AxisAlignedBoundingBox!U second) {
+    bool doesIntersect = true;
+    foreach (i; iota(0, first.initialPoint.components.length).parallel) {
+        if (
+            first.initialPoint.components[i] < second.initialPoint.components[i] &&
+            first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i] && 
+            first.initialPoint.components[i] < second.initialPoint.components[i] + second.extent.components[i] &&
+            first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i] + second.extent.components[i]
+            ||
+            first.initialPoint.components[i] > second.initialPoint.components[i] &&
+            first.initialPoint.components[i] + first.extent.components[i] > second.initialPoint.components[i] && 
+            first.initialPoint.components[i] > second.initialPoint.components[i] + second.extent.components[i] &&
+            first.initialPoint.components[i] + first.extent.components[i] > second.initialPoint.components[i] + second.extent.components[i]
+        ) {
+            doesIntersect = false;
+        }
+    }
+    return doesIntersect;
 }
