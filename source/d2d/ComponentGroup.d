@@ -19,17 +19,17 @@ class ComponentGroup : Component {
         iVector minValue = new iVector(int.max);
         iVector maxValue = new iVector(int.min);
         foreach (component; this.subComponents) {
-            if (component.location.x < minValue.x) {
-                minValue.x = component.location.x;
+            if (component.location.initialPoint.x < minValue.x) {
+                minValue.x = component.location.initialPoint.x;
             }
-            if (component.location.y < minValue.y) {
-                minValue.y = component.location.y;
+            if (component.location.initialPoint.y < minValue.y) {
+                minValue.y = component.location.initialPoint.y;
             }
-            if (component.location.x + component.location.w > maxValue.x) {
-                maxValue.x = component.location.x + component.location.w;
+            if (component.location.initialPoint.x + component.location.extent.x > maxValue.x) {
+                maxValue.x = component.location.initialPoint.x + component.location.extent.x;
             }
-            if (component.location.y + component.location.h > maxValue.y) {
-                maxValue.y = component.location.y + component.location.h;
+            if (component.location.initialPoint.y + component.location.extent.y > maxValue.y) {
+                maxValue.y = component.location.initialPoint.y + component.location.initialPoint.y;
             }
         }
         iVector difference = maxValue - minValue;

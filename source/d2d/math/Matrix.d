@@ -93,6 +93,13 @@ class Matrix(T, ulong rows, ulong columns) {
     }
 
     /**
+     * Copy constructor for a matrix; creates a copy of the given matrix
+     */
+    this(Matrix!(T, rows, columns) toCopy) {
+        this(toCopy.elements);
+    }
+
+    /**
      * Interchange two rows by their indices
      */
     void swapRows(ulong i, ulong j) {

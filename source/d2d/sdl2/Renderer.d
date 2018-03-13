@@ -323,7 +323,7 @@ class Renderer {
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
             //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
-            foreach (y; bounds.y .. bounds.bottomLeft.y) {
+            foreach (y; bounds.initialPoint.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
                     continue;

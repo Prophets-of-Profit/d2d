@@ -95,6 +95,13 @@ class Vector(T, ulong dimensions) {
     }
 
     /**
+     * A copy constructor for a vector; makes the same vector, but as a different instance
+     */
+    this(Vector!(T, dimensions) toCopy) {
+        this.components[] = toCopy.components[];
+    }
+
+    /**
      * Allows assigning the vector to a static array to set all components of the vector
      */
     void opAssign(T[] rhs) {

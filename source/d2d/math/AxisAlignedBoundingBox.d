@@ -18,12 +18,13 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
     /**
      * Gives the AABB convenient 2d aliases
+     * TODO: doesn't work! :(
      */
     static if (dimensions == 2) {
-        alias x = initialPoint.x;
-        alias y = initialPoint.y;
-        alias w = extent.x;
-        alias h = extent.y;
+        alias x = this.initialPoint.x;
+        alias y = this.initialPoint.y;
+        alias w = this.extent.x;
+        alias h = this.extent.y;
         //TODO: whether these properties work is unkown and the indices as of right now were chosen arbitrarily: TEST!!!!
         @property Vector!(T, 2) topLeft() { return this.vertices[0]; }
         @property Vector!(T, 2) topRight() { return this.vertices[1]; }
@@ -91,6 +92,13 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
             this.initialPoint.components[i] = args[i];
             this.extent.components[i] = args[i + dimensions];
         }
+    }
+
+    /**
+     * Copy constructor for AABBs
+     */
+    this(AxisAlignedBoundingBox!(T, dimensions) toCopy) {
+        this(new Vector!(T, dimensions)(toCopy.initialPoint), new Vector!(T, dimensions)(toCopy.extent));
     }
 
     /**

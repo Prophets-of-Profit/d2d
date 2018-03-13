@@ -113,7 +113,7 @@ SDL_Point* handle(iVector vec) {
  * Gets a 2d axis aligned bounding box as an SDL_Rect*
  */
 SDL_Rect* handle(iRectangle rec) {
-    tempRect = SDL_Rect(rec.x, rec.y, rec.w, rec.h);
+    tempRect = SDL_Rect(rec.initialPoint.x, rec.initialPoint.y, rec.extent.x, rec.extent.y);
     return &tempRect;
 }
 
