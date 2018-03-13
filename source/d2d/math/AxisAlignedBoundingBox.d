@@ -34,12 +34,11 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
     /**
      * Gets all the vertices of the AABB
-     * TODO: this is really bad and probably doesn't work
      */
     @property Vector!(T, dimensions)[] vertices() {
-        Vector!(T, dimensions)[] allVerts;
+        Vector!(T, dimensions)[] allVerts = [this.initialPoint];
         if (this.extent == new Vector!(T, dimensions)(0)) {
-            return [this.initialPoint];
+            return allVerts;
         }
         foreach (component; this.extent.components) {
             foreach (i; 0..dimensions) {
@@ -103,10 +102,15 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 
     /**
      * Returns whether the box contains the given point
-     * TODO: untested
      */
     bool contains(Vector!(T, dimensions) point) {
-        return false;
+        bool isContained = true;
+        foreach (i, component; (cast(T[]) point.components).parallel) {
+            if (component < this.initialPoint.components[i] && component < this.extent.components[i] || component > this.initialPoint.components[i] && component > this.extent.components[i]) {
+                isContained = false;
+            }
+        }
+        return isContained;
     }
 
 }
