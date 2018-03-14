@@ -283,6 +283,8 @@ class Renderer {
         this.performWithColor(color, {this.draw(toDraw);});
     }
 
+    //TODO: draw bezier curve
+
     /**
      * Fills a rectangle in
      */

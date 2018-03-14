@@ -252,6 +252,8 @@ class Surface {
         this.draw!4(rect.toPolygon(), color);
     }
 
+    //TODO: draw bezier curve
+
     /**
      * Fills a polygon on the surface with the given color
      */

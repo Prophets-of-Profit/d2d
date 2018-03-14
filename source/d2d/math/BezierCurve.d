@@ -26,4 +26,12 @@ class BezierCurve(T, ulong dimensions) {
         }
         return containedPoints;
     }
+
+    /**
+     * Creates a bezier curve given a list of control points
+     */
+    this(Vector!(T, dimensions)[] cPoints...) {
+        this.controlPoints = cPoints;
+    }
+
 }
