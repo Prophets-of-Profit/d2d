@@ -13,16 +13,21 @@ class BezierCurve(T, ulong dimensions) {
 
     /**
      * Gets numPoints amount of points that are on the bezier curve evenly spaced from the beginning point to the end point (t 0 => 1)
-     * TODO: untested
      */
     Vector!(T, dimensions)[numPoints] getPoints(uint numPoints)() {
-        Vector!(T, dimensions)[numPoints] containedPoints = 0;
-        for(t = 0.0; t < 1.0; t += 1.0 / numPoints) {
-            foreach(i; 0..this.controlPoints.length) {
-                foreach (j; 0..(this.controlPoints.length - i)) {
-                    containedPoints[j] += t * (containedPoints[j + 1] - containedPoints[j]);
+        Vector!(T, dimensions)[numPoints] containedPoints;
+        enum tStep = 1.0 / numPoints;
+        foreach(pointNumber; 0..numPoints) {
+            Vector!(double, dimensions)[] tempVals;
+            foreach(point; this.controlPoints) {
+                tempVals ~= cast(Vector!(double, dimensions)) point;
+            }
+            for(ulong i = this.controlPoints.length - 1; i > 0; i--) {
+                foreach (j; 0..i) {
+                    tempVals[j] += (tempVals[j + 1] - tempVals[j]) * (pointNumber * tStep);
                 }
             }
+            containedPoints[pointNumber] = cast(Vector!(T, dimensions)) tempVals[0];
         }
         return containedPoints;
     }

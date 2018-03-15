@@ -252,7 +252,16 @@ class Surface {
         this.draw!4(rect.toPolygon(), color);
     }
 
-    //TODO: draw bezier curve
+    /**
+     * Draws the given bezier curve with numPoints number of points on the curve
+     * More points is smoother but slower
+     */
+    void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve, Color color) {
+        Vector!(int, 2)[] points = cast(Vector!(int, 2)[]) (curve.getPoints!numPoints);
+        foreach (i; 0..points.length - 1) {
+            this.draw(new iSegment(points[i], points[i + 1]), color);
+        }
+    }
 
     /**
      * Fills a polygon on the surface with the given color

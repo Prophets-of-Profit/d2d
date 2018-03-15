@@ -95,6 +95,13 @@ class Vector(T, ulong dimensions) {
     }
 
     /**
+     * A constructor that sets all elements to 0
+     */
+    this() {
+        this.components[] = 0;
+    }
+
+    /**
      * A copy constructor for a vector; makes the same vector, but as a different instance
      */
     this(Vector!(T, dimensions) toCopy) {

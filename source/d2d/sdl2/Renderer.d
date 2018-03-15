@@ -283,7 +283,24 @@ class Renderer {
         this.performWithColor(color, {this.draw(toDraw);});
     }
 
-    //TODO: draw bezier curve
+    /**
+     * Draws the given bezier curve with numPoints number of points on the curve
+     * More points is smoother but slower
+     */
+    void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve) {
+        Vector!(int, 2)[] points = cast(Vector!(int, 2)[]) (curve.getPoints!numPoints);
+        foreach (i; 0..points.length - 1) {
+            this.draw(new iSegment(points[i], points[i + 1]));
+        }
+    }
+
+    /**
+     * Draws the given bezier curve with the given color and amount of points on the curve
+     * More points is smoother but slower
+     */
+    void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve, Color color) {
+        this.performWithColor(color, {this.draw!numPoints(curve);});
+    }
 
     /**
      * Fills a rectangle in
@@ -324,7 +341,6 @@ class Renderer {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
-            //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
             foreach (y; bounds.initialPoint.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
@@ -340,7 +356,7 @@ class Renderer {
                     intersections[y] ~= polygonSide.initial.x;
                     continue;
                 }
-                //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
+                //Finds the intersection of the horizontal y = line with the polygon side using point slope form of a line
                 iVector sideDirection = polygonSide.direction;
                 immutable dy = y - polygonSide.initial.y;
                 intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection.y;
