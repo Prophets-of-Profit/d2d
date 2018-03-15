@@ -242,7 +242,7 @@ class Surface {
     /**
      * Draws a polygon on the surface with the given color
      */
-    void draw(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void draw(uint sides)(iPolygon!sides toDraw, Color color) {
         foreach (polygonSide; toDraw.sides) {
             this.draw(polygonSide, color);
         }
@@ -269,7 +269,7 @@ class Surface {
     /**
      * Fills a polygon on the surface with the given color
      */
-    void fill(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void fill(uint sides)(iPolygon!sides toDraw, Color color) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {

@@ -14,7 +14,7 @@ import d2d.math.Vector;
  * T is the type of the polygon and sides is how many sides the polygon has
  * TODO: upgrade to model?
  */
-class Polygon(T, ulong numSides) {
+class Polygon(T, uint numSides) {
 
     Vector!(T, 2)[numSides] vertices; ///The vertices of the polygon
 
@@ -71,7 +71,7 @@ class Polygon(T, ulong numSides) {
 /**
  * Returns the rectangle bounding a polygon
  */
-AxisAlignedBoundingBox!(T, 2) bound(T, ulong sides)(Polygon!(T, sides) toBound) {
+AxisAlignedBoundingBox!(T, 2) bound(T, uint sides)(Polygon!(T, sides) toBound) {
     Vector!(T, 2) minVals = new Vector!(T, 2)(T.max);
     Vector!(T, 2) maxVals = new Vector!(T, 2)(T.max + 1); //Causes an overflow to get small value
     foreach (vertex; toBound.vertices) {
@@ -92,6 +92,6 @@ AxisAlignedBoundingBox!(T, 2) bound(T, ulong sides)(Polygon!(T, sides) toBound) 
             maxVals.x - minVals.x, maxVals.y - minVals.y);
 }
 
-alias iPolygon(ulong T) = Polygon!(int, T);
-alias dPolygon(ulong T) = Polygon!(double, T);
-alias fPolygon(ulong T) = Polygon!(float, T);
+alias iPolygon(uint T) = Polygon!(int, T);
+alias dPolygon(uint T) = Polygon!(double, T);
+alias fPolygon(uint T) = Polygon!(float, T);

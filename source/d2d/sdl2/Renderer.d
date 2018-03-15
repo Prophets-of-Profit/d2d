@@ -289,7 +289,7 @@ class Renderer {
      * More points is smoother but slower
      */
     void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve) {
-        Vector!(int, 2)[] points = cast(Vector!(int, 2)[])(curve.getPoints!numPoints);
+        Vector!(int, 2)[numPoints] points = (curve.getPoints!numPoints);
         foreach (i; 0 .. points.length - 1) {
             this.draw(new iSegment(points[i], points[i + 1]));
         }
@@ -320,7 +320,7 @@ class Renderer {
     /**
      * Draws a polygon
      */
-    void draw(ulong sides)(iPolygon!sides toDraw) {
+    void draw(uint sides)(iPolygon!sides toDraw) {
         foreach (polygonSide; toDraw.sides) {
             this.drawLine(polygonSide);
         }
@@ -329,7 +329,7 @@ class Renderer {
     /**
      * Draws a polygon with the given color
      */
-    void draw(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void draw(uint sides)(iPolygon!sides toDraw, Color color) {
         this.performWithColor(color, { this.drawPolygon(toDraw); });
     }
 
@@ -338,7 +338,7 @@ class Renderer {
      * Uses scanlining
      * TODO: could be much more efficient
      */
-    void fill(ulong sides)(iPolygon!sides toDraw) {
+    void fill(uint sides)(iPolygon!sides toDraw) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
@@ -375,7 +375,7 @@ class Renderer {
     /**
      * Fills a polygon with a given color
      */
-    void fill(ulong sides)(iPolygon!sides toDraw, Color color) {
+    void fill(uint sides)(iPolygon!sides toDraw, Color color) {
         this.performWithColor(color, { this.fill!sides(toDraw); });
     }
 

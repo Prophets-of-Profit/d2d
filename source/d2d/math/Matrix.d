@@ -12,7 +12,7 @@ import d2d.math;
  * TODO: column things for all row things
  * TODO: parallelism
  */
-class Matrix(T, ulong rows, ulong columns) {
+class Matrix(T, uint rows, uint columns) {
 
     T[rows][columns] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
 
@@ -102,35 +102,35 @@ class Matrix(T, ulong rows, ulong columns) {
     /**
      * Interchange two rows by their indices
      */
-    void swapRows(ulong i, ulong j) {
+    void swapRows(uint i, uint j) {
         this.elements.swapAt(i, j);
     }
 
     /**
      * Interchange two columns by their indices
      */
-    void swapColumns(ulong i, ulong j) {
+    void swapColumns(uint i, uint j) {
         //TODO:
     }
 
     /** 
      * Scale a row by a constant scalar value
      */
-    void scaleRow(ulong row)(T scalar) {
+    void scaleRow(uint row)(T scalar) {
         this.elements[row][] *= scalar;
     }
 
     /**
      * Scale a column by a constant scalar value
      */
-    void scaleColumn(ulong column)(T scalar) {
+    void scaleColumn(uint column)(T scalar) {
         //TODO:
     }
 
     /**
      * Replace a row by the sum of itself and a multiple of another row
      */
-    void add(ulong row)(ulong i, T scalar) {
+    void add(uint row)(uint i, T scalar) {
         this.elements[row][] += scalar * this.elements[i][];
     }
 
@@ -156,7 +156,7 @@ class Matrix(T, ulong rows, ulong columns) {
      * Returns the i, jth element in the matrix by row, column
      * Equivalent to this.elements[i][j]
      */
-    T opIndex(ulong i, ulong j) {
+    T opIndex(uint i, uint j) {
         assert(i < rows && j < columns, "Index falls outside of matrix size");
         return this.elements[i][j];
     }
@@ -164,7 +164,7 @@ class Matrix(T, ulong rows, ulong columns) {
     /**
      * Returns a matrix consisting of the specified indices, with upper left corner i, j and size newRows, newColumns
      */
-    Matrix!(T, newRows, newColumns) opIndex(ulong i, ulong j, ulong newRows, ulong newColumns) {
+    Matrix!(T, newRows, newColumns) opIndex(uint i, uint j, uint newRows, uint newColumns) {
         assert(i + newRows < rows && j + newColumns < columns,
                 "Indices fall outside of matrix size");
         T[][] rows = this.elements[i .. i + newRows];
@@ -174,7 +174,7 @@ class Matrix(T, ulong rows, ulong columns) {
     /**
      * Sets a value at a certain spot in the matrix
      */
-    void opIndexAssign(T c, ulong i, ulong j) {
+    void opIndexAssign(T c, uint i, uint j) {
         assert(i < rows && j < columns, "Index falls outside of matrix size");
         this.elements[i][j] = c;
     }
@@ -182,7 +182,7 @@ class Matrix(T, ulong rows, ulong columns) {
     /**
      * Sets a submatrix of the matrix to another matrix
      */
-    void opIndexAssign(ulong height, ulong width)(Matrix!(T, height, width) c, ulong i, ulong j) {
+    void opIndexAssign(uint height, uint width)(Matrix!(T, height, width) c, uint i, uint j) {
         assert(i + height < rows && j + width < columns, "Indices fall outside of matrix size");
         foreach (index, row; this.elements[i .. i + height].parallel) {
             row[j .. j + width] = c.elements[row];

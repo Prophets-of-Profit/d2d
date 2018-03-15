@@ -7,7 +7,7 @@ import d2d.math.Vector;
 /**
  * A segment class that is defined by two 
  */
-class Segment(T, ulong dimensions) {
+class Segment(T, uint dimensions) {
 
     Vector!(T, dimensions) initial; ///The initial point (the vector points to the initial point)
     Vector!(T, dimensions) terminal; ///The terminal point (the vector points to the terminal point)

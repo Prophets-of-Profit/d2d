@@ -7,7 +7,7 @@ import d2d.math.Vector;
  * Supposedly the most visually appealing curves
  * Needs a lot of complicated math; this class doesn't have much functionality other than what one might need to draw it
  */
-class BezierCurve(T, ulong dimensions) {
+class BezierCurve(T, uint dimensions) {
 
     Vector!(T, dimensions)[] controlPoints; ///The points that control the path of the curve; usually don't actually exist on curve
 
@@ -22,7 +22,7 @@ class BezierCurve(T, ulong dimensions) {
             foreach (point; this.controlPoints) {
                 tempVals ~= cast(Vector!(double, dimensions)) point;
             }
-            for (ulong i = this.controlPoints.length - 1; i > 0; i--) {
+            for (uint i = this.controlPoints.length - 1; i > 0; i--) {
                 foreach (j; 0 .. i) {
                     tempVals[j] += (tempVals[j + 1] - tempVals[j]) * (pointNumber * tStep);
                 }

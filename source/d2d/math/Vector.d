@@ -13,7 +13,7 @@ import std.traits;
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
  * TODO: slice operators, swizzling, and dispatch forwarding and vectorizing more of these operations?
  */
-class Vector(T, ulong dimensions) {
+class Vector(T, uint dimensions) {
 
     ///The components of the vector
     union {
@@ -230,7 +230,7 @@ class Vector(T, ulong dimensions) {
 /**
  * Calculates the dot product or the similarity of two vectors
  */
-T dot(T, ulong dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
+T dot(T, uint dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
     immutable pairWiseMultiple = first * second;
     return pairWiseMultiple.components.sum;
 }
@@ -239,7 +239,7 @@ T dot(T, ulong dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
  * Calculates the cross product or the perpendicular vector to two vectors
  * Currently only works on 2 or 3 dimensional vectors
  */
-Vector!(T, 3) cross(T, ulong size)(Vector!(T, size) first, Vector!(T, size) second)
+Vector!(T, 3) cross(T, uint size)(Vector!(T, size) first, Vector!(T, size) second)
         if (size == 2 || size == 3) {
     static if (size == 2) {
         return new Vector!(T, 3)(0, 0, first.x * second.y - first.y * second.x);
