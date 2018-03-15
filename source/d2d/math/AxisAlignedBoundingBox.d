@@ -12,7 +12,7 @@ import d2d.math.Vector;
  * A rectangle is a box in 2d space
  * Because these rectangles are axis aligned, they don't have any rotation
  */
-class AxisAlignedBoundingBox(T, ulong dimensions) {
+class AxisAlignedBoundingBox(T, uint dimensions) {
 
     Vector!(T, dimensions) initialPoint; ///The initial or starting point of the AABB
     Vector!(T, dimensions) extent; ///The extent in each direction the AABB extends from the initial point (eg.)
