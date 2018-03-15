@@ -218,12 +218,15 @@ class Surface {
     void draw(iVector first, iVector second, Color color) {
         if (first.x == second.x) {
             this.fill(new iRectangle(first.x, first.y, 1, second.y - first.y), color);
-        } else if (first.y == second.y) {
+        }
+        else if (first.y == second.y) {
             this.fill(new iRectangle(first.x, first.y, second.x - first.x, 1), color);
-        } else {
-            foreach(x; iota(first.x, second.x, second.x > first.x ? 1 : -1)) {
+        }
+        else {
+            foreach (x; iota(first.x, second.x, second.x > first.x ? 1 : -1)) {
                 //Iterating through x and using point slope form
-                immutable intersection = (second.y - first.y) / (second.x - first.x) * (x - first.x) + first.y;
+                immutable intersection = (second.y - first.y) / (second.x - first.x) * (
+                        x - first.x) + first.y;
                 this.draw(new iVector(x, intersection), color);
             }
         }
@@ -257,8 +260,8 @@ class Surface {
      * More points is smoother but slower
      */
     void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve, Color color) {
-        Vector!(int, 2)[] points = cast(Vector!(int, 2)[]) (curve.getPoints!numPoints);
-        foreach (i; 0..points.length - 1) {
+        Vector!(int, 2)[] points = cast(Vector!(int, 2)[])(curve.getPoints!numPoints);
+        foreach (i; 0 .. points.length - 1) {
             this.draw(new iSegment(points[i], points[i + 1]), color);
         }
     }
@@ -282,18 +285,19 @@ class Surface {
                     continue;
                 }
                 //Vertical lines
-                if(polygonSide.initial.x == polygonSide.terminal.x) {
+                if (polygonSide.initial.x == polygonSide.terminal.x) {
                     intersections[y] ~= polygonSide.initial.x;
                     continue;
                 }
                 //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
                 iVector sideDirection = polygonSide.direction;
                 immutable dy = y - polygonSide.initial.y;
-                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection.y;
-            
+                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection
+                    .y;
+
             }
         }
-        foreach(y, xValues; intersections) {
+        foreach (y, xValues; intersections) {
             foreach (i; 0 .. xValues.sort.length - 1) {
                 this.drawLine(new iVector(xValues[i], y), new iVector(xValues[i + 1], y), color);
             }
@@ -318,12 +322,11 @@ Surface loadImage(string imagePath) {
  */
 Surface scaled(Surface original, int desiredW, int desiredH) {
     Surface scaledSurface = new Surface(desiredW, desiredH, SDL_PIXELFORMAT_RGBA32);
-    iVector newDimensions = cast(iVector) (cast(dVector) original.dimensions * min(cast(double) desiredW / original.dimensions.x, cast(double) desiredH / original.dimensions.y));
-    iRectangle newLoc = new iRectangle(
-        (desiredW - newDimensions.x) / 2,
-        (desiredH - newDimensions.y) / 2,
-        newDimensions.x,
-        newDimensions.y);
+    iVector newDimensions = cast(iVector)(cast(dVector) original.dimensions * min(
+            cast(double) desiredW / original.dimensions.x,
+            cast(double) desiredH / original.dimensions.y));
+    iRectangle newLoc = new iRectangle((desiredW - newDimensions.x) / 2,
+            (desiredH - newDimensions.y) / 2, newDimensions.x, newDimensions.y);
     scaledSurface.blit(original, null, newLoc);
     return scaledSurface;
 }

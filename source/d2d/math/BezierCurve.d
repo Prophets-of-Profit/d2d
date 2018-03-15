@@ -17,13 +17,13 @@ class BezierCurve(T, ulong dimensions) {
     Vector!(T, dimensions)[numPoints] getPoints(uint numPoints)() {
         Vector!(T, dimensions)[numPoints] containedPoints;
         enum tStep = 1.0 / numPoints;
-        foreach(pointNumber; 0..numPoints) {
+        foreach (pointNumber; 0 .. numPoints) {
             Vector!(double, dimensions)[] tempVals;
-            foreach(point; this.controlPoints) {
+            foreach (point; this.controlPoints) {
                 tempVals ~= cast(Vector!(double, dimensions)) point;
             }
-            for(ulong i = this.controlPoints.length - 1; i > 0; i--) {
-                foreach (j; 0..i) {
+            for (ulong i = this.controlPoints.length - 1; i > 0; i--) {
+                foreach (j; 0 .. i) {
                     tempVals[j] += (tempVals[j + 1] - tempVals[j]) * (pointNumber * tStep);
                 }
             }

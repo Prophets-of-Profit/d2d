@@ -88,7 +88,8 @@ class Renderer {
     @property iRectangle clipRect() {
         SDL_Rect clipArea;
         SDL_RenderGetClipRect(this.renderer, &clipArea);
-        return (clipArea.w == 0 && clipArea.h == 0)? null : new iRectangle(clipArea.x, clipArea.y, clipArea.w, clipArea.h);
+        return (clipArea.w == 0 && clipArea.h == 0) ? null
+            : new iRectangle(clipArea.x, clipArea.y, clipArea.w, clipArea.h);
     }
 
     /**
@@ -170,8 +171,8 @@ class Renderer {
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
      */
     void copy(Texture texture, int x, int y, iRectangle sourceRect = null) {
-        this.copy(texture, new iRectangle(x, y,
-                texture.dimensions.x, texture.dimensions.y), sourceRect);
+        this.copy(texture, new iRectangle(x, y, texture.dimensions.x,
+                texture.dimensions.y), sourceRect);
     }
 
     /**
@@ -195,7 +196,7 @@ class Renderer {
                 ? null : sourceRect.handle, destinationRect.handle,
                 angle * 180 / PI, (center is null) ? null : center.handle, flip));
     }
-    
+
     /**
      * Internally used function that performs an action with a certain color
      */
@@ -217,7 +218,7 @@ class Renderer {
      * Sets the renderer's color and clears the screen
      */
     void clear(Color color) {
-        this.performWithColor(color, {this.clear();});
+        this.performWithColor(color, { this.clear(); });
     }
 
     /**
@@ -231,7 +232,7 @@ class Renderer {
      * Draws a line of a given color between the given points
      */
     void draw(iVector first, iVector second, Color color) {
-        this.performWithColor(color, {this.draw(first, second);});
+        this.performWithColor(color, { this.draw(first, second); });
     }
 
     /**
@@ -245,7 +246,7 @@ class Renderer {
      * Draws a line with a specific color
      */
     void draw(iSegment line, Color color) {
-        this.performWithColor(color, {this.draw(line);});
+        this.performWithColor(color, { this.draw(line); });
     }
 
     /**
@@ -266,7 +267,7 @@ class Renderer {
      * Draws a point in the given color
      */
     void draw(iVector toDraw, Color color) {
-        this.performWithColor(color, {this.drawPoint(toDraw);});
+        this.performWithColor(color, { this.drawPoint(toDraw); });
     }
 
     /**
@@ -280,7 +281,7 @@ class Renderer {
      * Draws a rectangle with the given color
      */
     void draw(iRectangle toDraw, Color color) {
-        this.performWithColor(color, {this.draw(toDraw);});
+        this.performWithColor(color, { this.draw(toDraw); });
     }
 
     /**
@@ -288,8 +289,8 @@ class Renderer {
      * More points is smoother but slower
      */
     void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve) {
-        Vector!(int, 2)[] points = cast(Vector!(int, 2)[]) (curve.getPoints!numPoints);
-        foreach (i; 0..points.length - 1) {
+        Vector!(int, 2)[] points = cast(Vector!(int, 2)[])(curve.getPoints!numPoints);
+        foreach (i; 0 .. points.length - 1) {
             this.draw(new iSegment(points[i], points[i + 1]));
         }
     }
@@ -299,7 +300,7 @@ class Renderer {
      * More points is smoother but slower
      */
     void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve, Color color) {
-        this.performWithColor(color, {this.draw!numPoints(curve);});
+        this.performWithColor(color, { this.draw!numPoints(curve); });
     }
 
     /**
@@ -313,7 +314,7 @@ class Renderer {
      * Fills a rectangle in with the given color
      */
     void fill(iRectangle toFill, Color color) {
-        this.performWithColor(color, {this.fill(toFill);});
+        this.performWithColor(color, { this.fill(toFill); });
     }
 
     /**
@@ -329,7 +330,7 @@ class Renderer {
      * Draws a polygon with the given color
      */
     void draw(ulong sides)(iPolygon!sides toDraw, Color color) {
-        this.performWithColor(color, {this.drawPolygon(toDraw);});
+        this.performWithColor(color, { this.drawPolygon(toDraw); });
     }
 
     /**
@@ -352,18 +353,19 @@ class Renderer {
                     continue;
                 }
                 //Vertical lines
-                if(polygonSide.initial.x == polygonSide.terminal.x) {
+                if (polygonSide.initial.x == polygonSide.terminal.x) {
                     intersections[y] ~= polygonSide.initial.x;
                     continue;
                 }
                 //Finds the intersection of the horizontal y = line with the polygon side using point slope form of a line
                 iVector sideDirection = polygonSide.direction;
                 immutable dy = y - polygonSide.initial.y;
-                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection.y;
-            
+                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection
+                    .y;
+
             }
         }
-        foreach(y, xValues; intersections) {
+        foreach (y, xValues; intersections) {
             foreach (i; 0 .. xValues.sort.length - 1) {
                 this.draw(new iVector(xValues[i], y), new iVector(xValues[i + 1], y));
             }
@@ -374,7 +376,7 @@ class Renderer {
      * Fills a polygon with a given color
      */
     void fill(ulong sides)(iPolygon!sides toDraw, Color color) {
-        this.performWithColor(color, {this.fill!sides(toDraw);});
+        this.performWithColor(color, { this.fill!sides(toDraw); });
     }
 
     /**

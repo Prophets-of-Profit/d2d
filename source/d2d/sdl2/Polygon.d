@@ -23,7 +23,7 @@ class Polygon(T, ulong numSides) {
      */
     @property Segment!(T, 2)[numSides] sides() {
         Segment!(T, 2)[numSides] s;
-        foreach (i; iota(0, cast(uint)numSides).parallel) {
+        foreach (i; iota(0, cast(uint) numSides).parallel) {
             s[i] = new Segment!(T, 2)(this.vertices[i], this.vertices[(i + 1) % $]);
         }
         return s;
@@ -52,12 +52,14 @@ class Polygon(T, ulong numSides) {
      * the point is within the polygon
      */
     bool contains(U)(Vector!(U, 2) point) {
-        Segment!(T, 2)[] relevantSides = (cast(Segment!(T, 2)[]) this.sides).filter!(a => (a.initial.y - point.y) * (a.terminal.y - point.y) <= 0).array;
+        Segment!(T, 2)[] relevantSides = (cast(Segment!(T, 2)[]) this.sides).filter!(
+                a => (a.initial.y - point.y) * (a.terminal.y - point.y) <= 0).array;
         int intersections;
-        foreach(side; relevantSides) {
+        foreach (side; relevantSides) {
             immutable dy = point.y - side.initial.y;
-            immutable intersection = (dy * side.direction.x + side.initial.x * side.direction.y) / side.direction.y;
-            if(intersection < point.x) {
+            immutable intersection = (dy * side.direction.x + side.initial.x * side.direction.y) / side
+                .direction.y;
+            if (intersection < point.x) {
                 intersections++;
             }
         }
@@ -86,7 +88,8 @@ AxisAlignedBoundingBox!(T, 2) bound(T, ulong sides)(Polygon!(T, sides) toBound) 
             maxVals.y = vertex.y;
         }
     }
-    return new AxisAlignedBoundingBox!(T, 2)(minVals.x, minVals.y, maxVals.x - minVals.x, maxVals.y - minVals.y);
+    return new AxisAlignedBoundingBox!(T, 2)(minVals.x, minVals.y,
+            maxVals.x - minVals.x, maxVals.y - minVals.y);
 }
 
 alias iPolygon(ulong T) = Polygon!(int, T);

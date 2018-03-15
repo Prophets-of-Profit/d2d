@@ -22,14 +22,28 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
      * TODO: doesn't work! :(
      */
     static if (dimensions == 2) {
+
         alias x = this.initialPoint.x;
         alias y = this.initialPoint.y;
         alias w = this.extent.x;
         alias h = this.extent.y;
-        @property Vector!(T, 2) topLeft() { return this.vertices[0]; }
-        @property Vector!(T, 2) topRight() { return this.vertices[1]; }
-        @property Vector!(T, 2) bottomLeft() { return this.vertices[3]; }
-        @property Vector!(T, 2) bottomRight() { return this.vertices[2]; }
+
+        @property Vector!(T, 2) topLeft() {
+            return this.vertices[0];
+        }
+
+        @property Vector!(T, 2) topRight() {
+            return this.vertices[1];
+        }
+
+        @property Vector!(T, 2) bottomLeft() {
+            return this.vertices[3];
+        }
+
+        @property Vector!(T, 2) bottomRight() {
+            return this.vertices[2];
+        }
+
     }
 
     /**
@@ -41,8 +55,10 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
             return allVerts;
         }
         foreach (component; this.extent.components) {
-            foreach (i; 0..dimensions) {
-                AxisAlignedBoundingBox!(T, dimensions) copy = new AxisAlignedBoundingBox!(T, dimensions)(new Vector!(T, dimensions)(this.initialPoint.components), new Vector!(T, dimensions)(this.extent.components));
+            foreach (i; 0 .. dimensions) {
+                AxisAlignedBoundingBox!(T, dimensions) copy = new AxisAlignedBoundingBox!(T,
+                        dimensions)(new Vector!(T, dimensions)(this.initialPoint.components),
+                        new Vector!(T, dimensions)(this.extent.components));
                 if (copy.extent.components[i] == 0) {
                     continue;
                 }
@@ -87,7 +103,7 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
     this(T[] args...) {
         this.initialPoint = new Vector!(T, dimensions)(0);
         this.extent = new Vector!(T, dimensions)(0);
-        foreach (i; 0..dimensions) {
+        foreach (i; 0 .. dimensions) {
             this.initialPoint.components[i] = args[i];
             this.extent.components[i] = args[i + dimensions];
         }
@@ -97,7 +113,8 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
      * Copy constructor for AABBs
      */
     this(AxisAlignedBoundingBox!(T, dimensions) toCopy) {
-        this(new Vector!(T, dimensions)(toCopy.initialPoint), new Vector!(T, dimensions)(toCopy.extent));
+        this(new Vector!(T, dimensions)(toCopy.initialPoint), new Vector!(T,
+                dimensions)(toCopy.extent));
     }
 
     /**
@@ -106,7 +123,10 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
     bool contains(Vector!(T, dimensions) point) {
         bool isContained = true;
         foreach (i, component; (cast(T[]) point.components).parallel) {
-            if (component < this.initialPoint.components[i] && component < this.extent.components[i] || component > this.initialPoint.components[i] && component > this.extent.components[i]) {
+            if (component < this.initialPoint.components[i]
+                    && component < this.extent.components[i]
+                    || component > this.initialPoint.components[i]
+                    && component > this.extent.components[i]) {
                 isContained = false;
             }
         }
@@ -122,17 +142,16 @@ class AxisAlignedBoundingBox(T, ulong dimensions) {
 bool intersects(T, U)(AxisAlignedBoundingBox!T first, AxisAlignedBoundingBox!U second) {
     bool doesIntersect = true;
     foreach (i; iota(0, first.initialPoint.components.length).parallel) {
-        if (
-            first.initialPoint.components[i] < second.initialPoint.components[i] &&
-            first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i] && 
-            first.initialPoint.components[i] < second.initialPoint.components[i] + second.extent.components[i] &&
-            first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i] + second.extent.components[i]
-            ||
-            first.initialPoint.components[i] > second.initialPoint.components[i] &&
-            first.initialPoint.components[i] + first.extent.components[i] > second.initialPoint.components[i] && 
-            first.initialPoint.components[i] > second.initialPoint.components[i] + second.extent.components[i] &&
-            first.initialPoint.components[i] + first.extent.components[i] > second.initialPoint.components[i] + second.extent.components[i]
-        ) {
+        if (first.initialPoint.components[i] < second.initialPoint.components[i]
+                && first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i]
+                && first.initialPoint.components[i] < second.initialPoint.components[i] + second.extent.components[i]
+                && first.initialPoint.components[i] + first.extent.components[i]
+                < second.initialPoint.components[i] + second.extent.components[i]
+                || first.initialPoint.components[i] > second.initialPoint.components[i]
+                && first.initialPoint.components[i] + first.extent.components[i] > second.initialPoint.components[i]
+                && first.initialPoint.components[i] > second.initialPoint.components[i] + second.extent.components[i]
+                && first.initialPoint.components[i] + first.extent.components[i]
+                > second.initialPoint.components[i] + second.extent.components[i]) {
             doesIntersect = false;
         }
     }

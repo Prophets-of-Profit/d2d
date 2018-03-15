@@ -22,7 +22,7 @@ class Display {
     private Mouse _mouse; ///The mouse input source
     private Window _window; ///The actual SDL window
     private Renderer _renderer; ///The renderer for the window
-    
+
     /**
      * Sets the window's framerate
      */

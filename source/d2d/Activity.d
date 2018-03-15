@@ -24,19 +24,22 @@ abstract class Activity : EventHandler {
      * How the screen should respond to events
      * Is necessary because it is an event handler
      */
-    void handleEvent(SDL_Event event) {}
+    void handleEvent(SDL_Event event) {
+    }
 
     /**
      * How the screen should be drawn
      * Drawing of screen components is handled after this method
      */
-    void draw() {}
+    void draw() {
+    }
 
     /**
      * What the screen should do every screen update
      * If the renderer is on VSync, update may be called more than once per actual frame
      * Can be treated as the insides of a while(true) loop
      */
-    void update() {}
+    void update() {
+    }
 
 }

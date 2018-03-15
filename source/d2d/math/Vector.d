@@ -217,7 +217,7 @@ class Vector(T, ulong dimensions) {
     override bool opEquals(Object o) {
         bool isEqual = true;
         Vector!(T, dimensions) cmp = cast(Vector!(T, dimensions)) o;
-        foreach(i, ref component; (cast(T[]) this.components).parallel) {
+        foreach (i, ref component; (cast(T[]) this.components).parallel) {
             if (!approxEqual(component, cmp.components[i])) {
                 isEqual = false;
             }

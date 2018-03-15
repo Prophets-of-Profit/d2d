@@ -197,7 +197,8 @@ class Window {
     /**
      * Constructor for a window; needs at least a width and a height
      */
-    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "", int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
+    this(int w, int h, SDL_WindowFlags flags = SDL_WINDOW_SHOWN, string title = "",
+            int x = SDL_WINDOWPOS_CENTERED, int y = SDL_WINDOWPOS_CENTERED) {
         loadLibSDL();
         this.window = ensureSafe(SDL_CreateWindow(title.toStringz, x, y, w, h, flags));
     }
