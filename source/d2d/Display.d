@@ -117,7 +117,7 @@ class Display {
                     component.draw();
                 }
                 this.renderer.clipRect = oldClipRect;
-                this.screen.onFrame();
+                this.screen.update();
             }
             this.renderer.present();
             this._frames++;
