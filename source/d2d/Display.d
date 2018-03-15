@@ -8,14 +8,14 @@ import d2d;
 import d2d.sdl2;
 
 /**
- * A display that handles collecting events and drawing to the screen and handling window stuff
+ * A display that handles collecting events and drawing to the activity and handling window stuff
  * Will handle the main loop and send events to where they need to be handled
  */
 class Display {
 
     int frameSleep = 1000 / 60; ///How long to wait between frames in milliseconds; will be ignored in case of VSync
     bool isRunning; ///Whether the display is running; will stop running if set to false
-    Activity screen; ///The screen that the display is displaying right now
+    Activity activity; ///The activity that the display is displaying right now
     EventHandler[] eventHandlers; ///All event handlers of the display; define specific behaviours for events; events pass to handlers from first to last
     private ulong _frames; ///How many frames have passed
     private Keyboard _keyboard; ///The keyboard input source
@@ -96,7 +96,7 @@ class Display {
         while (this.isRunning) {
             timer.reset();
             SDL_Event event;
-            immutable screenExists = this.screen !is null;
+            immutable activityExists = this.activity !is null;
             while (SDL_PollEvent(&event) != 0) {
                 if (event.type == SDL_QUIT) {
                     this.isRunning = false;
@@ -104,20 +104,20 @@ class Display {
                 this.mouse.handleEvent(event);
                 this.keyboard.handleEvent(event);
                 this.eventHandlers.each!(handler => handler.handleEvent(event));
-                if (screenExists) {
-                    this.screen.components.each!(component => component.handleEvent(event));
-                    this.screen.handleEvent(event);
+                if (activityExists) {
+                    this.activity.components.each!(component => component.handleEvent(event));
+                    this.activity.handleEvent(event);
                 }
             }
-            if (screenExists) {
-                this.screen.draw();
+            if (activityExists) {
+                this.activity.draw();
                 iRectangle oldClipRect = this.renderer.clipRect();
-                foreach (component; this.screen.components) {
+                foreach (component; this.activity.components) {
                     this.renderer.clipRect = component.location;
                     component.draw();
                 }
                 this.renderer.clipRect = oldClipRect;
-                this.screen.update();
+                this.activity.update();
             }
             this.renderer.present();
             this._frames++;
