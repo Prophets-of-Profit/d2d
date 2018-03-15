@@ -138,3 +138,8 @@ alias fRectangle = AxisAlignedBoundingBox!(float, 2);
 alias iSegment = Segment!(int, 2);
 alias dSegment = Segment!(double, 2);
 alias fSegment = Segment!(float, 2);
+
+//Aliases 2d bezier curves to their commonly used presets
+alias iBezierCurve = BezierCurve!(int, 2);
+alias dBezierCurve = BezierCurve!(double, 2);
+alias fBezierCurve = BezierCurve!(float, 2);
