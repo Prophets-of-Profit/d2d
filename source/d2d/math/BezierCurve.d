@@ -22,7 +22,7 @@ class BezierCurve(T, uint dimensions) {
             foreach (point; this.controlPoints) {
                 tempVals ~= cast(Vector!(double, dimensions)) point;
             }
-            for (uint i = this.controlPoints.length - 1; i > 0; i--) {
+            for (uint i = cast(uint) this.controlPoints.length - 1; i > 0; i--) {
                 foreach (j; 0 .. i) {
                     tempVals[j] += (tempVals[j + 1] - tempVals[j]) * (pointNumber * tStep);
                 }
