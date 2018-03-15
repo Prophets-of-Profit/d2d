@@ -274,14 +274,14 @@ class Surface {
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
             //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
-            foreach (y; bounds.y .. bounds.bottomLeft.y) {
+            foreach (y; bounds.initialPoint.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
                     continue;
                 }
                 //If the segment is a horizontal line at this y, draws the horizontal line and then breaks
                 if (y == polygonSide.initial.y && polygonSide.initial.y == polygonSide.terminal.y) {
-                    this.drawLine(polygonSide.initial, polygonSide.terminal, color);
+                    this.draw(new iSegment(polygonSide.initial, polygonSide.terminal), color);
                     continue;
                 }
                 //Vertical lines
@@ -299,7 +299,7 @@ class Surface {
         }
         foreach (y, xValues; intersections) {
             foreach (i; 0 .. xValues.sort.length - 1) {
-                this.drawLine(new iVector(xValues[i], y), new iVector(xValues[i + 1], y), color);
+                this.draw(new iSegment(new iVector(xValues[i], y), new iVector(xValues[i + 1], y)), color);
             }
         }
     }
