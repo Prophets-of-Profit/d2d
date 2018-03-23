@@ -259,7 +259,7 @@ class Renderer {
     /**
      * Draws a point
      */
-    void drawPoint(iVector toDraw) {
+    void draw(iVector toDraw) {
         this.draw(toDraw.x, toDraw.y);
     }
 
@@ -267,7 +267,7 @@ class Renderer {
      * Draws a point in the given color
      */
     void draw(iVector toDraw, Color color) {
-        this.performWithColor(color, { this.drawPoint(toDraw); });
+        this.performWithColor(color, { this.draw(toDraw); });
     }
 
     /**
@@ -322,7 +322,7 @@ class Renderer {
      */
     void draw(uint sides)(iPolygon!sides toDraw) {
         foreach (polygonSide; toDraw.sides) {
-            this.drawLine(polygonSide);
+            this.draw(polygonSide);
         }
     }
 
@@ -330,7 +330,7 @@ class Renderer {
      * Draws a polygon with the given color
      */
     void draw(uint sides)(iPolygon!sides toDraw, Color color) {
-        this.performWithColor(color, { this.drawPolygon(toDraw); });
+        this.performWithColor(color, { this.draw!sides(toDraw); });
     }
 
     /**
