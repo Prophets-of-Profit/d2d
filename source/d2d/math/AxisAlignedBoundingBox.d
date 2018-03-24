@@ -123,10 +123,8 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
     bool contains(Vector!(T, dimensions) point) {
         bool isContained = true;
         foreach (i, component; (cast(T[]) point.components).parallel) {
-            if (component < this.initialPoint.components[i]
-                    && component < this.extent.components[i]
-                    || component > this.initialPoint.components[i]
-                    && component > this.extent.components[i]) {
+            if ((component - this.initialPoint.components[i]) * 
+                (component - this.initialPoint.components[i] - this.extent.components[i]) >= 0) {
                 isContained = false;
             }
         }
