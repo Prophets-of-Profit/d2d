@@ -137,9 +137,8 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
  * Returns whether two rectangles intersect
  * TODO: untested
  */
-bool intersects(T, U)(T first, U second) if (is(T: AxisAlignedBoundingBox!V, V...) && is(U : AxisAlignedBoundingBox!W, W...)) {
-    bool doesIntersect = true;
-    foreach (i; iota(0, first.initialPoint.components.length).parallel) {
+bool intersects(T)(T first, T second) if (is(T: AxisAlignedBoundingBox!V, V...)) {
+    foreach (i; 0..first.initialPoint.components.length) {
         if (first.initialPoint.components[i] < second.initialPoint.components[i]
                 && first.initialPoint.components[i] + first.extent.components[i] < second.initialPoint.components[i]
                 && first.initialPoint.components[i] < second.initialPoint.components[i] + second.extent.components[i]
@@ -150,8 +149,8 @@ bool intersects(T, U)(T first, U second) if (is(T: AxisAlignedBoundingBox!V, V..
                 && first.initialPoint.components[i] > second.initialPoint.components[i] + second.extent.components[i]
                 && first.initialPoint.components[i] + first.extent.components[i]
                 > second.initialPoint.components[i] + second.extent.components[i]) {
-            doesIntersect = false;
+            return false;
         }
     }
-    return doesIntersect;
+    return true;
 }
