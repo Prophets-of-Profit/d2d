@@ -123,8 +123,8 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
     bool contains(Vector!(T, dimensions) point) {
         bool isContained = true;
         foreach (i, component; (cast(T[]) point.components).parallel) {
-            if (component < this.initialPoint[i] && component < this.extent[i]
-                    || component > this.initialPoint[i] && component > this.extent[i]) {
+            if ((component - this.initialPoint[i]) * (
+                    component - this.initialPoint[i] - this.extent[i]) >= 0) {
                 isContained = false;
             }
         }
@@ -135,11 +135,9 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
 
 /**
  * Returns whether two rectangles intersect
- * TODO: untested
  */
-bool intersects(T, U)(AxisAlignedBoundingBox!T first, AxisAlignedBoundingBox!U second) {
-    bool doesIntersect = true;
-    foreach (i; iota(0, first.initialPoint.components.length).parallel) {
+bool intersects(T)(T first, T second) if (is(T : AxisAlignedBoundingBox!V, V...)) {
+    foreach (i; 0 .. first.initialPoint.components.length) {
         if (first.initialPoint[i] < second.initialPoint[i]
                 && first.initialPoint[i] + first.extent[i] < second.initialPoint[i]
                 && first.initialPoint[i] < second.initialPoint[i] + second.extent[i]
@@ -149,8 +147,8 @@ bool intersects(T, U)(AxisAlignedBoundingBox!T first, AxisAlignedBoundingBox!U s
                 && first.initialPoint[i] > second.initialPoint[i] + second.extent[i]
                 && first.initialPoint[i] + first.extent[i]
                 > second.initialPoint[i] + second.extent[i]) {
-            doesIntersect = false;
+            return false;
         }
     }
-    return doesIntersect;
+    return true;
 }

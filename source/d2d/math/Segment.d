@@ -51,9 +51,8 @@ class Segment(T, uint dimensions) {
 }
 
 /**
- * TODO: Returns either null or the location of intersection between the two given segments
+ * TODO: Returns whether two segments intersect
  */
-Vector!(T, dimensions) intersection(T)(Segment!(T, dimensions) first,
-        Segment!(T, dimensions) second) {
-    return null;
+bool intersects(T)(Segment!(T, dimensions) first, Segment!(T, dimensions) second) {
+    return false;
 }
