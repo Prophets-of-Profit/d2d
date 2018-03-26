@@ -32,7 +32,6 @@ class Segment(T, uint dimensions) {
      * Returns whether this segment contains the other point
      * Checks that a segment from origin to point has magnitude between initial and terminal's magnitude
      * Also checks that when point magnitude is 1 and direction magnitude is 1, they have the same or they have negated components
-     * TODO: untested
      */
     bool contains(T)(Vector!(T, dimensions) point) {
         immutable pointMag = point.magnitude;
@@ -42,7 +41,7 @@ class Segment(T, uint dimensions) {
                 && !(pointMag < initialMag && pointMag > terminalMag)) {
             return false;
         }
-        Vector!(T, dimensions) pointCopy = new Vector!(T, dimensions)(point.components);
+        Vector!(T, dimensions) pointCopy = new Vector!(T, dimensions)(point);
         Vector!(T, dimensions) direcCopy = this.direction;
         pointCopy.magnitude = 1;
         direcCopy.magnitude = 1;

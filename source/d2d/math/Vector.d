@@ -11,9 +11,11 @@ import std.traits;
  * A vector is an object representing distance in vertical and horizontal directions in multidimensional space
  * Components are the first template parameter with the second template parameter being vector dimensionality
  * Most vector operations take advantage of parallelism to do simple arithmetic on each component in parallel
- * TODO: slice operators, swizzling, and dispatch forwarding and vectorizing more of these operations?
+ * TODO: swizzling, and dispatch forwarding and vectorizing more of these operations?
  */
 class Vector(T, uint dimensions) {
+
+    alias components this; //Allows for slicing/indexing the vector to work on its components
 
     ///The components of the vector
     union {
