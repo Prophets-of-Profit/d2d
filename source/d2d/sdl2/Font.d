@@ -11,7 +11,7 @@ import d2d.sdl2;
  * LATIN1 is the set of ASCII characters; its glyphs are represented as chars
  * UTF8 is the set of "Unicode" characters; it can handle all ASCII characters as well because ASCII is a subset of Unicode
  * UNICODE encoding is determined by operating system; Windows handles UNICODE using UTF16, while UNIX systems use UTF8
- * Note: UNICODE is identical to UTF8 in some cases but uses ushorts to represent glyps instead of using chars
+ * Note: UNICODE is identical to UTF8 in some cases but uses ushorts to represent glyphs instead of using chars
  */
 enum Encoding {
     LATIN1,
