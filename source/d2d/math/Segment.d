@@ -2,6 +2,7 @@ module d2d.math.Segment;
 
 import std.math;
 import std.parallelism;
+import d2d.math.AxisAlignedBoundingBox;
 import d2d.math.Vector;
 
 /**
@@ -54,5 +55,10 @@ class Segment(T, uint dimensions) {
  * TODO: Returns whether two segments intersect
  */
 bool intersects(T)(Segment!(T, dimensions) first, Segment!(T, dimensions) second) {
+    immutable dot = first.direction.dot(second.direction);
+    if (!intersects(new AxisAlignedBoundingBox(first.initial.first.terminal),
+            new AxisAlignedBoundingBox(first.initial.first.terminal)) || abs(dot).approxEquals(1)) {
+        return false;
+    }
     return false;
 }

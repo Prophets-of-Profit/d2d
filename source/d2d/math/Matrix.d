@@ -14,7 +14,7 @@ import d2d.math;
  */
 class Matrix(T, uint rows, uint columns) {
 
-    T[rows][columns] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
+    T[columns][rows] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
 
     /**
      * Recursively finds the determinant of the matrix if the matrix is square
@@ -51,23 +51,54 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Sets the nth row of the matrix
+     */
+    @property row(uint index)(Vector!(T, columns) r) {
+        this.elements[index] = r.components;
+    }
+
+    /**
      * Returns the nth row of the matrix
      */
     @property Vector!(T, columns) row(uint index)() {
-        return new Vector!(T, columns)(this.elements[index]); //TODO: explain?
+        return new Vector!(T, columns)(this.elements[index]);
+    }
+
+    /**
+     * Sets the nth column of the matrix
+     */
+    @property column(uint index)(Vector!(T, columns) c) {
+        foreach (i, ref row; this.elements) {
+            row[index] = c[i];
+        }
     }
 
     /**
      * Returns the nth column of the matrix
      */
     @property Vector!(T, rows) column(uint index)() {
-        return new Vector(this.elements.map!(a => a[index])); //TODO: explain?
+        Vector!(T, rows) c = new Vector!(T, rows)();
+        foreach (i, row; this.elements) {
+            c[i] = row[index];
+        }
+        return c;
     }
 
     /**
      * Constructs a matrix from a two-dimensional array of elements
      */
-    this(T[rows][columns] elements) {
+    this(T[][] elements) {
+        foreach (i, row; elements) {
+            foreach (j, element; row) {
+                this.elements[i][j] = element;
+            }
+        }
+    }
+
+    /**
+     * Constructs a matrix from a two-dimensional array of elements
+     */
+    this(T[columns][rows] elements) {
         this.elements = elements;
     }
 
@@ -75,11 +106,8 @@ class Matrix(T, uint rows, uint columns) {
      * Constructs a matrix that is identically one value
      */
     this(T element) {
-        foreach (i, ref item; (cast(T[][]) this.elements).parallel) {
-            foreach (j, ref position; (cast(T[]) this.elements[i]).parallel) {
-                position = element;
-            }
-        }
+        T[columns] row = element;
+        this.elements[] = row;
     }
 
     /**
@@ -100,44 +128,20 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
-     * Interchange two rows by their indices
+     * Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
      */
-    void swapRows(uint i, uint j) {
-        this.elements.swapAt(i, j);
-    }
-
-    /**
-     * Interchange two columns by their indices
-     */
-    void swapColumns(uint i, uint j) {
-        //TODO:
-    }
-
-    /** 
-     * Scale a row by a constant scalar value
-     */
-    void scaleRow(uint row)(T scalar) {
-        this.elements[row][] *= scalar;
-    }
-
-    /**
-     * Scale a column by a constant scalar value
-     */
-    void scaleColumn(uint column)(T scalar) {
-        //TODO:
-    }
-
-    /**
-     * Replace a row by the sum of itself and a multiple of another row
-     */
-    void add(uint row)(uint i, T scalar) {
-        this.elements[row][] += scalar * this.elements[i][];
+    void opAssign(T[][] rhs) {
+        foreach (i, row; rhs) {
+            foreach (j, element; row) {
+                this.elements[i][j] = element;
+            }
+        }
     }
 
     /**
      * Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
      */
-    void opAssign(T[rows][columns] rhs) {
+    void opAssign(T[columns][rows] rhs) {
         this.elements = rhs;
     }
 
@@ -145,48 +149,14 @@ class Matrix(T, uint rows, uint columns) {
      * Allows assigning the matrix to a single value to set all elements of the matrix to such a value
      */
     void opAssign(T rhs) {
-        foreach (i, ref item; (cast(T[][]) this.elements).parallel) {
-            foreach (j, ref position; (cast(T[]) this.elements[i]).parallel) {
-                position = rhs;
-            }
-        }
+        T[columns] row = rhs;
+        this.elements[] = row;
     }
 
-    /**
-     * Returns the i, jth element in the matrix by row, column
-     * Equivalent to this.elements[i][j]
-     */
-    T opIndex(uint i, uint j) {
-        assert(i < rows && j < columns, "Index falls outside of matrix size");
-        return this.elements[i][j];
-    }
+}
 
-    /**
-     * Returns a matrix consisting of the specified indices, with upper left corner i, j and size newRows, newColumns
-     */
-    Matrix!(T, newRows, newColumns) opIndex(uint i, uint j, uint newRows, uint newColumns) {
-        assert(i + newRows < rows && j + newColumns < columns,
-                "Indices fall outside of matrix size");
-        T[][] rows = this.elements[i .. i + newRows];
-        return new Matrix!(T, newRows, newColumns)(rows.map!(a => a[j .. j + newColumns]).array);
-    }
-
-    /**
-     * Sets a value at a certain spot in the matrix
-     */
-    void opIndexAssign(T c, uint i, uint j) {
-        assert(i < rows && j < columns, "Index falls outside of matrix size");
-        this.elements[i][j] = c;
-    }
-
-    /**
-     * Sets a submatrix of the matrix to another matrix
-     */
-    void opIndexAssign(uint height, uint width)(Matrix!(T, height, width) c, uint i, uint j) {
-        assert(i + height < rows && j + width < columns, "Indices fall outside of matrix size");
-        foreach (index, row; this.elements[i .. i + height].parallel) {
-            row[j .. j + width] = c.elements[row];
-        }
-    }
-
+unittest {
+    auto asdf = new Matrix!(int, 3, 5)(0);
+    import std.stdio;writeln(asdf.elements);
+    asdf.column!4(new Vector!(int, 3)(0));
 }
