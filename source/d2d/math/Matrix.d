@@ -51,40 +51,6 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
-     * Sets the nth row of the matrix
-     */
-    @property row(uint index)(Vector!(T, columns) r) {
-        this.elements[index] = r.components;
-    }
-
-    /**
-     * Returns the nth row of the matrix
-     */
-    @property Vector!(T, columns) row(uint index)() {
-        return new Vector!(T, columns)(this.elements[index]);
-    }
-
-    /**
-     * Sets the nth column of the matrix
-     */
-    @property column(uint index)(Vector!(T, columns) c) {
-        foreach (i, ref row; this.elements) {
-            row[index] = c[i];
-        }
-    }
-
-    /**
-     * Returns the nth column of the matrix
-     */
-    @property Vector!(T, rows) column(uint index)() {
-        Vector!(T, rows) c = new Vector!(T, rows)();
-        foreach (i, row; this.elements) {
-            c[i] = row[index];
-        }
-        return c;
-    }
-
-    /**
      * Constructs a matrix from a two-dimensional array of elements
      */
     this(T[][] elements) {
@@ -128,6 +94,40 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Sets the nth row of the matrix
+     */
+    void setRow(uint index, Vector!(T, columns) r) {
+        this.elements[index] = r.components;
+    }
+
+    /**
+     * Returns the nth row of the matrix
+     */
+    Vector!(T, columns) getRow(uint index) {
+        return new Vector!(T, columns)(this.elements[index]);
+    }
+
+    /**
+     * Sets the nth column of the matrix
+     */
+    void setColumn(uint index, Vector!(T, rows) c) {
+        foreach (i, ref row; this.elements) {
+            row[index] = c[i];
+        }
+    }
+
+    /**
+     * Returns the nth column of the matrix
+     */
+    Vector!(T, rows) getColumn(uint index) {
+        Vector!(T, rows) c = new Vector!(T, rows)();
+        foreach (i, row; this.elements) {
+            c[i] = row[index];
+        }
+        return c;
+    }
+
+    /**
      * Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
      */
     void opAssign(T[][] rhs) {
@@ -153,10 +153,4 @@ class Matrix(T, uint rows, uint columns) {
         this.elements[] = row;
     }
 
-}
-
-unittest {
-    auto asdf = new Matrix!(int, 3, 5)(0);
-    import std.stdio;writeln(asdf.elements);
-    asdf.column!4(new Vector!(int, 3)(0));
 }
