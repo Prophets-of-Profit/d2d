@@ -217,14 +217,13 @@ class Vector(T, uint dimensions) {
      * Uses approxEquals to do easy equality for vectors of doubles
      */
     override bool opEquals(Object o) {
-        bool isEqual = true;
         Vector!(T, dimensions) cmp = cast(Vector!(T, dimensions)) o;
-        foreach (i, ref component; (cast(T[]) this.components).parallel) {
+        foreach (i, component; this.components) {
             if (!approxEqual(component, cmp.components[i])) {
-                isEqual = false;
+                return false;
             }
         }
-        return isEqual;
+        return true;
     }
 
 }
