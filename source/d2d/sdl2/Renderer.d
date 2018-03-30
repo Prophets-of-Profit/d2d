@@ -343,8 +343,9 @@ class Renderer {
         iVector currentPoint = new iVector(-1);
         foreach (i; 0 .. numPoints + 1) {
             immutable currentAngle = angleStep * i;
-            currentPoint.x = bounds.w * cos(currentAngle);
-            currentPoint.y = bounds.h * sin(currentAngle);
+            currentPoint.x = cast(int)(bounds.extent.x * cos(currentAngle));
+            currentPoint.y = cast(int)(bounds.extent.y * sin(currentAngle));
+            currentPoint += bounds.center;
             if (previousPoint !is null) {
                 draw(previousPoint, currentPoint);
             }
@@ -365,23 +366,24 @@ class Renderer {
 
     /**
      * Fills the ellipse bounded by the given box between the given angles in radians
-     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
      * More points generally means a slower but more well drawn ellipse
      */
     void fill(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
         immutable angleStep = (endAngle - startAngle) / numPoints;
-        iPolygon ellipseSlice = new iPolygon();
+        iPolygon!numPoints ellipseSlice = new iPolygon!numPoints();
         foreach (i; 0 .. numPoints) {
             immutable currentAngle = angleStep * i;
-            ellipseSlice.vertices ~= new iVector(bounds.w * cos(currentAngle),
-                    bounds.h * sin(currentAngle));
+            ellipseSlice.vertices[i] = bounds.center + new iVector(
+                    cast(int)(bounds.extent.x * cos(currentAngle)),
+                    cast(int)(bounds.extent.y * sin(currentAngle)));
         }
-        this.fill(ellipseSlice);
+        this.fill!numPoints(ellipseSlice);
     }
 
     /**
      * Fills the ellipse bounded by the given box between the given angles in radians with the given color
-     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
      * More points generally means a slower but more well drawn ellipse
      */
     void fill(uint numPoints = 100)(iRectangle bounds, double startAngle,

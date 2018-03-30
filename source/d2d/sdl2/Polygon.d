@@ -30,6 +30,11 @@ class Polygon(T, uint numSides) {
     }
 
     /**
+     * Creates an empty polygon
+     */
+    this() {}
+
+    /**
      * Creates a polygon using a list of vertices as vertices
      */
     this(Vector!(T, 2)[] vertices...) {
