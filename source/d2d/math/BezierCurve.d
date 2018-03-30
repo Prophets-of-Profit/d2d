@@ -16,7 +16,7 @@ class BezierCurve(T, uint dimensions) {
      */
     Vector!(T, dimensions)[numPoints] getPoints(uint numPoints)() {
         Vector!(T, dimensions)[numPoints] containedPoints;
-        enum tStep = 1.0 / numPoints;
+        enum tStep = 1.0 / (numPoints + 1);
         foreach (pointNumber; 0 .. numPoints) {
             Vector!(double, dimensions)[] tempVals;
             foreach (point; this.controlPoints) {

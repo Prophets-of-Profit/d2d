@@ -267,13 +267,70 @@ class Surface {
     }
 
     /**
+     * Draws the ellipse bounded by the given box between the given angles in radians
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
+        immutable angleStep = (endAngle - startAngle) / numPoints;
+        iVector previousPoint;
+        iVector currentPoint = new iVector(-1);
+        foreach (i; 0 .. numPoints + 1) {
+            immutable currentAngle = angleStep * i;
+            currentPoint.x = bounds.w * cos(currentAngle);
+            currentPoint.y = bounds.h * sin(currentAngle);
+            if (previousPoint !is null) {
+                draw(previousPoint, currentPoint);
+            }
+            previousPoint = new iVector(currentPoint);
+        }
+    }
+
+    /**
+     * Draws the ellipse bounded by the given box between the given angles in radians with the given color
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle,
+            double endAngle, Color color) {
+        this.performWithColor(color, {
+            this.draw!numPoints(bounds, startAngle, endAngle);
+        });
+    }
+
+    /**
+     * Fills the ellipse bounded by the given box between the given angles in radians
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
+        immutable angleStep = (endAngle - startAngle) / numPoints;
+        iPolygon ellipseSlice = new iPolygon();
+        foreach (i; 0 .. numPoints) {
+            immutable currentAngle = angleStep * i;
+            ellipseSlice.vertices ~= new iVector(bounds.w * cos(currentAngle),
+                    bounds.h * sin(currentAngle));
+        }
+        this.fill(ellipseSlice);
+    }
+
+    /**
+     * Fills the ellipse bounded by the given box between the given angles in radians with the given color
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle,
+            double endAngle, Color color) {
+        this.performWithColor(color, {
+            this.fill!numPoints(bounds, startAngle, endAngle);
+        });
+    }
+
+    /**
      * Fills a polygon on the surface with the given color
      */
     void fill(uint sides)(iPolygon!sides toDraw, Color color) {
         iRectangle bounds = bound(toDraw);
         int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
         foreach (polygonSide; toDraw.sides) {
-            //TODO: do we need to iterate through each y in the bounds? could we bound each segment and iterate through each y in that bound?
             foreach (y; bounds.initialPoint.y .. bounds.bottomLeft.y) {
                 //Checks that the y value exists within the segment
                 if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
@@ -289,7 +346,6 @@ class Surface {
                     intersections[y] ~= polygonSide.initial.x;
                     continue;
                 }
-                //TODO: explain; the genius Saurabh Totey worked this out but has difficulty explaining how he got this math
                 iVector sideDirection = polygonSide.direction;
                 immutable dy = y - polygonSide.initial.y;
                 intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection
@@ -299,7 +355,8 @@ class Surface {
         }
         foreach (y, xValues; intersections) {
             foreach (i; 0 .. xValues.sort.length - 1) {
-                this.draw(new iSegment(new iVector(xValues[i], y), new iVector(xValues[i + 1], y)), color);
+                this.draw(new iSegment(new iVector(xValues[i], y),
+                        new iVector(xValues[i + 1], y)), color);
             }
         }
     }

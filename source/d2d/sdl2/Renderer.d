@@ -334,9 +334,66 @@ class Renderer {
     }
 
     /**
+     * Draws the ellipse bounded by the given box between the given angles in radians
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
+        immutable angleStep = (endAngle - startAngle) / numPoints;
+        iVector previousPoint;
+        iVector currentPoint = new iVector(-1);
+        foreach (i; 0 .. numPoints + 1) {
+            immutable currentAngle = angleStep * i;
+            currentPoint.x = bounds.w * cos(currentAngle);
+            currentPoint.y = bounds.h * sin(currentAngle);
+            if (previousPoint !is null) {
+                draw(previousPoint, currentPoint);
+            }
+            previousPoint = new iVector(currentPoint);
+        }
+    }
+
+    /**
+     * Draws the ellipse bounded by the given box between the given angles in radians with the given color
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle,
+            double endAngle, Color color) {
+        this.performWithColor(color, {
+            this.draw!numPoints(bounds, startAngle, endAngle);
+        });
+    }
+
+    /**
+     * Fills the ellipse bounded by the given box between the given angles in radians
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
+        immutable angleStep = (endAngle - startAngle) / numPoints;
+        iPolygon ellipseSlice = new iPolygon();
+        foreach (i; 0 .. numPoints) {
+            immutable currentAngle = angleStep * i;
+            ellipseSlice.vertices ~= new iVector(bounds.w * cos(currentAngle),
+                    bounds.h * sin(currentAngle));
+        }
+        this.fill(ellipseSlice);
+    }
+
+    /**
+     * Fills the ellipse bounded by the given box between the given angles in radians with the given color
+     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse
+     * More points generally means a slower but more well drawn ellipse
+     */
+    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle,
+            double endAngle, Color color) {
+        this.performWithColor(color, {
+            this.fill!numPoints(bounds, startAngle, endAngle);
+        });
+    }
+
+    /**
      * Fills a polygon
      * Uses scanlining
-     * TODO: could be much more efficient
      */
     void fill(uint sides)(iPolygon!sides toDraw) {
         iRectangle bounds = bound(toDraw);
