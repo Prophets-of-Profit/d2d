@@ -1,3 +1,6 @@
+/**
+ * Surface
+ */
 module d2d.sdl2.Surface;
 
 import std.algorithm;

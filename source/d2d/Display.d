@@ -1,3 +1,6 @@
+/**
+ * Display
+ */
 module d2d.Display;
 
 import std.algorithm;

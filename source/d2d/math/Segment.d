@@ -1,3 +1,6 @@
+/**
+ * Segment
+ */
 module d2d.math.Segment;
 
 import std.math;

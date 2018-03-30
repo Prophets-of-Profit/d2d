@@ -1,3 +1,6 @@
+/**
+ * Component
+ */
 module d2d.Component;
 
 import d2d;

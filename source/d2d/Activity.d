@@ -1,3 +1,6 @@
+/**
+ * Activity
+ */
 module d2d.Activity;
 
 import std.algorithm;

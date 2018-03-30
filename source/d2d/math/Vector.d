@@ -1,3 +1,6 @@
+/**
+ * Vector
+ */
 module d2d.math.Vector;
 
 import std.algorithm;

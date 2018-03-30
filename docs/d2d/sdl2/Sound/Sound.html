@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class Sound</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class Sound</h1><p>A sound is, as its name suggests, something that can be played and make a noise
+ Sounds are templated and can either be chunks or musics
+ A chunk sound is a short sound that is usually a sound effect or something quick; many chunks can play at once
+ A chunk will only play once
+ A music is something that usually plays for longer and is usually something like background music; only one sound can play at once
+ A music will loop infinitely until destroyed
+ This sound is a primitive port from SDL and doesn't allow for much control
+ There is no constructor for a sound from an already existing Mix_Chunk or Mix_Music because it may have unintended behaviour
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">Sound</span>(<a href="../../../d2d/sdl2/Sound/SoundType.html"><span class="typ">SoundType</span></a> T)
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Constructors</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Sound/Sound.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Makes the sound given the string of the path of the sound
+ If this is a music sound, the music will loop; otherwise if this is a chunk, the chunk will play once
+</td>
+					</tr>
+				</table>
+			</section>
+			
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

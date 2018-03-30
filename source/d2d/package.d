@@ -1,3 +1,6 @@
+/**
+ * d2d
+ */
 module d2d;
 
 public import d2d.Button;

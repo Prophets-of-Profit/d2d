@@ -1,3 +1,6 @@
+/**
+ * Font
+ */
 module d2d.sdl2.Font;
 
 import std.algorithm;

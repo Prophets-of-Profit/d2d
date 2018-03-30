@@ -1,3 +1,6 @@
+/**
+ * Bezier Curve
+ */
 module d2d.math.BezierCurve;
 
 import d2d.math.Vector;

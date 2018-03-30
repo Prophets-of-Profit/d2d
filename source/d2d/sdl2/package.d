@@ -1,3 +1,6 @@
+/**
+ * LibSDL2
+ */
 module d2d.sdl2;
 
 public import derelict.sdl2.sdl;

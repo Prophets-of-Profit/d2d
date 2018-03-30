@@ -1,3 +1,6 @@
+/**
+ * Math
+ */
 module d2d.math;
 
 public import d2d.math.AxisAlignedBoundingBox;

@@ -1,3 +1,6 @@
+/**
+ * Polygon
+ */
 module d2d.sdl2.Polygon;
 
 import std.algorithm;

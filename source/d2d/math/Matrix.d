@@ -1,3 +1,6 @@
+/**
+ * Matrix
+ */
 module d2d.math.Matrix;
 
 import std.algorithm;

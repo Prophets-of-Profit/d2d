@@ -1,3 +1,6 @@
+/**
+ * Color
+ */
 module d2d.sdl2.Color;
 
 import d2d.sdl2;

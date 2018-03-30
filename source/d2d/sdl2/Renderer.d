@@ -1,3 +1,6 @@
+/**
+ * Renderer
+ */
 module d2d.sdl2.Renderer;
 
 import std.algorithm;

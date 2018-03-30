@@ -1,3 +1,6 @@
+/**
+ * Sound
+ */
 module d2d.sdl2.Sound;
 
 import std.algorithm;

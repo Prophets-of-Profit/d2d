@@ -1,3 +1,6 @@
+/**
+ * Mouse
+ */
 module d2d.sdl2.Mouse;
 
 import std.algorithm;

@@ -1,3 +1,6 @@
+/**
+ * Keyboard
+ */
 module d2d.sdl2.Keyboard;
 
 import std.algorithm;

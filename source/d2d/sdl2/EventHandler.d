@@ -1,3 +1,6 @@
+/**
+ * Event Handler
+ */
 module d2d.sdl2.EventHandler;
 
 import d2d.sdl2;

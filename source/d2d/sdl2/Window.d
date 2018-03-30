@@ -1,3 +1,6 @@
+/**
+ * Window
+ */
 module d2d.sdl2.Window;
 
 import std.algorithm;

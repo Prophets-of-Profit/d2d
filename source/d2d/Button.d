@@ -1,3 +1,6 @@
+/**
+ * Button
+ */
 module d2d.Button;
 
 import d2d;

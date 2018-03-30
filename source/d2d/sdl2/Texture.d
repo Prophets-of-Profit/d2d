@@ -1,3 +1,6 @@
+/**
+ * Texture
+ */
 module d2d.sdl2.Texture;
 
 import d2d.sdl2;

@@ -1,3 +1,6 @@
+/**
+ * Axis Aligned Bounding Box
+ */
 module d2d.math.AxisAlignedBoundingBox;
 
 import std.algorithm;
@@ -19,14 +22,10 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
 
     /**
      * Gives the AABB convenient 2d aliases
-     * TODO: doesn't work! :(
      */
     static if (dimensions == 2) {
 
-        alias x = this.initialPoint.x;
-        alias y = this.initialPoint.y;
-        alias w = this.extent.x;
-        alias h = this.extent.y;
+        //TODO: alias for x, y, w, and h
 
         @property Vector!(T, 2) topLeft() {
             return this.vertices[0];

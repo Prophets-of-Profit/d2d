@@ -1,3 +1,6 @@
+/**
+ * Input Source
+ */
 module d2d.sdl2.InputSource;
 
 import std.algorithm;

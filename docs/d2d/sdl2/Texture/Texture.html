@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class Texture</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class Texture</h1><p>Textures are a rectangular collection of pixels
+ Textures are fast and can be drawn using a renderer
+ Textures can be created from a more easily edited surface
+ Textures are handled in hardware as opposed to surfaces which are handled in software
+ When used repeatedly and stored, textures should be preferred, but surfaces should be used when flexibility is desired
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">Texture</span>
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Constructors</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates a texture given explicit parameters that are required by SDL CreateTexture
+ Allows for more control over how the texture works
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Constructs a new texture from a surface
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates a texture from an already existing SDL_Texture
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Properties</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.access.html" class="public property"><code>access</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">int</span></code></td><td>Gets the texture's access value
+ Acces value determines how the texture can be accessed or modified
+ Potential values are:
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.alphaMod.html" class="public property"><code>alphaMod</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">ubyte</span></code></td><td>Sets the texture's alpha value, or transparency, if possible
+ Alpha varies from 0 to 255
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.alphaMod.html" class="public property"><code>alphaMod</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">ubyte</span></code></td><td>Gets the texture's alpha value, or transparency, if possible
+ Alpha varies from 0 to 255
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.blendMode.html" class="public property"><code>blendMode</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_BlendMode</span></code></td><td>Sets the texture's blend mode
+ Modes include:
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.blendMode.html" class="public property"><code>blendMode</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_BlendMode</span><span class="pun">*</span></code></td><td>Gets the texture's blend mode
+ Modes include:
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.colorMod.html" class="public property"><code>colorMod</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Sets the color modifier for the surface
+ Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.colorMod.html" class="public property"><code>colorMod</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Gets the color modifier for the surface
+ Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.dimensions.html" class="public property"><code>dimensions</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets the texture's dimensions as a point with the width being the x coordinate and the height being the y coordinate
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.format.html" class="public property"><code>format</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">uint</span></code></td><td>Gets the texture's pixel format
+ The pixel format is the format in which information about the pixels is stored (e.g. RGBA)
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.handle.html" class="public property"><code>handle</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_Texture</span><span class="pun">*</span></code></td><td>Returns the raw SDL data of this object
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Methods</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.lock.html" class="public">
+								<code>lock</code>
+							</a>
+						</td>
+						<td>Locks a texture from editing
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.unlock.html" class="public">
+								<code>unlock</code>
+							</a>
+						</td>
+						<td>Unlocks a texture to edit
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Texture/Texture.update.html" class="public">
+								<code>update</code>
+							</a>
+						</td>
+						<td>Updates a texture with new pixel data
+</td>
+					</tr>
+				</table>
+			</section>
+			
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

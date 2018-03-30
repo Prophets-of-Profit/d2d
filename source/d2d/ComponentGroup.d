@@ -1,3 +1,6 @@
+/**
+ * Component Group
+ */
 module d2d.ComponentGroup;
 
 import std.algorithm;
