@@ -15,7 +15,7 @@ import d2d.math.Vector;
 /**
  * A polygon is an object defined by its vertices in 2 space
  * T is the type of the polygon and sides is how many sides the polygon has
- * TODO: upgrade to model?
+ * TODO: upgrade to dimension-ambiguous model class in math
  */
 class Polygon(T, uint numSides) {
 

@@ -836,11 +836,11 @@
 				"members": [
 					{
 						"name": "Matrix",
-						"line": 18,
+						"line": 17,
 						"members": [
 							{
 								"name": "elements",
-								"line": 20,
+								"line": 19,
 								"comment": "The elements of the matrix; stored as an array of rows (i.e. row vectors)\n",
 								"type": "T[columns][rows]",
 								"char": 22,
@@ -849,7 +849,7 @@
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 59,
+								"line": 58,
 								"comment": " Constructs a matrix from a two-dimensional array of elements\n",
 								"type": "(T[][] elements)",
 								"parameters": [
@@ -858,14 +858,14 @@
 										"type": "T[][]"
 									}
 								],
-								"endline": 65,
+								"endline": 64,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 70,
+								"line": 69,
 								"comment": " Constructs a matrix from a two-dimensional array of elements\n",
 								"type": "(T[columns][rows] elements)",
 								"parameters": [
@@ -874,14 +874,14 @@
 										"type": "T[columns][rows]"
 									}
 								],
-								"endline": 72,
+								"endline": 71,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 77,
+								"line": 76,
 								"comment": " Constructs a matrix that is identically one value\n",
 								"type": "(T element)",
 								"parameters": [
@@ -890,24 +890,24 @@
 										"type": "T"
 									}
 								],
-								"endline": 80,
+								"endline": 79,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 85,
+								"line": 84,
 								"comment": " Constructs a matrix as an identity matrix\n",
 								"type": "()",
-								"endline": 90,
+								"endline": 89,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 95,
+								"line": 94,
 								"comment": " Copy constructor for a matrix; creates a copy of the given matrix\n",
 								"type": "(Matrix!(T, rows, columns) toCopy)",
 								"parameters": [
@@ -916,14 +916,14 @@
 										"type": "Matrix!(T, rows, columns)"
 									}
 								],
-								"endline": 97,
+								"endline": 96,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "setRow",
-								"line": 102,
+								"line": 101,
 								"comment": " Sets the nth row of the matrix\n",
 								"type": "void(uint index, Vector!(T, columns) r)",
 								"parameters": [
@@ -936,14 +936,14 @@
 										"type": "Vector!(T, columns)"
 									}
 								],
-								"endline": 104,
+								"endline": 103,
 								"char": 10,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "getRow",
-								"line": 109,
+								"line": 108,
 								"comment": " Returns the nth row of the matrix\n",
 								"type": "Vector!(T, columns)(uint index)",
 								"parameters": [
@@ -952,14 +952,14 @@
 										"deco": "k"
 									}
 								],
-								"endline": 111,
+								"endline": 110,
 								"char": 25,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "setColumn",
-								"line": 116,
+								"line": 115,
 								"comment": " Sets the nth column of the matrix\n",
 								"type": "void(uint index, Vector!(T, rows) c)",
 								"parameters": [
@@ -972,14 +972,14 @@
 										"type": "Vector!(T, rows)"
 									}
 								],
-								"endline": 120,
+								"endline": 119,
 								"char": 10,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "getColumn",
-								"line": 125,
+								"line": 124,
 								"comment": " Returns the nth column of the matrix\n",
 								"type": "Vector!(T, rows)(uint index)",
 								"parameters": [
@@ -988,14 +988,14 @@
 										"deco": "k"
 									}
 								],
-								"endline": 131,
+								"endline": 130,
 								"char": 22,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "opAssign",
-								"line": 136,
+								"line": 135,
 								"comment": " Allows assigning the matrix to a static two-dimensional array to set all components of the matrix\n",
 								"type": "void(T[][] rhs)",
 								"parameters": [
@@ -1004,14 +1004,14 @@
 										"type": "T[][]"
 									}
 								],
-								"endline": 142,
+								"endline": 141,
 								"char": 10,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "opAssign",
-								"line": 147,
+								"line": 146,
 								"comment": " Allows assigning the matrix to a static two-dimensional array to set all components of the matrix\n",
 								"type": "void(T[columns][rows] rhs)",
 								"parameters": [
@@ -1020,14 +1020,14 @@
 										"type": "T[columns][rows]"
 									}
 								],
-								"endline": 149,
+								"endline": 148,
 								"char": 10,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "opAssign",
-								"line": 154,
+								"line": 153,
 								"comment": " Allows assigning the matrix to a single value to set all elements of the matrix to such a value\n",
 								"type": "void(T rhs)",
 								"parameters": [
@@ -1036,7 +1036,7 @@
 										"type": "T"
 									}
 								],
-								"endline": 157,
+								"endline": 156,
 								"char": 10,
 								"kind": "function"
 							}
@@ -1046,8 +1046,8 @@
 					}
 				],
 				"name": "Matrix",
-				"line": 18,
-				"comment": " A matrix is just like a mathematical matrix where it is similar to essentially a 2d array of of the given type\n Template parameters are the type, how many rows, and how many columns\n TODO: column things for all row things\n TODO: parallelism\n",
+				"line": 17,
+				"comment": " A matrix is just like a mathematical matrix where it is similar to essentially a 2d array of of the given type\n Template parameters are the type, how many rows, and how many columns\n TODO: rref, frustums, transformations\n",
 				"parameters": [
 					{
 						"name": "T",
@@ -1183,9 +1183,9 @@
 				"members": [
 					{
 						"endchar": 1,
-						"name": "intersects",
+						"name": "interesction",
 						"line": 60,
-						"type": "bool(Segment!(T, dimensions) first, Segment!(T, dimensions) second)",
+						"type": "Vector!(T, dimensions)(Segment!(T, dimensions) first, Segment!(T, dimensions) second)",
 						"parameters": [
 							{
 								"name": "first",
@@ -1196,21 +1196,25 @@
 								"type": "Segment!(T, dimensions)"
 							}
 						],
-						"endline": 67,
-						"char": 6,
+						"endline": 68,
+						"char": 24,
 						"kind": "function"
 					}
 				],
-				"name": "intersects",
+				"name": "interesction",
 				"line": 60,
-				"comment": " TODO: Returns whether two segments intersect\n",
+				"comment": " TODO: Returns where two segments intersect; if they don't intersect, returns null; needs rref of matrix to be completed first\n",
 				"parameters": [
 					{
 						"name": "T",
 						"kind": "type"
+					},
+					{
+						"name": "dimensions",
+						"kind": "type"
 					}
 				],
-				"char": 6,
+				"char": 24,
 				"kind": "template"
 			}
 		],
@@ -3014,7 +3018,7 @@
 				],
 				"name": "Polygon",
 				"line": 20,
-				"comment": " A polygon is an object defined by its vertices in 2 space\n T is the type of the polygon and sides is how many sides the polygon has\n TODO: upgrade to model?\n",
+				"comment": " A polygon is an object defined by its vertices in 2 space\n T is the type of the polygon and sides is how many sides the polygon has\n TODO: upgrade to dimension-ambiguous model class in math\n",
 				"parameters": [
 					{
 						"name": "T",

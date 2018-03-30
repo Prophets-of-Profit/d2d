@@ -12,8 +12,7 @@ import d2d.math;
 /**
  * A matrix is just like a mathematical matrix where it is similar to essentially a 2d array of of the given type
  * Template parameters are the type, how many rows, and how many columns
- * TODO: column things for all row things
- * TODO: parallelism
+ * TODO: rref, frustums, transformations
  */
 class Matrix(T, uint rows, uint columns) {
 

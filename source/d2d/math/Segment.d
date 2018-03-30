@@ -55,13 +55,14 @@ class Segment(T, uint dimensions) {
 }
 
 /**
- * TODO: Returns whether two segments intersect
+ * TODO: Returns where two segments intersect; if they don't intersect, returns null; needs rref of matrix to be completed first
  */
-bool intersects(T)(Segment!(T, dimensions) first, Segment!(T, dimensions) second) {
+Vector!(T, dimensions) interesction(T, dimensions)(Segment!(T,
+        dimensions) first, Segment!(T, dimensions) second) {
     immutable dot = first.direction.dot(second.direction);
     if (!intersects(new AxisAlignedBoundingBox(first.initial.first.terminal),
             new AxisAlignedBoundingBox(first.initial.first.terminal)) || abs(dot).approxEquals(1)) {
-        return false;
+        return null;
     }
-    return false;
+    return null;
 }
