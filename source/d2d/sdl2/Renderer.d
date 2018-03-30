@@ -343,8 +343,8 @@ class Renderer {
         iVector currentPoint = new iVector(-1);
         foreach (i; 0 .. numPoints + 1) {
             immutable currentAngle = angleStep * i;
-            currentPoint.x = cast(int)(bounds.extent.x * cos(currentAngle));
-            currentPoint.y = cast(int)(bounds.extent.y * sin(currentAngle));
+            currentPoint.x = cast(int)(bounds.extent.x * cos(currentAngle) / 2);
+            currentPoint.y = cast(int)(bounds.extent.y * sin(currentAngle) / 2);
             currentPoint += bounds.center;
             if (previousPoint !is null) {
                 draw(previousPoint, currentPoint);
@@ -375,8 +375,8 @@ class Renderer {
         foreach (i; 0 .. numPoints) {
             immutable currentAngle = angleStep * i;
             ellipseSlice.vertices[i] = bounds.center + new iVector(
-                    cast(int)(bounds.extent.x * cos(currentAngle)),
-                    cast(int)(bounds.extent.y * sin(currentAngle)));
+                    cast(int)(bounds.extent.x * cos(currentAngle) / 2),
+                    cast(int)(bounds.extent.y * sin(currentAngle) / 2));
         }
         this.fill!numPoints(ellipseSlice);
     }
