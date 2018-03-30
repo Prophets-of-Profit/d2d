@@ -342,7 +342,7 @@ class Renderer {
         iVector previousPoint;
         iVector currentPoint = new iVector(-1);
         foreach (i; 0 .. numPoints + 1) {
-            immutable currentAngle = angleStep * i;
+            immutable currentAngle = startAngle + angleStep * i;
             currentPoint.x = cast(int)(bounds.extent.x * cos(currentAngle) / 2);
             currentPoint.y = cast(int)(bounds.extent.y * sin(currentAngle) / 2);
             currentPoint += bounds.center;
@@ -373,7 +373,7 @@ class Renderer {
         immutable angleStep = (endAngle - startAngle) / numPoints;
         iPolygon!numPoints ellipseSlice = new iPolygon!numPoints();
         foreach (i; 0 .. numPoints) {
-            immutable currentAngle = angleStep * i;
+            immutable currentAngle = startAngle + angleStep * i;
             ellipseSlice.vertices[i] = bounds.center + new iVector(
                     cast(int)(bounds.extent.x * cos(currentAngle) / 2),
                     cast(int)(bounds.extent.y * sin(currentAngle) / 2));
