@@ -49,7 +49,7 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
      * Gets all the vertices of the AABB
      */
     @property Vector!(T, dimensions)[] vertices() {
-        Vector!(T, dimensions)[] allVerts = [this.initialPoint];
+        Vector!(T, dimensions)[] allVerts = [new Vector!(T, dimensions)(this.initialPoint)];
         if (this.extent == new Vector!(T, dimensions)(0)) {
             return allVerts;
         }
@@ -58,7 +58,7 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
                 AxisAlignedBoundingBox!(T, dimensions) copy = new AxisAlignedBoundingBox!(T,
                         dimensions)(new Vector!(T, dimensions)(this.initialPoint.components),
                         new Vector!(T, dimensions)(this.extent.components));
-                if (copy.extent[i] == 0) {
+                if (copy.extent[i].approxEqual(0)) {
                     continue;
                 }
                 copy.initialPoint[i] += copy.extent[i];
@@ -77,8 +77,24 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
      * Gets all the edges of the AABB
      */
     @property Segment!(T, dimensions)[] edges() {
-        //TODO:
-        return null;
+        if (this.extent == new Vector!(T, dimensions)(0)) {
+            return null;
+        }
+        Segment!(T, dimensions)[] allEdges;
+        foreach(i; 0..dimensions) {
+            AxisAlignedBoundingBox!(T, dimensions) copy = new AxisAlignedBoundingBox!(T, dimensions)(this);
+            if (copy.extent[i].approxEqual(0)) {
+                continue;
+            }
+            copy.extent[i] = 0;
+            allEdges ~= new Segment!(T, dimensions)(this.initialPoint, copy.initialPoint);
+            foreach (edge; copy.edges) {
+                if (!allEdges.canFind(edge)) {
+                    allEdges ~= edge;
+                }
+            }
+        }
+        return allEdges;
     }
 
     /**
