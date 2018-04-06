@@ -86,6 +86,7 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
             if (copy.extent[i].approxEqual(0)) {
                 continue;
             }
+            copy.initialPoint[i] += copy.extent[i];
             copy.extent[i] = 0;
             allEdges ~= new Segment!(T, dimensions)(this.initialPoint, copy.initialPoint);
             foreach (edge; copy.edges) {
