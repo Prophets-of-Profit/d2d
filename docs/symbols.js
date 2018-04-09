@@ -36,6 +36,7 @@ var symbols = [
 {name: 'd2d.math.Vector.cross', kind: "functiondeclaration", path: './d2d/math/Vector/cross.html', attributes: []},
 {name: 'd2d.math.Vector.dot', kind: "functiondeclaration", path: './d2d/math/Vector/dot.html', attributes: []},
 {name: 'd2d.math.Vector.Vector', kind: "classdeclaration", path: './d2d/math/Vector/Vector.html', attributes: []},
+{name: 'd2d.math.Vector.Vector.apply', kind: "functiondeclaration", path: './d2d/math/Vector/Vector.apply.html', attributes: []},
 {name: 'd2d.math.Vector.Vector.components', kind: "variabledeclaration", path: './d2d/math/Vector/Vector.components.html', attributes: []},
 {name: 'd2d.math.Vector.Vector.directionAngles', kind: "functiondeclaration", path: './d2d/math/Vector/Vector.directionAngles.html', attributes: ["property"]},
 {name: 'd2d.math.Vector.Vector.magnitude', kind: "functiondeclaration", path: './d2d/math/Vector/Vector.magnitude.html', attributes: ["property"]},
