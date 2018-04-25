@@ -229,6 +229,26 @@ class Vector(T, uint dimensions) {
         return true;
     }
 
+    /**
+     * Applies the given function to each element of the vector
+     */
+    void apply(void delegate(T) application) {
+        foreach(component; (cast(T[]) this.components).parallel) {
+            application(component);
+        }
+    }
+
+    /**
+     * Applies the given function to each element of the vector and returns the results in a new vector
+     */
+    Vector!(U, dimensions) apply(U)(U delegate(T) application) {
+        Vector!(U, dimensions) applied = new Vector!(U, dimensions)(U.init);
+        foreach(i, component; (cast(T[]) this.components).parallel) {
+            applied.components[i] = application(component);
+        }
+        return applied;
+    }
+
 }
 
 /**

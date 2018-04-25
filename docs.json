@@ -600,24 +600,24 @@
 								"line": 79,
 								"comment": " Gets all the edges of the AABB\n",
 								"type": "@property Segment!(T, dimensions)[]()",
-								"endline": 82,
+								"endline": 99,
 								"char": 41,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "center",
-								"line": 87,
+								"line": 104,
 								"comment": " Gets the point that is the middle or center of the AABB\n",
 								"type": "@property Vector!(T, dimensions)()",
-								"endline": 89,
+								"endline": 106,
 								"char": 38,
 								"kind": "function"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 94,
+								"line": 111,
 								"comment": " Creates an AABB from the initial point, and how much in each direction the box extends\n",
 								"type": "(Vector!(T, dimensions) initialPoint, Vector!(T, dimensions) extent)",
 								"parameters": [
@@ -630,14 +630,14 @@
 										"type": "Vector!(T, dimensions)"
 									}
 								],
-								"endline": 97,
+								"endline": 114,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 102,
+								"line": 119,
 								"comment": " Creates an AABB from the same as the vector constructor, but as a varargs input\n",
 								"type": "(T[] args...)",
 								"parameters": [
@@ -646,14 +646,14 @@
 										"type": "T[]"
 									}
 								],
-								"endline": 109,
+								"endline": 126,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "this",
-								"line": 114,
+								"line": 131,
 								"comment": " Copy constructor for AABBs\n",
 								"type": "(AxisAlignedBoundingBox!(T, dimensions) toCopy)",
 								"parameters": [
@@ -662,14 +662,14 @@
 										"type": "AxisAlignedBoundingBox!(T, dimensions)"
 									}
 								],
-								"endline": 117,
+								"endline": 134,
 								"char": 5,
 								"kind": "constructor"
 							},
 							{
 								"endchar": 5,
 								"name": "contains",
-								"line": 122,
+								"line": 139,
 								"comment": " Returns whether the box contains the given point\n",
 								"type": "bool(Vector!(T, dimensions) point)",
 								"parameters": [
@@ -678,7 +678,7 @@
 										"type": "Vector!(T, dimensions)"
 									}
 								],
-								"endline": 131,
+								"endline": 148,
 								"char": 10,
 								"kind": "function"
 							}
@@ -709,7 +709,7 @@
 					{
 						"endchar": 1,
 						"name": "intersects",
-						"line": 138,
+						"line": 155,
 						"type": "bool(T first, T second)",
 						"parameters": [
 							{
@@ -721,13 +721,13 @@
 								"type": "T"
 							}
 						],
-						"endline": 153,
+						"endline": 170,
 						"char": 6,
 						"kind": "function"
 					}
 				],
 				"name": "intersects",
-				"line": 138,
+				"line": 155,
 				"comment": " Returns whether two rectangles intersect\n",
 				"parameters": [
 					{
@@ -1648,6 +1648,52 @@
 								"storageClass": [
 									"override"
 								]
+							},
+							{
+								"endchar": 5,
+								"name": "apply",
+								"line": 235,
+								"comment": " Applies the given function to each element of the vector\n",
+								"type": "void(void delegate(T) application)",
+								"parameters": [
+									{
+										"name": "application",
+										"type": "void delegate(T)"
+									}
+								],
+								"endline": 239,
+								"char": 10,
+								"kind": "function"
+							},
+							{
+								"members": [
+									{
+										"endchar": 5,
+										"name": "apply",
+										"line": 244,
+										"type": "Vector!(U, dimensions)(U delegate(T) application)",
+										"parameters": [
+											{
+												"name": "application",
+												"type": "U delegate(T)"
+											}
+										],
+										"endline": 250,
+										"char": 28,
+										"kind": "function"
+									}
+								],
+								"name": "apply",
+								"line": 244,
+								"comment": " Applies the given function to each element of the vector and returns the results in a new vector\n",
+								"parameters": [
+									{
+										"name": "U",
+										"kind": "type"
+									}
+								],
+								"char": 28,
+								"kind": "template"
 							}
 						],
 						"char": 1,
@@ -1676,7 +1722,7 @@
 					{
 						"endchar": 1,
 						"name": "dot",
-						"line": 237,
+						"line": 257,
 						"type": "T(Vector!(T, dim) first, Vector!(T, dim) second)",
 						"parameters": [
 							{
@@ -1688,13 +1734,13 @@
 								"type": "Vector!(T, dim)"
 							}
 						],
-						"endline": 240,
+						"endline": 260,
 						"char": 3,
 						"kind": "function"
 					}
 				],
 				"name": "dot",
-				"line": 237,
+				"line": 257,
 				"comment": " Calculates the dot product or the similarity of two vectors\n",
 				"parameters": [
 					{
@@ -1715,7 +1761,7 @@
 					{
 						"endchar": 1,
 						"name": "cross",
-						"line": 246,
+						"line": 266,
 						"type": "Vector!(T, 3)(Vector!(T, size) first, Vector!(T, size) second)",
 						"parameters": [
 							{
@@ -1727,13 +1773,13 @@
 								"type": "Vector!(T, size)"
 							}
 						],
-						"endline": 253,
+						"endline": 273,
 						"char": 15,
 						"kind": "function"
 					}
 				],
 				"name": "cross",
-				"line": 246,
+				"line": 266,
 				"comment": " Calculates the cross product or the perpendicular vector to two vectors\n Currently only works on 2 or 3 dimensional vectors\n",
 				"parameters": [
 					{
@@ -3078,23 +3124,23 @@
 		"members": [
 			{
 				"name": "Renderer",
-				"line": 19,
-				"comment": " Renderers are objects that handle drawing things such as textures or shapes\n A renderer can be obtained from a window, and could be used to draw on the window\n Renderers draw using buffers; when a renderer draws, it isn't visible to the screen until the present method is called\n While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention\n Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)\n All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well\n TODO: implement curve drawing\n",
+				"line": 18,
+				"comment": " Renderers are objects that handle drawing things such as textures or shapes\n A renderer can be obtained from a window, and could be used to draw on the window\n Renderers draw using buffers; when a renderer draws, it isn't visible to the screen until the present method is called\n While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention\n Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)\n All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well\n",
 				"members": [
 					{
 						"endchar": 5,
 						"name": "handle",
-						"line": 26,
+						"line": 25,
 						"comment": " Returns the raw SDL data of this object\n",
 						"deco": "FNdZPS8derelict4sdl28internal9sdl_types12SDL_Renderer",
-						"endline": 28,
+						"endline": 27,
 						"char": 29,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "drawColor",
-						"line": 33,
+						"line": 32,
 						"comment": " Sets the color of the renderer will draw with\n",
 						"deco": "FNdS3d2d4sdl25ColorQgZv",
 						"parameters": [
@@ -3103,24 +3149,24 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 35,
+						"endline": 34,
 						"char": 20,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "drawColor",
-						"line": 40,
+						"line": 39,
 						"comment": " Returns the color that the renderer will draw with\n",
 						"deco": "FNdZS3d2d4sdl25ColorQg",
-						"endline": 45,
+						"endline": 44,
 						"char": 21,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "drawBlendMode",
-						"line": 50,
+						"line": 49,
 						"comment": " Sets the renderer's draw blend mode that affects how the renderer draws\n",
 						"deco": "FNdE8derelict4sdl28internal9sdl_types13SDL_BlendModeZv",
 						"parameters": [
@@ -3129,24 +3175,24 @@
 								"deco": "E8derelict4sdl28internal9sdl_types13SDL_BlendMode"
 							}
 						],
-						"endline": 52,
+						"endline": 51,
 						"char": 20,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "drawBlendMode",
-						"line": 57,
+						"line": 56,
 						"comment": " Gets the renderer's draw blend mode that affects how the renderer draws\n",
 						"deco": "FNdZE8derelict4sdl28internal9sdl_types13SDL_BlendMode",
-						"endline": 61,
+						"endline": 60,
 						"char": 29,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "viewport",
-						"line": 66,
+						"line": 65,
 						"comment": " Sets the viewport of the renderer to the given rectangle\n",
 						"deco": "FNdC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlZv",
 						"parameters": [
@@ -3155,7 +3201,7 @@
 								"deco": "C3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl"
 							}
 						],
-						"endline": 68,
+						"endline": 67,
 						"originalType": "@property void(iRectangle vPort)",
 						"char": 20,
 						"kind": "function"
@@ -3163,10 +3209,10 @@
 					{
 						"endchar": 5,
 						"name": "viewport",
-						"line": 73,
+						"line": 72,
 						"comment": " Gets the viewport of the renderer as a rectangle\n",
 						"deco": "FNdZC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl",
-						"endline": 77,
+						"endline": 76,
 						"originalType": "@property iRectangle()",
 						"char": 26,
 						"kind": "function"
@@ -3174,7 +3220,7 @@
 					{
 						"endchar": 5,
 						"name": "clipRect",
-						"line": 83,
+						"line": 82,
 						"comment": " Sets the clip area for the renderer\n Anything that is rendered outside of the clip area gets discarded\n",
 						"deco": "FNdC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlZv",
 						"parameters": [
@@ -3183,7 +3229,7 @@
 								"deco": "C3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl"
 							}
 						],
-						"endline": 85,
+						"endline": 84,
 						"originalType": "@property void(iRectangle clipArea)",
 						"char": 20,
 						"kind": "function"
@@ -3191,10 +3237,10 @@
 					{
 						"endchar": 5,
 						"name": "clipRect",
-						"line": 91,
+						"line": 90,
 						"comment": " Gets the clip area for the renderer\n Anything that is rendered outside of the clip area gets discarded\n",
 						"deco": "FNdZC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl",
-						"endline": 96,
+						"endline": 95,
 						"originalType": "@property iRectangle()",
 						"char": 26,
 						"kind": "function"
@@ -3202,7 +3248,7 @@
 					{
 						"endchar": 5,
 						"name": "scale",
-						"line": 101,
+						"line": 100,
 						"comment": " Sets the renderer's x and y scale to the given point's x and y values\n",
 						"deco": "FNdC3d2d4math6Vector__TQkTfVki2ZQtZv",
 						"parameters": [
@@ -3211,7 +3257,7 @@
 								"deco": "C3d2d4math6Vector__TQkTfVki2ZQt"
 							}
 						],
-						"endline": 103,
+						"endline": 102,
 						"originalType": "@property void(fVector scaling)",
 						"char": 20,
 						"kind": "function"
@@ -3219,10 +3265,10 @@
 					{
 						"endchar": 5,
 						"name": "scale",
-						"line": 108,
+						"line": 107,
 						"comment": " Gets the renderer's x and y scale as a point with the scales as the x and y coordinates\n",
 						"deco": "FNdZC3d2d4math6Vector__TQkTfVki2ZQt",
-						"endline": 112,
+						"endline": 111,
 						"originalType": "@property fVector()",
 						"char": 23,
 						"kind": "function"
@@ -3230,7 +3276,7 @@
 					{
 						"endchar": 5,
 						"name": "logicalSize",
-						"line": 118,
+						"line": 117,
 						"comment": " Sets the renderer's logical size\n Logical size works in that you only need to give coordinates for one specific resolution, and SDL will handle scaling that to the best resolution matching the logical size's aspect ratio\n",
 						"deco": "FNdC3d2d4math6Vector__TQkTiVki2ZQtZv",
 						"parameters": [
@@ -3239,7 +3285,7 @@
 								"deco": "C3d2d4math6Vector__TQkTiVki2ZQt"
 							}
 						],
-						"endline": 120,
+						"endline": 119,
 						"originalType": "@property void(iVector dimensions)",
 						"char": 20,
 						"kind": "function"
@@ -3247,10 +3293,10 @@
 					{
 						"endchar": 5,
 						"name": "logicalSize",
-						"line": 126,
+						"line": 125,
 						"comment": " Gets the renderer's logical size\n Logical size works in that you only need to give coordinates for one specific resolution, and SDL will handle scaling that to the best resolution matching the logical size's aspect ratio\n",
 						"deco": "FNdZC3d2d4math6Vector__TQkTiVki2ZQt",
-						"endline": 130,
+						"endline": 129,
 						"originalType": "@property iVector()",
 						"char": 23,
 						"kind": "function"
@@ -3258,10 +3304,10 @@
 					{
 						"endchar": 5,
 						"name": "outputSize",
-						"line": 135,
+						"line": 134,
 						"comment": " Gets the renderer's output size\n",
 						"deco": "FNdZC3d2d4math6Vector__TQkTiVki2ZQt",
-						"endline": 139,
+						"endline": 138,
 						"originalType": "@property iVector()",
 						"char": 23,
 						"kind": "function"
@@ -3269,17 +3315,17 @@
 					{
 						"endchar": 5,
 						"name": "info",
-						"line": 144,
+						"line": 143,
 						"comment": " Gets the renderer's information and returns it as an SDL_RendererInfo struct\n",
 						"deco": "FNdZS8derelict4sdl28internal9sdl_types16SDL_RendererInfo",
-						"endline": 148,
+						"endline": 147,
 						"char": 32,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "this",
-						"line": 153,
+						"line": 152,
 						"comment": " Makes an SDL renderer for a window\n",
 						"deco": "FC3d2d4sdl26WindowQhkZCQvQt8RendererQj",
 						"parameters": [
@@ -3293,7 +3339,7 @@
 								"default": "0u"
 							}
 						],
-						"endline": 156,
+						"endline": 155,
 						"originalType": "(Window window, uint flags = 0)",
 						"char": 5,
 						"kind": "constructor"
@@ -3301,7 +3347,7 @@
 					{
 						"endchar": 5,
 						"name": "this",
-						"line": 161,
+						"line": 160,
 						"comment": " Makes a renderer from an already existing SDL_Renderer\n",
 						"deco": "FPS8derelict4sdl28internal9sdl_types12SDL_RendererZC3d2dQBs8RendererQj",
 						"parameters": [
@@ -3310,7 +3356,7 @@
 								"deco": "PS8derelict4sdl28internal9sdl_types12SDL_Renderer"
 							}
 						],
-						"endline": 163,
+						"endline": 162,
 						"originalType": "(SDL_Renderer* alreadyExisting)",
 						"char": 5,
 						"kind": "constructor"
@@ -3318,17 +3364,17 @@
 					{
 						"endchar": 5,
 						"name": "~this",
-						"line": 168,
+						"line": 167,
 						"comment": " Ensures that SDL can properly dispose of the renderer\n",
 						"deco": "FZv",
-						"endline": 170,
+						"endline": 169,
 						"char": 5,
 						"kind": "destructor"
 					},
 					{
 						"endchar": 5,
 						"name": "copy",
-						"line": 176,
+						"line": 175,
 						"comment": " Copies a texture to the window at the given point\n Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture\n",
 						"deco": "FC3d2d4sdl27TextureQiiiCQw4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlZv",
 						"parameters": [
@@ -3350,7 +3396,7 @@
 								"default": "null"
 							}
 						],
-						"endline": 179,
+						"endline": 178,
 						"originalType": "void(Texture texture, int x, int y, iRectangle sourceRect = null)",
 						"char": 10,
 						"kind": "function"
@@ -3358,7 +3404,7 @@
 					{
 						"endchar": 5,
 						"name": "copy",
-						"line": 185,
+						"line": 184,
 						"comment": " Copies a texture to the window at the given rectangle\n If sourceRect is null, it will copy the entire texture, otherwise, it will copy the slice defined by sourceRect\n",
 						"deco": "FC3d2d4sdl27TextureQiCQu4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlQBwZv",
 						"parameters": [
@@ -3376,7 +3422,7 @@
 								"default": "null"
 							}
 						],
-						"endline": 188,
+						"endline": 187,
 						"originalType": "void(Texture texture, iRectangle destinationRect, iRectangle sourceRect = null)",
 						"char": 10,
 						"kind": "function"
@@ -3384,7 +3430,7 @@
 					{
 						"endchar": 5,
 						"name": "copy",
-						"line": 195,
+						"line": 194,
 						"comment": " Copies a texture to the window at the given rectangle with the given angle\n If sourceRect is null, it will copy the entire texture, otherwise, it will copy the slice defined by sourceRect\n Angles are given in radians\n",
 						"deco": "FC3d2d4sdl27TextureQiCQu4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBldE8derelictQCw8internal9sdl_types16SDL_RendererFlipCQEpQDw6Vector__TQkTiVki2ZQtQExZv",
 						"parameters": [
@@ -3416,7 +3462,7 @@
 								"default": "null"
 							}
 						],
-						"endline": 201,
+						"endline": 200,
 						"originalType": "void(Texture texture, iRectangle destinationRect, double angle, SDL_RendererFlip flip = SDL_FLIP_NONE, iVector center = null, iRectangle sourceRect = null)",
 						"char": 10,
 						"kind": "function"
@@ -3424,17 +3470,17 @@
 					{
 						"endchar": 5,
 						"name": "clear",
-						"line": 216,
+						"line": 215,
 						"comment": " Fills the screen with the existing renderer color\n",
 						"deco": "FZv",
-						"endline": 218,
+						"endline": 217,
 						"char": 10,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "clear",
-						"line": 223,
+						"line": 222,
 						"comment": " Sets the renderer's color and clears the screen\n",
 						"deco": "FS3d2d4sdl25ColorQgZv",
 						"parameters": [
@@ -3443,14 +3489,14 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 225,
+						"endline": 224,
 						"char": 10,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 230,
+						"line": 229,
 						"comment": " Draws a line between the given points\n",
 						"deco": "FC3d2d4math6Vector__TQkTiVki2ZQtQBfZv",
 						"parameters": [
@@ -3463,7 +3509,7 @@
 								"deco": "C3d2d4math6Vector__TQkTiVki2ZQt"
 							}
 						],
-						"endline": 232,
+						"endline": 231,
 						"originalType": "void(iVector first, iVector second)",
 						"char": 10,
 						"kind": "function"
@@ -3471,7 +3517,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 237,
+						"line": 236,
 						"comment": " Draws a line of a given color between the given points\n",
 						"deco": "FC3d2d4math6Vector__TQkTiVki2ZQtQBfSQBi4sdl25ColorQgZv",
 						"parameters": [
@@ -3488,7 +3534,7 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 239,
+						"endline": 238,
 						"originalType": "void(iVector first, iVector second, Color color)",
 						"char": 10,
 						"kind": "function"
@@ -3496,7 +3542,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 244,
+						"line": 243,
 						"comment": " Draws a line given a segment\n",
 						"deco": "FC3d2d4math7Segment__TQlTiVki2ZQuZv",
 						"parameters": [
@@ -3505,7 +3551,7 @@
 								"deco": "C3d2d4math7Segment__TQlTiVki2ZQu"
 							}
 						],
-						"endline": 246,
+						"endline": 245,
 						"originalType": "void(iSegment line)",
 						"char": 10,
 						"kind": "function"
@@ -3513,7 +3559,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 251,
+						"line": 250,
 						"comment": " Draws a line with a specific color\n",
 						"deco": "FC3d2d4math7Segment__TQlTiVki2ZQuSQBg4sdl25ColorQgZv",
 						"parameters": [
@@ -3526,7 +3572,7 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 253,
+						"endline": 252,
 						"originalType": "void(iSegment line, Color color)",
 						"char": 10,
 						"kind": "function"
@@ -3534,7 +3580,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 258,
+						"line": 257,
 						"comment": " Draws a point\n",
 						"deco": "FiiZv",
 						"parameters": [
@@ -3547,14 +3593,14 @@
 								"deco": "i"
 							}
 						],
-						"endline": 260,
+						"endline": 259,
 						"char": 10,
 						"kind": "function"
 					},
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 265,
+						"line": 264,
 						"comment": " Draws a point\n",
 						"deco": "FC3d2d4math6Vector__TQkTiVki2ZQtZv",
 						"parameters": [
@@ -3563,7 +3609,7 @@
 								"deco": "C3d2d4math6Vector__TQkTiVki2ZQt"
 							}
 						],
-						"endline": 267,
+						"endline": 266,
 						"originalType": "void(iVector toDraw)",
 						"char": 10,
 						"kind": "function"
@@ -3571,7 +3617,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 272,
+						"line": 271,
 						"comment": " Draws a point in the given color\n",
 						"deco": "FC3d2d4math6Vector__TQkTiVki2ZQtSQBf4sdl25ColorQgZv",
 						"parameters": [
@@ -3584,7 +3630,7 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 274,
+						"endline": 273,
 						"originalType": "void(iVector toDraw, Color color)",
 						"char": 10,
 						"kind": "function"
@@ -3592,7 +3638,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 279,
+						"line": 278,
 						"comment": " Draws a rectangle\n",
 						"deco": "FC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlZv",
 						"parameters": [
@@ -3601,7 +3647,7 @@
 								"deco": "C3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl"
 							}
 						],
-						"endline": 281,
+						"endline": 280,
 						"originalType": "void(iRectangle toDraw)",
 						"char": 10,
 						"kind": "function"
@@ -3609,7 +3655,7 @@
 					{
 						"endchar": 5,
 						"name": "draw",
-						"line": 286,
+						"line": 285,
 						"comment": " Draws a rectangle with the given color\n",
 						"deco": "FC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlSQBy4sdl25ColorQgZv",
 						"parameters": [
@@ -3622,7 +3668,7 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 288,
+						"endline": 287,
 						"originalType": "void(iRectangle toDraw, Color color)",
 						"char": 10,
 						"kind": "function"
@@ -3632,7 +3678,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 294,
+								"line": 293,
 								"type": "void(BezierCurve!(int, 2) curve)",
 								"parameters": [
 									{
@@ -3640,13 +3686,13 @@
 										"type": "BezierCurve!(int, 2)"
 									}
 								],
-								"endline": 299,
+								"endline": 298,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 294,
+						"line": 293,
 						"comment": " Draws the given bezier curve with numPoints number of points on the curve\n More points is smoother but slower\n",
 						"parameters": [
 							{
@@ -3664,7 +3710,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 305,
+								"line": 304,
 								"type": "void(BezierCurve!(int, 2) curve, Color color)",
 								"parameters": [
 									{
@@ -3676,13 +3722,13 @@
 										"type": "Color"
 									}
 								],
-								"endline": 307,
+								"endline": 306,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 305,
+						"line": 304,
 						"comment": " Draws the given bezier curve with the given color and amount of points on the curve\n More points is smoother but slower\n",
 						"parameters": [
 							{
@@ -3698,7 +3744,7 @@
 					{
 						"endchar": 5,
 						"name": "fill",
-						"line": 312,
+						"line": 311,
 						"comment": " Fills a rectangle in\n",
 						"deco": "FC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlZv",
 						"parameters": [
@@ -3707,7 +3753,7 @@
 								"deco": "C3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBl"
 							}
 						],
-						"endline": 314,
+						"endline": 313,
 						"originalType": "void(iRectangle toFill)",
 						"char": 10,
 						"kind": "function"
@@ -3715,7 +3761,7 @@
 					{
 						"endchar": 5,
 						"name": "fill",
-						"line": 319,
+						"line": 318,
 						"comment": " Fills a rectangle in with the given color\n",
 						"deco": "FC3d2d4math22AxisAlignedBoundingBox__TQBbTiVki2ZQBlSQBy4sdl25ColorQgZv",
 						"parameters": [
@@ -3728,7 +3774,7 @@
 								"deco": "S3d2d4sdl25ColorQg"
 							}
 						],
-						"endline": 321,
+						"endline": 320,
 						"originalType": "void(iRectangle toFill, Color color)",
 						"char": 10,
 						"kind": "function"
@@ -3738,7 +3784,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 326,
+								"line": 325,
 								"type": "void(iPolygon!sides toDraw)",
 								"parameters": [
 									{
@@ -3746,13 +3792,13 @@
 										"type": "iPolygon!sides"
 									}
 								],
-								"endline": 330,
+								"endline": 329,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 326,
+						"line": 325,
 						"comment": " Draws a polygon\n",
 						"parameters": [
 							{
@@ -3769,7 +3815,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 335,
+								"line": 334,
 								"type": "void(iPolygon!sides toDraw, Color color)",
 								"parameters": [
 									{
@@ -3781,13 +3827,13 @@
 										"type": "Color"
 									}
 								],
-								"endline": 337,
+								"endline": 336,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 335,
+						"line": 334,
 						"comment": " Draws a polygon with the given color\n",
 						"parameters": [
 							{
@@ -3804,7 +3850,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 343,
+								"line": 342,
 								"type": "void(iRectangle bounds, double startAngle, double endAngle)",
 								"parameters": [
 									{
@@ -3820,13 +3866,13 @@
 										"deco": "d"
 									}
 								],
-								"endline": 357,
+								"endline": 356,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 343,
+						"line": 342,
 						"comment": " Draws the ellipse bounded by the given box between the given angles in radians\n More points generally means a slower but more well drawn ellipse\n",
 						"parameters": [
 							{
@@ -3844,7 +3890,7 @@
 							{
 								"endchar": 5,
 								"name": "draw",
-								"line": 363,
+								"line": 362,
 								"type": "void(iRectangle bounds, double startAngle, double endAngle, Color color)",
 								"parameters": [
 									{
@@ -3864,13 +3910,13 @@
 										"type": "Color"
 									}
 								],
-								"endline": 368,
+								"endline": 367,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "draw",
-						"line": 363,
+						"line": 362,
 						"comment": " Draws the ellipse bounded by the given box between the given angles in radians with the given color\n More points generally means a slower but more well drawn ellipse\n",
 						"parameters": [
 							{
@@ -3888,7 +3934,7 @@
 							{
 								"endchar": 5,
 								"name": "fill",
-								"line": 375,
+								"line": 374,
 								"type": "void(iRectangle bounds, double startAngle, double endAngle)",
 								"parameters": [
 									{
@@ -3904,13 +3950,13 @@
 										"deco": "d"
 									}
 								],
-								"endline": 385,
+								"endline": 384,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "fill",
-						"line": 375,
+						"line": 374,
 						"comment": " Fills the ellipse bounded by the given box between the given angles in radians\n Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)\n More points generally means a slower but more well drawn ellipse\n",
 						"parameters": [
 							{
@@ -3928,7 +3974,7 @@
 							{
 								"endchar": 5,
 								"name": "fill",
-								"line": 392,
+								"line": 391,
 								"type": "void(iRectangle bounds, double startAngle, double endAngle, Color color)",
 								"parameters": [
 									{
@@ -3948,13 +3994,13 @@
 										"type": "Color"
 									}
 								],
-								"endline": 397,
+								"endline": 396,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "fill",
-						"line": 392,
+						"line": 391,
 						"comment": " Fills the ellipse bounded by the given box between the given angles in radians with the given color\n Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)\n More points generally means a slower but more well drawn ellipse\n",
 						"parameters": [
 							{
@@ -3972,7 +4018,7 @@
 							{
 								"endchar": 5,
 								"name": "fill",
-								"line": 403,
+								"line": 402,
 								"type": "void(iPolygon!sides toDraw)",
 								"parameters": [
 									{
@@ -3980,13 +4026,13 @@
 										"type": "iPolygon!sides"
 									}
 								],
-								"endline": 435,
+								"endline": 434,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "fill",
-						"line": 403,
+						"line": 402,
 						"comment": " Fills a polygon\n Uses scanlining\n",
 						"parameters": [
 							{
@@ -4003,7 +4049,7 @@
 							{
 								"endchar": 5,
 								"name": "fill",
-								"line": 440,
+								"line": 439,
 								"type": "void(iPolygon!sides toDraw, Color color)",
 								"parameters": [
 									{
@@ -4015,13 +4061,13 @@
 										"type": "Color"
 									}
 								],
-								"endline": 442,
+								"endline": 441,
 								"char": 10,
 								"kind": "function"
 							}
 						],
 						"name": "fill",
-						"line": 440,
+						"line": 439,
 						"comment": " Fills a polygon with a given color\n",
 						"parameters": [
 							{
@@ -4036,10 +4082,10 @@
 					{
 						"endchar": 5,
 						"name": "present",
-						"line": 447,
+						"line": 446,
 						"comment": " Updates what the renderer has drawn by actually outputting or presenting it\n",
 						"deco": "FZv",
-						"endline": 450,
+						"endline": 449,
 						"char": 10,
 						"kind": "function"
 					}

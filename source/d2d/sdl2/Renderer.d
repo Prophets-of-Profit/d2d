@@ -14,7 +14,6 @@ import d2d.sdl2;
  * While most of these functions are ported directly off of LibSDL2, most of them have been renamed into standard OOP convention
  * Many SDL functions are now property methods (eg. SDL_SetRenderDrawColor => renderer.drawColor = ...)
  * All functions defined in renderer are based off of SDL functions and SDL documentation can be viewed as well
- * TODO: implement curve drawing
  */
 class Renderer {
 
