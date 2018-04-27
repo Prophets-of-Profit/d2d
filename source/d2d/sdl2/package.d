@@ -17,6 +17,7 @@ public import d2d.sdl2.Keyboard;
 public import d2d.sdl2.Mouse;
 public import d2d.sdl2.Polygon;
 public import d2d.sdl2.Renderer;
+public import d2d.sdl2.ShapeDrawer;
 public import d2d.sdl2.Sound;
 public import d2d.sdl2.Surface;
 public import d2d.sdl2.Texture;

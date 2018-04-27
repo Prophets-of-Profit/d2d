@@ -16,9 +16,24 @@ import d2d.sdl2;
  * Surfaces can be used, but when used repeatedly and stored, textures should be preferred
  * Surface draw methods do not respect alpha, but surface blitting does; to draw with alpha, draw to another surface, and blit to desired surface
  */
-class Surface {
+class Surface : ShapeDrawer {
 
     private SDL_Surface* surface;
+    private Color _drawColor = PredefinedColor.BLACK; ///The color that the surface will draw with
+
+    /**
+     * Sets the drawcolor for this surface; what color things will be drawn with
+     */
+    override @property void drawColor(Color color) {
+        this._drawColor = color;
+    }
+
+    /**
+     * Gets the drawcolor for this surface; what color things will be drawn with
+     */
+    override @property Color drawColor() {
+        return this.drawColor;
+    }
 
     /**
      * Returns the raw SDL data of this object
@@ -192,178 +207,13 @@ class Surface {
     }
 
     /**
-     * Fills a rectangle of the surface with the given color
+     * Fills a rectangle of the surface with the surface's draw color
      * Due to how SDL surfaces work, all other drawing functions on surface are built with this one
      */
-    void fill(iRectangle destination, Color color) {
+    override void fill(iRectangle destination) {
         ensureSafe(SDL_FillRect(this.surface, (destination is null) ? null
-                : destination.handle, SDL_MapRGBA(this.surface.format, color.r,
-                color.g, color.b, color.a)));
-    }
-
-    /**
-     * Draws a point on the surface with the given color
-     */
-    void draw(int x, int y, Color color) {
-        this.fill(new iRectangle(x, y, 1, 1), color);
-    }
-
-    /**
-     * Draws a point on the surface with the given color
-     */
-    void draw(iVector point, Color color) {
-        this.draw(point.x, point.y, color);
-    }
-
-    /**
-     * Draws a line on the surface with the given color
-     */
-    void draw(iVector first, iVector second, Color color) {
-        if (first.x == second.x) {
-            this.fill(new iRectangle(first.x, first.y, 1, second.y - first.y), color);
-        }
-        else if (first.y == second.y) {
-            this.fill(new iRectangle(first.x, first.y, second.x - first.x, 1), color);
-        }
-        else {
-            foreach (x; iota(first.x, second.x, second.x > first.x ? 1 : -1)) {
-                //Iterating through x and using point slope form
-                immutable intersection = (second.y - first.y) / (second.x - first.x) * (
-                        x - first.x) + first.y;
-                this.draw(new iVector(x, intersection), color);
-            }
-        }
-    }
-
-    /**
-     * Draws a line on the surface with the given color
-     */
-    void draw(iSegment line, Color color) {
-        this.draw(line.initial, line.terminal, color);
-    }
-
-    /**
-     * Draws a polygon on the surface with the given color
-     */
-    void draw(uint sides)(iPolygon!sides toDraw, Color color) {
-        foreach (polygonSide; toDraw.sides) {
-            this.draw(polygonSide, color);
-        }
-    }
-
-    /**
-     * Draws a rectangle on the surface
-     */
-    void draw(iRectangle rect, Color color) {
-        this.draw!4(rect.toPolygon(), color);
-    }
-
-    /**
-     * Draws the given bezier curve with numPoints number of points on the curve
-     * More points is smoother but slower
-     */
-    void draw(uint numPoints = 100)(BezierCurve!(int, 2) curve, Color color) {
-        Vector!(int, 2)[] points = cast(Vector!(int, 2)[])(curve.getPoints!numPoints);
-        foreach (i; 0 .. points.length - 1) {
-            this.draw(new iSegment(points[i], points[i + 1]), color);
-        }
-    }
-
-    /**
-     * Draws the ellipse bounded by the given box between the given angles in radians
-     * More points generally means a slower but more well drawn ellipse
-     */
-    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
-        immutable angleStep = (endAngle - startAngle) / numPoints;
-        iVector previousPoint;
-        iVector currentPoint = new iVector(-1);
-        foreach (i; 0 .. numPoints + 1) {
-            immutable currentAngle = startAngle + angleStep * i;
-            currentPoint.x = cast(int)(bounds.extent.x * cos(currentAngle) / 2);
-            currentPoint.y = cast(int)(bounds.extent.y * sin(currentAngle) / 2);
-            currentPoint += bounds.center;
-            if (previousPoint !is null) {
-                draw(previousPoint, currentPoint);
-            }
-            previousPoint = new iVector(currentPoint);
-        }
-    }
-
-    /**
-     * Draws the ellipse bounded by the given box between the given angles in radians with the given color
-     * More points generally means a slower but more well drawn ellipse
-     */
-    void draw(uint numPoints = 100)(iRectangle bounds, double startAngle,
-            double endAngle, Color color) {
-        this.performWithColor(color, {
-            this.draw!numPoints(bounds, startAngle, endAngle);
-        });
-    }
-
-    /**
-     * Fills the ellipse bounded by the given box between the given angles in radians
-     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
-     * More points generally means a slower but more well drawn ellipse
-     */
-    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle, double endAngle) {
-        immutable angleStep = (endAngle - startAngle) / numPoints;
-        iPolygon!numPoints ellipseSlice = new iPolygon!numPoints();
-        foreach (i; 0 .. numPoints) {
-            immutable currentAngle = startAngle + angleStep * i;
-            ellipseSlice.vertices[i] = bounds.center + new iVector(
-                    cast(int)(bounds.extent.x * cos(currentAngle) / 2),
-                    cast(int)(bounds.extent.y * sin(currentAngle) / 2));
-        }
-        this.fill!numPoints(ellipseSlice);
-    }
-
-    /**
-     * Fills the ellipse bounded by the given box between the given angles in radians with the given color
-     * Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
-     * More points generally means a slower but more well drawn ellipse
-     */
-    void fill(uint numPoints = 100)(iRectangle bounds, double startAngle,
-            double endAngle, Color color) {
-        this.performWithColor(color, {
-            this.fill!numPoints(bounds, startAngle, endAngle);
-        });
-    }
-
-    /**
-     * Fills a polygon on the surface with the given color
-     */
-    void fill(uint sides)(iPolygon!sides toDraw, Color color) {
-        iRectangle bounds = bound(toDraw);
-        int[][int] intersections; //Stores a list of x coordinates of intersections accessed by the y value
-        foreach (polygonSide; toDraw.sides) {
-            foreach (y; bounds.initialPoint.y .. bounds.bottomLeft.y) {
-                //Checks that the y value exists within the segment
-                if ((y - polygonSide.initial.y) * (y - polygonSide.terminal.y) > 0) {
-                    continue;
-                }
-                //If the segment is a horizontal line at this y, draws the horizontal line and then breaks
-                if (y == polygonSide.initial.y && polygonSide.initial.y == polygonSide.terminal.y) {
-                    this.draw(new iSegment(polygonSide.initial, polygonSide.terminal), color);
-                    continue;
-                }
-                //Vertical lines
-                if (polygonSide.initial.x == polygonSide.terminal.x) {
-                    intersections[y] ~= polygonSide.initial.x;
-                    continue;
-                }
-                iVector sideDirection = polygonSide.direction;
-                immutable dy = y - polygonSide.initial.y;
-                intersections[y] ~= (dy * sideDirection.x + polygonSide.initial.x * sideDirection.y) / sideDirection
-                    .y;
-
-            }
-        }
-        foreach (y, xValues; intersections) {
-            foreach (i; 0 .. xValues.sort.length - 1) {
-                this.draw(new iSegment(new iVector(xValues[i], y),
-                        new iVector(xValues[i + 1], y)), color);
-            }
-        }
+                : destination.handle, SDL_MapRGBA(this.surface.format,
+                this.drawColor.r, this.drawColor.g, this.drawColor.b, this.drawColor.a)));
     }
 
 }
