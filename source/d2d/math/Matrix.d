@@ -5,6 +5,7 @@ module d2d.math.Matrix;
 
 import std.algorithm;
 import std.array;
+import std.conv;
 import std.math;
 import std.parallelism;
 import d2d.math;
@@ -64,35 +65,30 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
-     * Constructs a matrix from a two-dimensional array of elements
-     */
-    this(T[columns][rows] elements) {
-        this.elements = elements;
-    }
-
-    /**
      * Constructs a matrix that is identically one value
      */
     this(T element) {
-        T[columns] row = element;
-        this.elements[] = row;
+        T[columns][rows] elements = element;
+        this.elements[] = elements;
     }
 
     /**
      * Constructs a matrix as an identity matrix
      */
     this() {
-        T[rows][columns] elements;
-        foreach (index, ref element; (cast(T[]) elements).parallel) {
-            elements[index][index] = 1;
+        T[columns][rows] elements = 0;
+        //TODO: Can be more efficient with parallelism?
+        foreach (i; 0..min(rows, columns)) {
+            elements[i][i] = 1;
         }
+        this.elements = elements;
     }
 
     /**
      * Copy constructor for a matrix; creates a copy of the given matrix
      */
     this(Matrix!(T, rows, columns) toCopy) {
-        this(toCopy.elements);
+        this(toCopy.elements.to!(T[][]));
     }
 
     /**
@@ -153,6 +149,15 @@ class Matrix(T, uint rows, uint columns) {
     void opAssign(T rhs) {
         T[columns] row = rhs;
         this.elements[] = row;
+    }
+
+    /**
+     * Returns the matrix as a string
+     */
+    override string toString() {
+        return "\n" ~ this.elements.to!(T[][])
+            .map!(a => a.to!string ~ "\n")
+            .reduce!((string a, string b) => a ~ b);
     }
 
 }
