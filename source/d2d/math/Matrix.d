@@ -94,6 +94,43 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Returns the matrix in row-echelon form
+     * In reduced row-echelon form, the diagonal elements are equal to one
+     * and all elements below and above the diagonal are zero
+     * This method uses the Gauss-Jordan algorithm, which has arithmetic complexity O(n^3)
+     */
+    @property Matrix!(T, rows, columns) reducedRowEchelon() {
+        Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
+        //The pivot coordinates
+        uint i = 0; 
+        uint j = 0;
+        //If the i,j'th element is 0 swap to ensure that it is not
+        //If the first column is zero instead move the pivot one to the right
+        while (i < rows && j < columns) {
+            while (output[i][j] == 0) {
+                foreach (row; i + 1 ..rows) {
+                    if (output[row][j] != 0) {
+                        swap(output[i], output[row]);
+                        break;
+                    }
+                }
+                j += 1;
+                //If the entire matrix is zero return itself... row-echelon form is not achievable
+                if (j >= columns) return output;
+            }
+            //Makes the pivot entry equal to one
+            output[i][] /= output[i][j];
+            //Set all elements below the pivot to zero
+            foreach (row; 0..rows) {
+                if (row == i) continue; 
+                output[row][] -= output[i][] * output[row][j];
+            }
+            i += 1;
+            j += 1;
+        }
+        return output;
+    }
+    /**
      * The transpose operation returns the matrix 'flipped' about its diagonal - 
      * That is, rows and columns are switched
      */
