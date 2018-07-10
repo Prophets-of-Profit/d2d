@@ -22,10 +22,42 @@ abstract class ShapeDrawer {
     /**
      * Shape drawer needs only one fundamental draw methods to be defined:
      * point, which all other shape drawer fill and draw methods use
-     * TODO: Make implemented rect and line draw/fill methods for overridability
-     *       so that SDL draw and fill methods can be used in renderer
+     * Other methods below can be overridden if there exists more efficient sdl method
      */
     void drawPoint(int x, int y);
+
+    /**
+     * Draws a line
+     * Can be overridden
+     */
+    void drawLine(iVector first, iVector second) {
+        iVector difference = second - first;
+        immutable slope = cast(double)difference.y / cast(double)difference.x;
+        foreach (x; first.x .. second.x + 1) {
+            this.draw(x, cast(int)(first.y + slope * cast(double)(x - first.x)));
+        }
+    }
+
+    /**
+     * Draws the outlines of a rectangle
+     * Can be overridden
+     */
+    void drawRect(iRectangle rect) {
+        foreach (edge; rect.edges) {
+            this.draw(edge);
+        }
+    }
+
+    /**
+     * Fills in a rectangle
+     * Can be overridden
+     */
+    void fillRect(iRectangle rect) {
+        int[2] xBounds = [rect.initialPoint.x, rect.bottomRight.x];
+        foreach (y; rect.initialPoint.y .. rect.bottomRight.y + 1) {
+            this.draw(new iVector(xBounds[0], y), new iVector(xBounds[1], y));
+        }
+    }
 
     /**
      * Internally used function that performs an action with a certain color
@@ -70,11 +102,7 @@ abstract class ShapeDrawer {
      * Draws a line given by two points
      */
     void draw(iVector first, iVector second) {
-        iVector difference = second - first;
-        immutable slope = cast(double)difference.y / cast(double)difference.x;
-        foreach (x; first.x .. second.x + 1) {
-            this.draw(x, cast(int)(first.y + slope * cast(double)(x - first.x)));
-        }
+        this.drawLine(first, second);
     }
 
     /**
@@ -102,9 +130,7 @@ abstract class ShapeDrawer {
      * Draws the given rectangle
      */
     void draw(iRectangle rect) {
-        foreach (edge; rect.edges) {
-            this.draw(edge);
-        }
+        this.drawRect(rect);
     }
 
     /**
@@ -118,10 +144,7 @@ abstract class ShapeDrawer {
      * Fills the given rectangle
      */
     void fill(iRectangle rect) {
-        int[2] xBounds = [rect.initialPoint.x, rect.bottomRight.x];
-        foreach (y; rect.initialPoint.y .. rect.bottomRight.y + 1) {
-            this.draw(new iVector(xBounds[0], y), new iVector(xBounds[1], y));
-        }
+        this.fillRect(rect);
     }
 
     /**
