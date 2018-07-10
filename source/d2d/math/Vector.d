@@ -255,12 +255,13 @@ class Vector(T, uint dimensions) {
  * Calculates the dot product or the similarity of two vectors
  */
 T dot(T, uint dim)(Vector!(T, dim) first, Vector!(T, dim) second) {
-    immutable pairWiseMultiple = first * second;
-    return pairWiseMultiple.components.sum;
+    Vector!(T, dim) pairWiseMultiple = first * second; //TODO: This might be made immutable to be more efficient
+    return pairWiseMultiple.components[].sum;
 }
 
 /**
- * Calculates the cross product or the perpendicular vector to two vectors
+ * Calculates the cross product or the perpendicular vector to two vectors 
+ * (with length equal to the area of the parallelogram they form)
  * Currently only works on 2 or 3 dimensional vectors
  */
 Vector!(T, 3) cross(T, uint size)(Vector!(T, size) first, Vector!(T, size) second)

@@ -19,6 +19,8 @@ class Matrix(T, uint rows, uint columns) {
 
     T[columns][rows] elements; ///The elements of the matrix; stored as an array of rows (i.e. row vectors)
 
+    alias elements this; //Allows for slicing and operating on the matrix as a 2d array
+
     /**
      * Recursively finds the determinant of the matrix if the matrix is square
      * Task is done in O(n!) for an nxn matrix, so determinants of matrices of at most size 3x3 are already defined to be more efficient
@@ -42,6 +44,7 @@ class Matrix(T, uint rows, uint columns) {
                     - elements[0][0] * elements[1][2] * elements[2][1];
             }
             else {
+                //Find the determinants of the sub-matrices
                 T determinant;
                 foreach (i; 0 .. columns) {
                     determinant += (-1).pow(i) * this.elements[0][i] * (new Matrix!(T,
@@ -54,7 +57,20 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * The transpose operation returns the matrix 'flipped' about its diagonal - 
+     * That is, rows and columns are switched
+     */
+    @property Matrix!(T, columns, rows) transpose() {
+        Matrix!(T, columns, rows) output = new Matrix!(T, columns, rows)(0);
+        foreach (i; 0..columns) {
+            output.setRow(i, this.getColumn(i));
+        }
+        return output;
+    }
+
+    /**
      * Constructs a matrix from a two-dimensional array of elements
+     * TODO: Handle improper dimensions
      */
     this(T[][] elements) {
         foreach (i, row; elements) {
@@ -152,6 +168,47 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Multiplication of a matrix by a vector
+     * This is essentially a matrix multiplication, but is handled separately for convenience
+     * If Vector is made to extend Matrix in the future, this will become obsolete 
+     */
+    Vector!(T, rows) opBinary(string op)(Vector!(T, rows) other) {
+        static if (op == "*") {
+            Vector!(T, rows) output = new Vector!(T, rows)();
+            foreach (i; 0..rows) {
+                output[i] = dot!(T, rows)(other, this.getRow(i));
+            }
+            return output;
+        }
+        assert(0, "Matrix: Operation not supported...");
+    }
+
+    /**
+     * Pairwise operations on matrices
+     * Addition: Adds all elements
+     * Multiplication: Mulitplies all elements - this is known as the Hadamard Product
+     * etc.
+     */
+    Matrix!(T, rows, columns) opBinary(string op)(Matrix!(T, rows, columns) other) {
+        Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
+        foreach (index, ref component; output.elements[].parallel()) {
+            mixin("output.elements[index][] " ~ op ~ "= other.elements[i][];");
+        }
+        return output;
+    }
+
+    /**
+     * Pairwise operations on matrices with a constant
+     */
+    Matrix!(T, rows, columns) opBinary(string op)(T constant) {
+        Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
+        foreach (index, ref component; output.elements[].parallel()) {
+            mixin("output.elements[index][] " ~ op ~ "= constant;");
+        }
+        return output;
+    }
+
+    /**
      * Returns the matrix as a string
      */
     override string toString() {
@@ -160,4 +217,20 @@ class Matrix(T, uint rows, uint columns) {
             .reduce!((string a, string b) => a ~ b);
     }
 
+}
+
+/**
+ * Takes the product of two matrices with a shared dimension
+ */
+Matrix!(T, rows1, columns2) multiply
+                                (T, uint rows1, uint columns2, uint sharedDimension)
+                                (Matrix!(T, rows1, sharedDimension) lhs, Matrix!(T, sharedDimension, columns2) rhs) {
+    Matrix!(T, rows1, columns2) output = new Matrix!(T, rows1, columns2)(0);
+    //TODO: Could be sped up by parallelism
+    foreach (i; 0..rows1) {
+        foreach (j; 0..columns2) {
+            output[i][j] = dot!(T, sharedDimension)(lhs.getRow(i), rhs.getColumn(j));
+        }
+    } 
+    return output;
 }
