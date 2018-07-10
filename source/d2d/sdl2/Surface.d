@@ -179,6 +179,16 @@ class Surface : ShapeDrawer {
     }
 
     /**
+     * Defines how the shape drawer draws points on a surface
+     * Used for all other shape drawer functions
+     */
+    override void drawPoint(int x, int y) {
+        ensureSafe(SDL_FillRect(this.surface, new iRectangle(x, y, 1, 1).handle, 
+                SDL_MapRGBA(this.surface.format, this.drawColor.r,
+                this.drawColor.g, this.drawColor.b, this.drawColor.a)));
+    }
+
+    /**
      * Saves the surface as a BMP with the given file name
      */
     void saveBMP(string fileName) {
@@ -204,16 +214,6 @@ class Surface : ShapeDrawer {
     void blit(Surface src, iRectangle srcRect, iRectangle dstRect) {
         ensureSafe(SDL_BlitScaled(src.handle, (srcRect is null) ? null
                 : srcRect.handle, this.surface, (dstRect is null) ? null : dstRect.handle));
-    }
-
-    /**
-     * Fills a rectangle of the surface with the surface's draw color
-     * Due to how SDL surfaces work, all other drawing functions on surface are built with this one
-     */
-    override void fill(iRectangle destination) {
-        ensureSafe(SDL_FillRect(this.surface, (destination is null) ? null
-                : destination.handle, SDL_MapRGBA(this.surface.format,
-                this.drawColor.r, this.drawColor.g, this.drawColor.b, this.drawColor.a)));
     }
 
 }

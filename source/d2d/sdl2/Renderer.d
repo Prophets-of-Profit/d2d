@@ -168,6 +168,10 @@ class Renderer : ShapeDrawer {
         SDL_DestroyRenderer(this.renderer);
     }
 
+    override void drawPoint(int x, int y) {
+        ensureSafe(SDL_RenderDrawPoint(this.renderer, x, y));
+    }
+
     /**
      * Copies a texture to the window at the given point
      * Uses the dimensions of the given sourceRect or if not given, the dimensions of the original texture
@@ -204,34 +208,6 @@ class Renderer : ShapeDrawer {
      */
     void clear() {
         ensureSafe(SDL_RenderClear(this.renderer));
-    }
-
-    /**
-     * Draws a line between the given points
-     */
-    override void draw(iVector first, iVector second) {
-        ensureSafe(SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y));
-    }
-
-    /**
-     * Draws a point
-     */
-    override void draw(int x, int y) {
-        ensureSafe(SDL_RenderDrawPoint(this.renderer, x, y));
-    }
-
-    /**
-     * Draws a rectangle
-     */
-    override void draw(iRectangle toDraw) {
-        ensureSafe(SDL_RenderDrawRect(this.renderer, toDraw.handle));
-    }
-
-    /**
-     * Fills a rectangle in
-     */
-    override void fill(iRectangle toFill) {
-        ensureSafe(SDL_RenderFillRect(this.renderer, toFill.handle));
     }
 
     /**

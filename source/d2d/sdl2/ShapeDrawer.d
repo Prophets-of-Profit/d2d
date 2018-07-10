@@ -20,6 +20,14 @@ abstract class ShapeDrawer {
     @property Color drawColor();
 
     /**
+     * Shape drawer needs only one fundamental draw methods to be defined:
+     * point, which all other shape drawer fill and draw methods use
+     * TODO: Make implemented rect and line draw/fill methods for overridability
+     *       so that SDL draw and fill methods can be used in renderer
+     */
+    void drawPoint(int x, int y);
+
+    /**
      * Internally used function that performs an action with a certain color
      */
     private void performWithColor(void delegate() action, Color color) {
@@ -30,12 +38,15 @@ abstract class ShapeDrawer {
     }
 
     /**
-     * A shape drawer needs drawing a point to be defined
+     * Draws a point to the screen
+     * Just calls the basic draw point method
      */
-    void draw(int x, int y);
+    void draw(int x, int y) {
+        this.drawPoint(x, y);
+    }
 
     /**
-     * A shape drawer needs drawing a point to be defined
+     * Draws a point to the screen
      */
     void draw(int x, int y, Color color) {
         this.performWithColor({ this.draw(x, y); }, color);
@@ -60,9 +71,9 @@ abstract class ShapeDrawer {
      */
     void draw(iVector first, iVector second) {
         iVector difference = second - first;
-        immutable slope = difference.y / difference.x;
+        immutable slope = cast(double)difference.y / cast(double)difference.x;
         foreach (x; first.x .. second.x + 1) {
-            this.draw(x, first.y + slope * (x - first.x));
+            this.draw(x, cast(int)(first.y + slope * cast(double)(x - first.x)));
         }
     }
 
