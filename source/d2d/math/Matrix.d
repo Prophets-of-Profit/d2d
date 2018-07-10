@@ -13,7 +13,7 @@ import d2d.math;
 /**
  * A matrix is just like a mathematical matrix where it is similar to essentially a 2d array of of the given type
  * Template parameters are the type, how many rows, and how many columns
- * TODO: rref, frustums, transformations
+ * TODO:frustums, transformations, speed everything up with parallelism
  */
 class Matrix(T, uint rows, uint columns) {
 
@@ -57,10 +57,21 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Returns the inverse of a square matrix, which should give the identity if they are multiplied.
+     */
+    static if (rows == columns) {
+        @property Matrix!(T, rows, columns) inverse() {
+            Matrix!(T, rows, 2 * columns) augmentedMatrix = this.augment!(T, rows, columns, columns)(new Matrix!(T, rows, columns));
+            return augmentedMatrix.reducedRowEchelon.getSlice!(rows, columns)(0, columns);
+        }
+    }
+
+    /**
      * Returns the matrix in row-echelon form
      * In row-echelon form, the diagonal elements are equal to one
      * and all elements below the diagonal are zero
      * This method uses the Gauss-Jordan algorithm, which has arithmetic complexity O(n^3)
+     * Be wary of truncation for integer matrices
      */
     @property Matrix!(T, rows, columns) rowEchelon() {
         Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
@@ -98,6 +109,7 @@ class Matrix(T, uint rows, uint columns) {
      * In reduced row-echelon form, the diagonal elements are equal to one
      * and all elements below and above the diagonal are zero
      * This method uses the Gauss-Jordan algorithm, which has arithmetic complexity O(n^3)
+     * Be wary of truncation for integer matrices
      */
     @property Matrix!(T, rows, columns) reducedRowEchelon() {
         Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
@@ -216,6 +228,20 @@ class Matrix(T, uint rows, uint columns) {
     }
 
     /**
+     * Returns a rectangular slice of the matrix with the upper left corner at the specified location
+     * and a specified size
+     * Usable to get rows and columns; just set the height or width to 1
+     */
+    Matrix!(T, height, width) getSlice(uint height, uint width)(uint startRow, uint startColumn) {
+        Matrix!(T, height, width) output = new Matrix!(T, height, width)(0);
+        assert(startRow + height <= rows && startColumn + width <= columns, "Matrix: Slice out of bounds: " ~ (startRow+height).to!string ~ "," ~ (startColumn + width).to!string ~ " > " ~ rows.to!string ~ "," ~ columns.to!string);
+        foreach (i; 0..height) {
+            output.elements[i] = this.elements[startRow + i][startColumn .. startColumn + width];
+        }
+        return output;
+    }
+
+    /**
      * Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
      */
     void opAssign(T[][] rhs) {
@@ -308,3 +334,17 @@ Matrix!(T, rows1, columns2) multiply
     } 
     return output;
 }
+
+/**
+ * Returns an augmented matrix consisting of two matrices with the same number of rows
+ * Useful for inverse calculations and solving linear systems of equations
+ */
+Matrix!(T, rows, columns1 + columns2) augment
+                                        (T, uint rows, uint columns1, uint columns2)
+                                        (Matrix!(T, rows, columns1) lhs, Matrix!(T, rows, columns2) rhs) {
+    Matrix!(T, rows, columns1 + columns2) output = new Matrix!(T, rows, columns1 + columns2);
+    foreach (i; 0..rows) {
+        output.setRow(i, new Vector!(T, columns1 + columns2)(lhs.elements[i] ~ rhs.elements[i]));
+    }
+    return output;
+} 
