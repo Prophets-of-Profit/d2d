@@ -80,24 +80,25 @@ class Matrix(T, uint rows, uint columns) {
         uint j = 0;
         //If the i,j'th element is 0 swap to ensure that it is not
         //If the first column is zero instead move the pivot one to the right
+        import std.stdio;
+
         while (i < rows && j < columns) {
-            while (output[i][j] == 0) {
-                foreach (row; i + 1 ..rows) {
-                    if (output[row][j] != 0) {
-                        swap(output[i], output[row]);
-                        break;
-                    }
-                }
+            //Swap the row with the row that has the largest absolute jth value
+            //This is done because dividing by small values may cause issues with precision
+            swap(output[i], output[output.elements[i..rows].maxIndex!((T[columns] a, T[columns] b) => abs(a[j]) < abs(b[j])) + i]);
+            //If the maximum is zero, then the entire column is equal to zero and we need to move the pointer right
+            if (output[i][j] == 0) {
                 j += 1;
-                //If the entire matrix is zero return itself... row-echelon form is not achievable
-                if (j >= columns) return output;
             }
             //Makes the pivot entry equal to one
             output[i][] /= output[i][j];
+            
+            writeln("Output1-divide: ", output);
             //Set all elements below the pivot to zero
             foreach (row; i + 1 .. rows) {
                 output[row][] -= output[i][] * output[row][j];
             }
+            writeln("Output2-subtract: ", output);
             i += 1;
             j += 1;
         }
@@ -119,16 +120,12 @@ class Matrix(T, uint rows, uint columns) {
         //If the i,j'th element is 0 swap to ensure that it is not
         //If the first column is zero instead move the pivot one to the right
         while (i < rows && j < columns) {
-            while (output[i][j] == 0) {
-                foreach (row; i + 1 ..rows) {
-                    if (output[row][j] != 0) {
-                        swap(output[i], output[row]);
-                        break;
-                    }
-                }
+            //Swap the row with the row that has the largest absolute jth value
+            //This is done because dividing by small values may cause issues with precision
+            swap(output[i], output[output.elements[i..rows].maxIndex!((T[columns] a, T[columns] b) => abs(a[j]) < abs(b[j])) + i]);
+            //If the maximum is zero, then the entire column is equal to zero and we need to move the pointer right
+            if (output[i][j] == 0) {
                 j += 1;
-                //If the entire matrix is zero return itself... row-echelon form is not achievable
-                if (j >= columns) return output;
             }
             //Makes the pivot entry equal to one
             output[i][] /= output[i][j];
