@@ -32,7 +32,7 @@ class Surface : ShapeDrawer {
      * Gets the drawcolor for this surface; what color things will be drawn with
      */
     override @property Color drawColor() {
-        return this.drawColor;
+        return this._drawColor;
     }
 
     /**
@@ -183,8 +183,16 @@ class Surface : ShapeDrawer {
      * Used for all other shape drawer functions
      */
     override void drawPoint(int x, int y) {
-        ensureSafe(SDL_FillRect(this.surface, new iRectangle(x, y, 1, 1).handle, 
-                SDL_MapRGBA(this.surface.format, this.drawColor.r,
+        this.fillRect(new iRectangle(x, y, 1, 1));
+    }
+
+    /**
+     * Fills in a rectangle
+     * Uses the SDL functionality for better performance
+     */
+    override void fillRect(iRectangle rect) {
+        ensureSafe(SDL_FillRect(this.surface, (rect is null) ? null
+                : rect.handle, SDL_MapRGBA(this.surface.format, this.drawColor.r,
                 this.drawColor.g, this.drawColor.b, this.drawColor.a)));
     }
 
