@@ -189,6 +189,16 @@ class Surface : ShapeDrawer {
     }
 
     /**
+     * Fills in a rectangle
+     * Uses the SDL functionality for better performance
+     */
+    override void fillRect(iRectangle rect) {
+        ensureSafe(SDL_FillRect(this.surface, (rect is null) ? null
+                : rect.handle, SDL_MapRGBA(this.surface.format, this.drawColor.r,
+                this.drawColor.g, this.drawColor.b, this.drawColor.a)));
+    }
+
+    /**
      * Saves the surface as a BMP with the given file name
      */
     void saveBMP(string fileName) {
