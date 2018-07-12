@@ -289,7 +289,7 @@ class Matrix(T, uint rows, uint columns) {
     Matrix!(T, rows, columns) opBinary(string op)(Matrix!(T, rows, columns) other) {
         Matrix!(T, rows, columns) output = new Matrix!(T, rows, columns)(this);
         foreach (index, ref component; output.elements[].parallel()) {
-            mixin("output.elements[index][] " ~ op ~ "= other.elements[i][];");
+            mixin("output.elements[index][] " ~ op ~ "= other.elements[index][];");
         }
         return output;
     }
