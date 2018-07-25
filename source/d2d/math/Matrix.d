@@ -345,3 +345,14 @@ Matrix!(T, rows, columns1 + columns2) augment
     }
     return output;
 } 
+
+/**
+ * Function for building rotation matrices based on a given radian input
+ */
+
+Matrix!(double, 2, 2) rotMatrix (double rads) {
+    
+    double[][] matValue = [[cos(rads), -1*sin(rads)], [sin(rads), cos(rads)]];
+    Matrix!(double, 2, 2) rotReturnMatrix = new Matrix!(double, 2, 2)(matValue);
+    return rotReturnMatrix;
+}
