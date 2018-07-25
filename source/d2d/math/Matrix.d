@@ -345,3 +345,16 @@ Matrix!(T, rows, columns1 + columns2) augment
     }
     return output;
 } 
+
+/**
+ * Function for building rotation matrices based on a given radian input
+ */
+Matrix!(double, 2, 2) rotMatrix (double theta) {
+    /**
+     * Creates an array consisting of [cos(theta), -sin(theta)] and [sin(theta), cos(theta)] allowing for the 
+     * creation of a standard rotation matrix
+     */
+    double[][] matValue = [[cos(theta), -1*sin(theta)], [sin(theta), cos(theta)]];
+    Matrix!(double, 2, 2) rotReturnMatrix = new Matrix!(double, 2, 2)(matValue);
+    return rotReturnMatrix;
+}
