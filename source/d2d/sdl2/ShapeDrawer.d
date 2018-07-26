@@ -1,6 +1,7 @@
 module d2d.sdl2.ShapeDrawer;
 
 import std.algorithm;
+import std.conv;
 import d2d.math;
 import d2d.sdl2;
 
@@ -19,12 +20,38 @@ abstract class ShapeDrawer {
      */
     @property Color drawColor();
 
+    protected double rotation = 0.0; // Value for how much each point will be rotated by in radians
+
+    protected double[2] pointOfRotation = [0.0, 0.0];  // The point that rotated points will be rotated about
+
     /**
      * Shape drawer needs only one fundamental draw methods to be defined:
      * point, which all other shape drawer fill and draw methods use
      * Other methods below can be overridden if there exists more efficient sdl method
      */
     void drawPoint(int x, int y);
+
+    /**
+     * Draws a point rotated about the given "pointOfRotation" and rotated clockwise by the the amount of radians specified in "rotation"
+     */
+    void drawPointRotated(int x, int y) {
+        Matrix!(double, 3, 1) translatedPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(-1*this.pointOfRotation[0], -1*this.pointOfRotation[1]), new Matrix!(double, 3, 1)([[to!double(x)], [to!double(y)], [1.0]]));
+        Matrix!(double, 2, 1) rotatedPoint = multiply!(double, 2, 1, 2)(rotationMatrixOf(this.rotation), translatedPoint.getSlice!(2, 1)(0, 0));
+        Matrix!(double, 3, 1) finalPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(this.pointOfRotation[0], this.pointOfRotation[1]), new Matrix!(double, 3, 1)([[rotatedPoint.elements[0][0]], [rotatedPoint.elements[1][0]], [1.0]]));
+        drawPoint(to!int(finalPoint.elements[0][0]), to!int(finalPoint.elements[1][0]));
+    }
+
+    /**
+     * Performs a draw function but rotates each point by the specified rotation given in radians clockwise around the specified point
+     */
+    void drawRotated(void delegate() action, double rotationNew, double xcoord, double ycoord) {
+        this.rotation = rotationNew;
+        this.pointOfRotation = [xcoord, ycoord];
+        action();
+        this.rotation = 0.0;
+        this.pointOfRotation = [0.0, 0.0];
+    }
+
 
     /**
      * Draws a line
@@ -74,7 +101,7 @@ abstract class ShapeDrawer {
      * Just calls the basic draw point method
      */
     void draw(int x, int y) {
-        this.drawPoint(x, y);
+        this.drawPointRotated(x, y);
     }
 
     /**
