@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class Mouse</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/ShapeDrawer.html">ShapeDrawer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class Mouse</h1><p>The mouse input source which acculmulates mouse information
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">Mouse</span>
+			<br>&nbsp;&nbsp;: <a href="../../../d2d/sdl2/InputSource/InputSource.html"><span class="typ">InputSource</span></a>!uint
+			<br>&nbsp;&nbsp;, <a href="../../../d2d/sdl2/EventHandler/EventHandler.html"><span class="typ">EventHandler</span></a>
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Constructors</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Makes a mouse and initializes all of the buttons
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Properties</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.allPressables.html" class="public property"><code>allPressables</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/InputSource/Pressable.html"><span class="typ">Pressable</span></a>!(uint)<span class="pun">[</span><span class="typ">uint</span><span class="pun">]</span></code></td><td>Returns all of the mouse buttons
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.cursor.html" class="public property"><code>cursor</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Mouse/Cursor.html"><span class="typ">Cursor</span></a></code></td><td>Sets the cursor of the mouse
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.cursor.html" class="public property"><code>cursor</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Mouse/Cursor.html"><span class="typ">Cursor</span></a></code></td><td>Gets the cursor of the mouse
+ Special precautions must be taken when using this method:
+ Make sure to store the output of the cursor or make sure the cursor doesn't get GCed
+ Because the actual cursor is being used in C, D will think this returned cursor won't be being used and destroy it
+ It is probably better to avoid this method entirely
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.location.html" class="public property"><code>location</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets the mouse location accounting for logical size or viewport
+ This should be what is most regularly used
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.screenLocation.html" class="public property"><code>screenLocation</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Sets the location of the mouse globally
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.screenLocation.html" class="public property"><code>screenLocation</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets the location of the mouse globally
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.totalWheelDisplacement.html" class="public property"><code>totalWheelDisplacement</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets by how much the mouse wheel has been displaced
+ Records changes in wheel from the start of mouse construction
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.windowLocation.html" class="public property"><code>windowLocation</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Sets the location of the mouse relative to the window
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.windowLocation.html" class="public property"><code>windowLocation</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets the location of the mouse
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/InputSource/InputSource.allPressables.html" class="public inherited property"><code>allPressables</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/InputSource/Pressable.html"><span class="typ">Pressable</span></a>!T<span class="pun">[</span><span class="pln">T</span><span class="pun">]</span></code></td><td>Return a list of all of the pressables that can be accessed by the template type
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Methods</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.handleEvent.html" class="public">
+								<code>handleEvent</code>
+							</a>
+						</td>
+						<td>Acculmulates all of the mouse events and updates stored pressables accordingly
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/InputSource/InputSource.getPressedPressables.html" class="public inherited">
+								<code>getPressedPressables</code>
+							</a>
+						</td>
+						<td>Returns a list of all of the pressables that are held down.
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Aliases</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Mouse/Mouse.allButtons.html" class="public">
+								<code>allButtons</code>
+							</a>
+						</td>
+						<td>Allows allPressables to be called as allButtons
+</td>
+					</tr>
+				</table>
+			</section>
+			
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

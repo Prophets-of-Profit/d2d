@@ -1,3 +1,6 @@
+/**
+ * ShapeDrawer
+ */
 module d2d.sdl2.ShapeDrawer;
 
 import std.algorithm;
@@ -20,9 +23,10 @@ abstract class ShapeDrawer {
      */
     @property Color drawColor();
 
-    protected double rotation = 0.0; // Value for how much each point will be rotated by in radians
-
-    protected double[2] pointOfRotation = [0.0, 0.0];  // The point that rotated points will be rotated about
+    //Value for how much each point will be rotated by in radians
+    protected double rotation = 0.0;
+    //The point that rotated points will be rotated about
+    protected dVector pointOfRotation = new dVector();
 
     /**
      * Shape drawer needs only one fundamental draw methods to be defined:
@@ -35,18 +39,18 @@ abstract class ShapeDrawer {
      * Draws a point rotated about the given "pointOfRotation" and rotated clockwise by the the amount of radians specified in "rotation"
      */
     void drawPointRotated(int x, int y) {
-        Matrix!(double, 3, 1) translatedPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(-1*this.pointOfRotation[0], -1*this.pointOfRotation[1]), new Matrix!(double, 3, 1)([[to!double(x)], [to!double(y)], [1.0]])); //Sets coordinates relative to point
+        Matrix!(double, 3, 1) translatedPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(-this.pointOfRotation.x, -this.pointOfRotation.y), new Matrix!(double, 3, 1)([[x.to!double], [y.to!double], [1.0]])); //Sets coordinates relative to point
         Matrix!(double, 2, 1) rotatedPoint = multiply!(double, 2, 1, 2)(rotationMatrixOf(this.rotation), translatedPoint.getSlice!(2, 1)(0, 0)); //Rotates around point
-        Matrix!(double, 3, 1) finalPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(this.pointOfRotation[0], this.pointOfRotation[1]), new Matrix!(double, 3, 1)([[rotatedPoint.elements[0][0]], [rotatedPoint.elements[1][0]], [1.0]])); //Sets the coordinates back
-        drawPoint(to!int(finalPoint.elements[0][0]), to!int(finalPoint.elements[1][0])); //Draws rotated point
+        Matrix!(double, 3, 1) finalPoint = multiply!(double, 3, 1, 3)(translationMatrixOf(this.pointOfRotation.x, this.pointOfRotation.y), new Matrix!(double, 3, 1)([[rotatedPoint.elements[0][0]], [rotatedPoint.elements[1][0]], [1.0]])); //Sets the coordinates back
+        drawPoint(finalPoint.elements[0][0].to!int, finalPoint.elements[1][0].to!int); //Draws rotated point
     }
 
     /**
      * Performs a draw function but rotates each point by the specified rotation given in radians clockwise around the specified point
      */
-    void drawRotated(void delegate() action, double rotationNew, double xcoord, double ycoord) {
+    void drawRotated(void delegate() action, double rotationNew, double xCoord, double yCoord) {
         this.rotation = rotationNew;
-        this.pointOfRotation = [xcoord, ycoord];
+        this.pointOfRotation = [xCoord, yCoord];
         action();
         this.rotation = 0.0;
         this.pointOfRotation = [0.0, 0.0];

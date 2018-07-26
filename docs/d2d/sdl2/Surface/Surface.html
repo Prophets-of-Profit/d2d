@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class Surface</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/ShapeDrawer.html">ShapeDrawer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class Surface</h1><p>Surfaces are a rectangular collection of pixels
+ Surfaces are easy to work with and edit and can be blitted on to another surface
+ Surfaces can also be converted to textures which are more efficient but less flexible
+ Surfaces are handled in software as opposed to textures which are handled in hardware
+ Surfaces can be used, but when used repeatedly and stored, textures should be preferred
+ Surface draw methods do not respect alpha, but surface blitting does; to draw with alpha, draw to another surface, and blit to desired surface
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">Surface</span>
+			<br>&nbsp;&nbsp;: <a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.html"><span class="typ">ShapeDrawer</span></a>
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Constructors</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates an RGB surface given at least a width and a height
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates an RGB surface given at least a width, height, and an SDL_PixelFormatEnum
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates a surface from another surface but with a different pixel format
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates a surface from a BMP file path; for other image formats, use loadImage
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Creates a surface from an already existing SDL_Surface
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Properties</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.alphaMod.html" class="public property"><code>alphaMod</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">ubyte</span></code></td><td>Sets the alpha modifier for the surface
+ Alpha modification works by multiplying the alphaMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.alphaMod.html" class="public property"><code>alphaMod</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="typ">ubyte</span></code></td><td>Gets the alpha modifier for the surface
+ Alpha modification works by multiplying the alphaMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.blendMode.html" class="public property"><code>blendMode</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_BlendMode</span></code></td><td>Sets the surface's blend mode
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.blendMode.html" class="public property"><code>blendMode</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_BlendMode</span></code></td><td>Gets the surface's blend mode
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.clipRect.html" class="public property"><code>clipRect</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/AxisAlignedBoundingBox/AxisAlignedBoundingBox.html"><span class="typ">AxisAlignedBoundingBox</span></a>!(int,2)</code></td><td>Sets the clip boundaries for the surface
+ Anything put on the surface outside of the clip boundaries gets discarded
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.clipRect.html" class="public property"><code>clipRect</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/AxisAlignedBoundingBox/AxisAlignedBoundingBox.html"><span class="typ">AxisAlignedBoundingBox</span></a>!(int,2)</code></td><td>Gets the clip boundaries for the surface
+ Anything put on the surface outside of the clip boundaries gets discarded
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.colorMod.html" class="public property"><code>colorMod</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Sets the color modifier for the surface
+ Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.colorMod.html" class="public property"><code>colorMod</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Gets the color modifier for the surface
+ Color modification works by multiplying the colorMultiplier / 255 into the surface pixels
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.dimensions.html" class="public property"><code>dimensions</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Vector/Vector.html"><span class="typ">Vector</span></a>!(int,2)</code></td><td>Gets the surfaces dimensions as a vector with width as the x component and height as the y component
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.drawColor.html" class="public property"><code>drawColor</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Sets the drawcolor for this surface; what color things will be drawn with
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.drawColor.html" class="public property"><code>drawColor</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Gets the drawcolor for this surface; what color things will be drawn with
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.handle.html" class="public property"><code>handle</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">derelict<wbr/></span><span class="pun">.</span><span class="pln">sdl2<wbr/></span><span class="pun">.</span><span class="pln">internal<wbr/></span><span class="pun">.</span><span class="pln">sdl_types<wbr/></span><span class="pun">.</span><span class="typ">SDL_Surface</span><span class="pun">*</span></code></td><td>Returns the raw SDL data of this object
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Methods</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.blit.html" class="public">
+								<code>blit</code>
+							</a>
+						</td>
+						<td>Blits another surface onto this surface
+ Takes the surface to blit, the slice of the surface to blit, and where on this surface to blit to
+ Is faster than a scaled blit to a rectangle
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.blit.html" class="public">
+								<code>blit</code>
+							</a>
+						</td>
+						<td>Does a scaled blit from another surface onto this surface
+ Takes the surface to blit, the slice of the surface to blit, and the slice on this surface of where to blit to
+ Is slower than the blit to a location
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.drawPoint.html" class="public">
+								<code>drawPoint</code>
+							</a>
+						</td>
+						<td>Defines how the shape drawer draws points on a surface
+ Used for all other shape drawer functions
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.fillRect.html" class="public">
+								<code>fillRect</code>
+							</a>
+						</td>
+						<td>Fills in a rectangle
+ Uses the SDL functionality for better performance
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/Surface/Surface.saveBMP.html" class="public">
+								<code>saveBMP</code>
+							</a>
+						</td>
+						<td>Saves the surface as a BMP with the given file name
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point to the screen
+ Just calls the basic draw point method
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point to the screen
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point given by a vector
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a line given by two points
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a line given by a segment
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the given rectangle
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the given bezier curve with numPoints number of points on the curve
+ More points is smoother but slower
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a polygon
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public inherited">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the ellipse bounded by the given box between the given angles in radians
+ More points generally means a slower but more well drawn ellipse
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawLine.html" class="public inherited">
+								<code>drawLine</code>
+							</a>
+						</td>
+						<td>Draws a line
+ Can be overridden
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawPointRotated.html" class="public inherited">
+								<code>drawPointRotated</code>
+							</a>
+						</td>
+						<td>Draws a point rotated about the given "pointOfRotation" and rotated clockwise by the the amount of radians specified in "rotation"
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawRect.html" class="public inherited">
+								<code>drawRect</code>
+							</a>
+						</td>
+						<td>Draws the outlines of a rectangle
+ Can be overridden
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawRotated.html" class="public inherited">
+								<code>drawRotated</code>
+							</a>
+						</td>
+						<td>Performs a draw function but rotates each point by the specified rotation given in radians clockwise around the specified point
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public inherited">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills the given rectangle
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public inherited">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills a polygon
+ Uses scanlining
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public inherited">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills the ellipse bounded by the given box between the given angles in radians
+ Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
+ More points generally means a slower but more well drawn ellipse
+</td>
+					</tr>
+				</table>
+			</section>
+			
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

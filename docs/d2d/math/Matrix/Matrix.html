@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class Matrix</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/ShapeDrawer.html">ShapeDrawer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class Matrix</h1><p>A matrix is just like a mathematical matrix where it is similar to essentially a 2d array of of the given type
+ Template parameters are the type, how many rows, and how many columns
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">Matrix</span>(T, <span class="typ">uint</span> rows, <span class="typ">uint</span> columns)
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Constructors</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Constructs a matrix from a two-dimensional array of elements
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Constructs a matrix that is identically one value
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Constructs a matrix as an identity matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.this.html" class="public">
+								<code>this</code>
+							</a>
+						</td>
+						<td>Copy constructor for a matrix; creates a copy of the given matrix
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Fields</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.elements.html" class="public"><code>elements</code></a>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">T</span><span class="pun">[</span><span class="pln">columns</span><span class="pun">]</span><span class="pun">[</span><span class="pln">rows</span><span class="pun">]</span></code></td><td>The elements of the matrix; stored as an array of rows (i.e. row vectors)
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Properties</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.determinant.html" class="public property"><code>determinant</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><span class="pln">T</span></code></td><td>Recursively finds the determinant of the matrix if the matrix is square
+ Task is done in O(n!) for an nxn matrix, so determinants of matrices of at most size 3x3 are already defined to be more efficient
+ Not very efficient for large matrices
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.inverse.html" class="public property"><code>inverse</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Matrix/Matrix.html"><span class="typ">Matrix</span></a>!(T,rows,columns)</code></td><td>Returns the inverse of a square matrix, which should give the identity if they are multiplied.
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.reducedRowEchelon.html" class="public property"><code>reducedRowEchelon</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Matrix/Matrix.html"><span class="typ">Matrix</span></a>!(T,rows,columns)</code></td><td>Returns the matrix in row-echelon form
+ In reduced row-echelon form, the diagonal elements are equal to one
+ and all elements below and above the diagonal are zero
+ This method uses the Gauss-Jordan algorithm, which has arithmetic complexity O(n^3)
+ Be wary of truncation for integer matrices
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.rowEchelon.html" class="public property"><code>rowEchelon</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Matrix/Matrix.html"><span class="typ">Matrix</span></a>!(T,rows,columns)</code></td><td>Returns the matrix in row-echelon form
+ In row-echelon form, the diagonal elements are equal to one
+ and all elements below the diagonal are zero
+ This method uses the Gauss-Jordan algorithm, which has arithmetic complexity O(n^3)
+ Be wary of truncation for integer matrices
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.transpose.html" class="public property"><code>transpose</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/math/Matrix/Matrix.html"><span class="typ">Matrix</span></a>!(T,columns,rows)</code></td><td>The transpose operation returns the matrix 'flipped' about its diagonal -
+ That is, rows and columns are switched
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Methods</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.getColumn.html" class="public">
+								<code>getColumn</code>
+							</a>
+						</td>
+						<td>Returns the nth column of the matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.getRow.html" class="public">
+								<code>getRow</code>
+							</a>
+						</td>
+						<td>Returns the nth row of the matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.getSlice.html" class="public">
+								<code>getSlice</code>
+							</a>
+						</td>
+						<td>Returns a rectangular slice of the matrix with the upper left corner at the specified location
+ and a specified size
+ Usable to get rows and columns; just set the height or width to 1
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.opAssign.html" class="public">
+								<code>opAssign</code>
+							</a>
+						</td>
+						<td>Allows assigning the matrix to a static two-dimensional array to set all components of the matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.opAssign.html" class="public">
+								<code>opAssign</code>
+							</a>
+						</td>
+						<td>Allows assigning the matrix to a single value to set all elements of the matrix to such a value
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.opBinary.html" class="public">
+								<code>opBinary</code>
+							</a>
+						</td>
+						<td>Multiplication of a matrix by a vector
+ This is essentially a matrix multiplication, but is handled separately for convenience
+ If Vector is made to extend Matrix in the future, this will become obsolete
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.opBinary.html" class="public">
+								<code>opBinary</code>
+							</a>
+						</td>
+						<td>Pairwise operations on matrices
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.opBinary.html" class="public">
+								<code>opBinary</code>
+							</a>
+						</td>
+						<td>Pairwise operations on matrices with a constant
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.setColumn.html" class="public">
+								<code>setColumn</code>
+							</a>
+						</td>
+						<td>Sets the nth column of the matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.setRow.html" class="public">
+								<code>setRow</code>
+							</a>
+						</td>
+						<td>Sets the nth row of the matrix
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/math/Matrix/Matrix.toString.html" class="public">
+								<code>toString</code>
+							</a>
+						</td>
+						<td>Returns the matrix as a string
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>TODO</h2>
+<p>frustums, transformations, speed everything up with parallelism
+</p>
+</section>
+
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>

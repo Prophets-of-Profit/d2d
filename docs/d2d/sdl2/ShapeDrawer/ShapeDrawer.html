@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8"/>
+		<title>Class ShapeDrawer</title>
+		<link rel="stylesheet" type="text/css" href="../../../styles/ddox.css"/>
+		<link rel="stylesheet" href="../../../prettify/prettify.css" type="text/css"/>
+		<script type="text/javascript" src="../../../scripts/jquery.js">/**/</script><script type="text/javascript" src="../../../scripts/ddox.js">/**/</script>
+	</head>
+	<body onload="setupDdox();">
+		<nav id="main-nav">
+			<noscript>
+				<p style="color: red">The search functionality needs JavaScript enabled</p>
+			</noscript>
+			<div id="symbolSearchPane" style="display: none">
+				<form action="#" method="GET">
+					<input id="symbolSearch" type="text" name="q" placeholder="Search for symbols" autocomplete="off" onchange="performSymbolSearch(40);" onkeypress="this.onchange();" onpaste="this.onchange();" oninput="this.onchange();"/>
+				</form>
+				<ul id="symbolSearchResults" class="symbolList" style="display: none"></ul><script type="application/javascript" src="../../../symbols.js"></script><script type="application/javascript">var symbolSearchRootDir = "../../../";
+$('#symbolSearchPane').show();</script>
+			</div>
+			<ul class="tree-view">
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d.html">d2d</a>
+					</div>
+			<ul class="tree-view">
+				<li class="tree-view collapsed">
+					<div class="package ">
+						<a href="../../../d2d/math.html">math</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/AxisAlignedBoundingBox.html">AxisAlignedBoundingBox</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/BezierCurve.html">BezierCurve</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Matrix.html">Matrix</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Segment.html">Segment</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/math/Vector.html">Vector</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li class="tree-view ">
+					<div class="package ">
+						<a href="../../../d2d/sdl2.html">sdl2</a>
+					</div>
+			<ul class="tree-view">
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Color.html">Color</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/EventHandler.html">EventHandler</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Font.html">Font</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/InputSource.html">InputSource</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Keyboard.html">Keyboard</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Mouse.html">Mouse</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Polygon.html">Polygon</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Renderer.html">Renderer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module selected">
+						<a href="../../../d2d/sdl2/ShapeDrawer.html">ShapeDrawer</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Sound.html">Sound</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Surface.html">Surface</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Texture.html">Texture</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/sdl2/Window.html">Window</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Activity.html">Activity</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Button.html">Button</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Component.html">Component</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/ComponentGroup.html">ComponentGroup</a>
+					</div>
+				</li>
+				<li>
+					<div class="module ">
+						<a href="../../../d2d/Display.html">Display</a>
+					</div>
+				</li>
+			</ul>
+				</li>
+			</ul>
+		</nav>
+		<div id="main-contents">
+			<h1>Class ShapeDrawer</h1><p>A utility class to provide math drawing utilities
+</p>
+			<div class="prototype">
+				<code class="lang-d">
+					<div class="single-prototype">
+			<span class="kwd">class</span> <span class="typ">ShapeDrawer</span>
+			<span class="pun">;</span>
+					</div>
+				</code>
+			</div>
+			
+			<section><h2>Properties</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Type</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawColor.html" class="public property"><code>drawColor</code></a><span class="tableEntryAnnotation">[set]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Sets the color that the ShapeDrawer will draw at
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawColor.html" class="public property"><code>drawColor</code></a><span class="tableEntryAnnotation">[get]</span>
+						</td>
+						<td class="typecol"><code class="prettyprint lang-d"><a href="../../../d2d/sdl2/Color/Color.html"><span class="typ">Color</span></a></code></td><td>Gets the color that the ShapeDrawer will draw at
+</td>
+					</tr>
+				</table>
+			</section>
+			<section><h2>Methods</h2>
+				<table>
+					<col class="caption"/>
+					<tr>
+						<th>Name</th><th>Description</th>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point to the screen
+ Just calls the basic draw point method
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point to the screen
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a point given by a vector
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a line given by two points
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a line given by a segment
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the given rectangle
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the given bezier curve with numPoints number of points on the curve
+ More points is smoother but slower
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws a polygon
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.draw.html" class="public">
+								<code>draw</code>
+							</a>
+						</td>
+						<td>Draws the ellipse bounded by the given box between the given angles in radians
+ More points generally means a slower but more well drawn ellipse
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawLine.html" class="public">
+								<code>drawLine</code>
+							</a>
+						</td>
+						<td>Draws a line
+ Can be overridden
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawPoint.html" class="public">
+								<code>drawPoint</code>
+							</a>
+						</td>
+						<td>Shape drawer needs only one fundamental draw methods to be defined:
+ point, which all other shape drawer fill and draw methods use
+ Other methods below can be overridden if there exists more efficient sdl method
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawPointRotated.html" class="public">
+								<code>drawPointRotated</code>
+							</a>
+						</td>
+						<td>Draws a point rotated about the given "pointOfRotation" and rotated clockwise by the the amount of radians specified in "rotation"
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawRect.html" class="public">
+								<code>drawRect</code>
+							</a>
+						</td>
+						<td>Draws the outlines of a rectangle
+ Can be overridden
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.drawRotated.html" class="public">
+								<code>drawRotated</code>
+							</a>
+						</td>
+						<td>Performs a draw function but rotates each point by the specified rotation given in radians clockwise around the specified point
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills the given rectangle
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills a polygon
+ Uses scanlining
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fill.html" class="public">
+								<code>fill</code>
+							</a>
+						</td>
+						<td>Fills the ellipse bounded by the given box between the given angles in radians
+ Fills the ellipse between the arc endpoints: fills ellipse as arc rather than filling as ellipse (not a pizza slice)
+ More points generally means a slower but more well drawn ellipse
+</td>
+					</tr>
+					<tr>
+						<td>
+							<a href="../../../d2d/sdl2/ShapeDrawer/ShapeDrawer.fillRect.html" class="public">
+								<code>fillRect</code>
+							</a>
+						</td>
+						<td>Fills in a rectangle
+ Can be overridden
+</td>
+					</tr>
+				</table>
+			</section>
+			
+			<footer>
+				<table class="license-info">
+					<tr>
+						<th>Authors</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>Copyright</th>
+						<td>
+							
+						</td>
+					</tr>
+					<tr>
+						<th>License</th>
+						<td>
+							
+						</td>
+					</tr>
+				</table>
+				<p class="faint">Generated using the DDOX documentation generator</p>
+			</footer>
+		</div>
+	</body>
+</html>
