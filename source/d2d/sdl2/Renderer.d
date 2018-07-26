@@ -175,30 +175,6 @@ class Renderer : ShapeDrawer {
     override void drawPoint(int x, int y) {
         ensureSafe(SDL_RenderDrawPoint(this.renderer, x, y));
     }
-    
-    /**
-     * Draws a line
-     * Overridden because sdl drawing methods are more efficient
-     */
-    override void drawLine(iVector first, iVector second) {
-        ensureSafe(SDL_RenderDrawLine(this.renderer, first.x, first.y, second.x, second.y));
-    }
-
-    /**
-     * Draws the outlines of the rectangle
-     * Overridden because sdl drawing methods are more efficient
-     */
-    override void drawRect(iRectangle rect) {
-        ensureSafe(SDL_RenderDrawRect(this.renderer, rect.handle));
-    }
-
-    /**
-     * Fills in a rectangle
-     * Overridden because sdl drawing methods are more efficient
-     */
-    override void fillRect(iRectangle rect) {
-        ensureSafe(SDL_RenderFillRect(this.renderer, rect.handle));
-    }
 
     /**
      * Copies a texture to the window at the given point
