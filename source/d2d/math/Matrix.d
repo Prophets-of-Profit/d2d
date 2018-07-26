@@ -348,7 +348,7 @@ Matrix!(T, rows, columns1 + columns2) augment
 
 /**
  * Returns a rotation matrix for a given radian input
- * A rotation matrix is a matrix that, when multiplied by the column vector of a given point, rotates that point counterclockwise by the given angle
+ * A rotation matrix is a matrix that, when multiplied by the column vector of a given point, rotates that point clockwise by the given angle
  */
 Matrix!(double, 2, 2) rotationMatrixOf(double theta) {
     /* Creates an array that is
@@ -356,4 +356,12 @@ Matrix!(double, 2, 2) rotationMatrixOf(double theta) {
      *   [sin(theta),  cos(theta)] ]
      * which are the rows of a 2D rotation matrix that rotates counterclockwise by theta */
     return new Matrix!(double, 2, 2)([[cos(theta), -sin(theta)], [sin(theta), cos(theta)]]);
+}
+
+/**
+ * Returns a translation matrix for a given x and y input
+ * The translation matrix, when multiplied by the column vector of a point with an additional row of [1.0], will return the column vector of the translated point with an additional row of [1.0]
+ */
+Matrix!(double, 3, 3) translationMatrixOf(double x, double y) {
+    return new Matrix!(double, 3, 3)([[1.0, 0.0, x], [0.0, 1.0, y], [0.0, 0.0, 1.0]]);
 }
