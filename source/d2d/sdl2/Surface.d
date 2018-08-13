@@ -215,6 +215,31 @@ class Surface : ShapeDrawer {
     }
 
     /**
+     * Blits another surface onto this surface
+     * Same as above (default) blit in arguments but uses an iVector for the destination
+     */
+    void blit(Surface src, iRectangle srcRect, iVector dst) {
+        this.blit(src, srcRect, dst.x, dst.y);
+    }
+
+    /**
+     * Blits another surface onto this surface
+     * Uses null for the srcRect to make for arguments consistent with renderer copy and is generally more intuitive
+     */
+    void blit(Surface src, int dstX, int dstY) {
+        this.blit(src, null, dstX, dstY);
+    }
+
+    /**
+     * Blits another surface onto this surface
+     * Uses null for the srcRect to make for arguments consistent with renderer copy and is generally more intuitive
+     * Takes in the destination as an iVector
+     */
+    void blit(Surface src, iVector dst) {
+        this.blit(src, null, dst.x, dst.y);
+    }
+
+    /**
      * Does a scaled blit from another surface onto this surface
      * Takes the surface to blit, the slice of the surface to blit, and the slice on this surface of where to blit to
      * Is slower than the blit to a location
@@ -222,6 +247,15 @@ class Surface : ShapeDrawer {
     void blit(Surface src, iRectangle srcRect, iRectangle dstRect) {
         ensureSafe(SDL_BlitScaled(src.handle, (srcRect is null) ? null
                 : srcRect.handle, this.surface, (dstRect is null) ? null : dstRect.handle));
+    }
+
+    /**
+     * Does a scaled blit from another surface onto this surface
+     * Uses null for the srcRect to be more consistent with renderer copy and more intuitive for use
+     * Is slower than the blit to a location
+     */
+    void blit(Surface src, iRectangle dstRect) {
+        this.blit(src, null, dstRect);
     }
 
 }
