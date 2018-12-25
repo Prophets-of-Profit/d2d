@@ -5,6 +5,7 @@ module d2d.sdl2.ShapeDrawer;
 
 import std.algorithm;
 import std.conv;
+import std.math;
 import d2d.math;
 import d2d.sdl2;
 
