@@ -36,15 +36,24 @@ class AxisAlignedBoundingBox(T, uint dimensions) {
         }
 
         @property Vector!(T, 2) bottomLeft() {
+            if (this.vertices.length < 4) {
+                return this.topLeft;
+            }
             return this.vertices[3];
         }
 
         @property Vector!(T, 2) bottomRight() {
+            if (this.vertices.length == 2) {
+                return this.topRight;
+            } 
+            if (this.vertices.length == 1) {
+                return this.topLeft;
+            }
             return this.vertices[2];
         }
 
     }
-
+    
     /**
      * Gets all the vertices of the AABB
      */
